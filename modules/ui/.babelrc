@@ -1,0 +1,8 @@
+  {
+    "plugins": [ 
+      "emotion",
+      "@babel/plugin-proposal-optional-chaining",
+      "@babel/transform-react-jsx"   
+    ],
+    "presets": ["@emotion/babel-preset-css-prop"]
+    }

@@ -1,0 +1,44 @@
+{
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "modules/*"
+    ],
+    "nohoist": [
+      "**/babel-eslint",
+      "**/babel-eslint/**",
+      "**/webpack-dev-server",
+      "**/webpack-dev-server/**"
+    ]
+  },
+  "scripts": {
+    "changelog": "cross-env-shell ./scripts/changelog.sh",
+    "clean": "cross-env-shell ./scripts/clean.sh",
+    "module": "cross-env-shell ./module.sh",
+    "admin": "cd modules/admin-cp && yarn start",
+    "api": "cd modules/ws-api-client && yarn start",
+    "ext": "cd modules/ext && yarn start-chrome",
+    "eslint-fix": "eslint --fix ",
+    "test:ext": "cd modules/ext && yarn test:all",
+    "storybook": "cd modules/ui && yarn start",
+    "extract-translations": "cd modules/i18n-tools && yarn gulp"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.2",
+    "envfile": "^4.5.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "prettier": "^2.0.5",
+    "prompts": "~2.3.0"
+  },
+  "dependencies": {
+    "@tippy.js/react": "^3.1.1"
+  }
+}

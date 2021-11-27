@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Geolocation test</title>
+  </head>
+  <body>
+    <h1>Hello there</h1>
+
+    <h2>Getting your lat and long</h2>
+
+    <div class="location"></div>
+
+    <script>
+      let container = document.querySelector(".location");
+      let writeElement = (text, ops = {}) => {
+        let node = document.createElement("p");
+
+        node.innerText = text;
+
+        Promise.all(
+          Object.entries(ops).map(
+            ([k, v]) =>
+              new Promise(resolve => {
+                node[k] = v;
+                resolve();
+              })
+          )
+        ).then(() => container.appendChild(node));
+      };
+      setTimeout(
+        () =>
+          navigator.geolocation.getCurrentPosition(({ coords }) => {
+            // coords.latitude
+            writeElement(coords.latitude, { className: "lat" });
+            writeElement(coords.longitude, { className: "long" });
+
+            document.querySelector("h2").remove();
+          }),
+        100
+      );
+      /* Request for location */
+    </script>
+  </body>
+</html>

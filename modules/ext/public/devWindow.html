@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="browser-polyfill.min.js"></script>
+  <link rel="stylesheet" href="popup.css">
+  <style>
+    body {
+      background-color: #2f2f2f;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #WEB_EXT_BACKGROUND_FRAME {
+      border: none;
+      height: 0;
+      width: 0;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      display: none !important;
+      position: absolute;
+      left: 0;
+      z-index: -1 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-frame"></div>
+</body>
+<!-- Js imports for Ublock Origin -->
+<script src="lib/punycode.js"></script>
+<script src="js/vapi.js"></script>
+<script src="js/vapi-common.js"></script>
+<script src="js/vapi-client.js"></script>
+<script src="js/udom.js"></script>
+<script src="js/i18n.js"></script>
+<!-- End of Ublock Origin imports -->
+
+
+</html>

@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'plex-sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('fonts/plex-sans-bold.woff2') format('woff2'),
+    url('fonts/plex-sans-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'plex-sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/plex-sans-regular.woff2') format('woff2'),
+    url('fonts/plex-sans-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'druk-wide';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/druk-wide-medium.woff') format('woff');
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: #1a2432;
+}
+
+html,
+body {
+  scrollbar-width: none;
+}
+
+#app-frame {
+  display: flex;
+  flex-direction: column;
+  background: black;
+  overflow: hidden;
+  transition: height ease 0.2s, min-height ease 0.2s;
+  width: 324px;
+}
+/* Targeting a route to make sure it fills up the frame */
+#app-frame > * {
+  flex: 1;
+}
+
+* {
+  font-family: 'plex-sans';
+}

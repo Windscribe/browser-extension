@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Windscribe options</title>
+  </head>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "plex-sans" sans-serif;
+    }
+
+    /* Helpers */
+    .flex {
+      display: flex;
+    }
+
+    .col {
+      flex-direction: column;
+    }
+
+    .align-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    /* Actual site css */
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 1.25rem;
+    }
+
+    .content-container {
+      width: 70%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .content-container h1 {
+      margin: 2rem 0;
+    }
+
+    .content-container p {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .ublock-frame {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <script src="../browser-polyfill.min.js"></script>
+  <body>
+    <div id="render"></div>
+  </body>
+  <script src="options.js" type="module"></script>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="324px" height="163px" viewBox="0 0 324 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>on_gradient_mask</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="0%" cy="100%" fx="0%" fy="100%" r="198.773006%" gradientTransform="translate(0.000000,1.000000),scale(0.503086,1.000000),scale(1.000000,0.502631),translate(-0.000000,-1.000000)" id="radialGradient-1">
+            <stop stop-color="#020D1C" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#020D1C" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="FLAG" fill="url(#radialGradient-1)">
+            <g id="on_gradient_mask">
+                <rect x="0" y="0" width="324" height="163"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

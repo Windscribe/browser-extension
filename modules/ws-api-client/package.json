@@ -1,0 +1,70 @@
+{
+  "name": "ws-api-client",
+  "version": "0.1.1",
+  "source": "src/index.js",
+  "main": "cjs/index.js",
+  "module": "es/index.es.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.16.0"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV='development' rollup -c -w",
+    "build": "cross-env NODE_ENV='production' rollup -c",
+    "test": "yarn build & cross-env env-cmd ./.env.testing ava",
+    "test:watch": "env-cmd ./.env.testing ava --verbose -w",
+    "lint": "eslint ./src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-external-helpers": "7.2.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/query-string": "^6.3.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
+    "ava": "^0.25.0",
+    "babel-eslint": "^10.1.0",
+    "env-cmd": "^7.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.5",
+    "esm": "^3.2.25",
+    "husky": "^3.0.0",
+    "prettier": "~1.19.1",
+    "prettier-eslint": "^11.0.0",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "browser-env": "^3.2.4",
+    "cross-env": "^5.1.3",
+    "lodash": "4.17.14",
+    "lodash-es": "4.17.14",
+    "md5": "^2.2.1",
+    "node-fetch": "^2.6.0",
+    "pretty-quick": "1.11.1",
+    "query-string": "^6.1.0",
+    "rollup": "^1.16.7",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-filesize": "^6.1.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "5.1.1",
+    "rollup-plugin-typescript": "^1.0.1",
+    "url-join": "^4.0.0"
+  },
+  "ava": {
+    "require": [
+      "esm",
+      "babel-polyfill",
+      "./test/helpers/prepare.js"
+    ]
+  }
+}

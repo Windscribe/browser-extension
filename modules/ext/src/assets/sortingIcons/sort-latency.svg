@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>sort_latency</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Locations---All" transform="translate(-402.000000, -138.000000)" fill="#000000">
+            <path d="M407.022422,154 C407.007581,153.835319 407,153.668545 407,153.5 C407,150.462434 409.462434,148 412.5,148 C415.537566,148 418,150.462434 418,153.5 C418,153.668545 417.992419,153.835319 417.977578,154 L407.022422,154 Z M402,138 L414,138 L414,140 L402,140 L402,138 Z M402,142 L410,142 L410,144 L402,144 L402,142 Z M402,146 L407,146 L407,148 L402,148 L402,146 Z M412,153 C412.416589,153.416589 413.092014,153.416589 413.508603,153 C413.57869,152.929913 413.638667,152.8504 413.686803,152.763755 L415.5,149.5 L412.236245,151.313197 C411.721239,151.599312 411.535685,152.248749 411.8218,152.763755 C411.869936,152.8504 411.929913,152.929913 412,153 Z" id="sort_latency"></path>
+        </g>
+    </g>
+</svg>

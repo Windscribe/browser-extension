@@ -1,0 +1,4 @@
+{
+  "optional_permissions": ["contentSettings"],
+  "minimum_chrome_version": "51"
+}

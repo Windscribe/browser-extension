@@ -1,0 +1,1 @@
+export syncToLocalStorage from './syncToLocalStorage'

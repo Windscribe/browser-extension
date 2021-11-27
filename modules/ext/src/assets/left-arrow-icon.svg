@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="16px" viewBox="0 0 9 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>left-arrow-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="ws-ext-ui-flow-7_6" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-672.000000, -214.000000)">
+        <path d="M678.316279,222 L672.277908,215.692075 C671.907364,215.30499 671.907364,214.6774 672.277908,214.290314 C672.648453,213.903229 673.249224,213.903229 673.619769,214.290314 L681,222 L673.619769,229.709686 C673.249224,230.096771 672.648453,230.096771 672.277908,229.709686 C671.907364,229.3226 671.907364,228.69501 672.277908,228.307925 L678.316279,222 Z" id="left-arrow-icon" fill="#000000" transform="translate(676.500000, 222.000000) scale(-1, 1) translate(-676.500000, -222.000000) "></path>
+    </g>
+</svg>

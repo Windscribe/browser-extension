@@ -1,0 +1,20 @@
+{
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  "browser_action": {
+    "default_title": "Test-ext DEV"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:1337/adtest/*"],
+      "js": ["/content-scripts/test-adblock.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": ["http://localhost:1337/userAgent/*"],
+      "js": ["/content-scripts/test-user-agent.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ]
+}

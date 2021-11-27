@@ -1,0 +1,7 @@
+export { default as tabs } from './tabs'
+export { default as connectivity } from './connectivity'
+export { default as runtime } from './runtime'
+export { default as contextMenus } from './contextMenus'
+export { default as windows } from './windows'
+export { default as webRequest } from './webRequest'
+export { default as permissions } from './permissions'

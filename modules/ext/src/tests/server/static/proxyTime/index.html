@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>Testing timezone</h1>
+
+    <h1 class="timezone"></h1>
+    <h2 class="offset"></h2>
+
+    <script>
+      setTimeout(() => {
+        document.querySelector(
+          ".timezone"
+        ).innerText = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.querySelector(
+          ".offset"
+        ).innerText = new Date().getTimezoneOffset();
+      }, 50);
+    </script>
+  </body>
+</html>

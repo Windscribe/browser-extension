@@ -1,0 +1,71 @@
+{
+  "manifest_version": 2,
+  "name": "Windscribe - Free Proxy and Ad Blocker",
+  "short_name": "Windscribe",
+  "version": "3.3.0",
+  "description": "Windscribe helps you mask your physical location, circumvent censorship, and block ads and trackers on websites you use every day",
+  "content_security_policy": "script-src 'self'; object-src 'self';",
+  "default_locale": "en",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Windscribe"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "<all_urls>",
+    "proxy",
+    "management",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "activeTab",
+    "storage",
+    "unlimitedStorage",
+    "contextMenus",
+    "privacy",
+    "webNavigation",
+    "notifications",
+    "cookies"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "file://*/*"],
+      "js": [
+        "/browser-polyfill.min.js",
+        "/content-scripts/geolocation-spoofing.js",
+        "/content-scripts/proxy-time.js",
+        "/content-scripts/worker-block.js",
+        "/content-scripts/language-switch.js",
+        "/js/vapi.js",
+        "js/vapi-client.js",
+        "js/contentscript.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["/content-scripts/get-iframes.js", "/js/scriptlets/subscriber.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": ["https://windscribe.com/*"],
+      "js": ["/content-scripts/get-creds.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "options_ui": {
+    "page": "options-ui/index.html",
+    "open_in_tab": true
+  },
+  "web_accessible_resources": ["/web_accessible_resources/*"]
+}

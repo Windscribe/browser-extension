@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/fuckadblock@3.2.1/fuckadblock.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<style>
+  html {
+    font-family: sans-serif
+  }
+</style>
+
+<body><span class="bool">false</span></body>
+<script>
+  let render = bool => {
+    document.body.innerHTML = `<span class="bool">${bool}</span>`
+  }
+  fuckAdBlock.onDetected(() => render(true))
+  // setTimeout(() => render(true), 1000)
+</script>
+<script>console.log('Hello from site', Date.now())</script>
+
+</html>

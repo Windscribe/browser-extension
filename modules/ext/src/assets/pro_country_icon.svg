@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>pro_country_icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Locations---All" transform="translate(-158.000000, -191.000000)">
+            <g id="Group" transform="translate(158.000000, 191.000000)">
+                <path d="M4,12 L4,16 L0,12 L0,0 L16,0 L16,12 L4,12 Z" id="Combined-Shape" fill="#000000"></path>
+                <polygon id="pro_loc_icon" fill="#FFFFFF" points="8 2 7.11111111 5.11111111 4 5.11111111 6.44444444 6.88888889 5.33333333 10 8.00001181 7.77777778 10.6666667 10 9.55555556 6.88888889 12 5.11111111 8.88888889 5.11111111"></polygon>
+                <rect id="Rectangle-110" fill="#000000" opacity="0.298270089" x="4" y="12" width="12" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

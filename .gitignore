@@ -1,0 +1,54 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+modules/ext/public/ublock
+
+# testing
+coverage
+modules/ext/automated_tests/screenshots/*
+!modules/ext/automated_tests/screenshots/.gitkeep
+modules/ext/automated_tests/traces/*
+!modules/ext/automated_tests/traces/.gitkeep
+debugLog.txt
+
+# production
+dist
+
+#development
+build
+build.crx
+build.pem
+chrome_user_data
+
+#Locales
+locales
+
+# misc
+.DS_Store
+.idea
+
+.env
+.env.stg
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.testing.env
+.deployment.env
+
+.notes
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarnrc
+.cache
+.yarn
+
+*.bak
+modules/page-metrics-server/static
+storybook-static
+# mongo data
+data
+docker/i18n/.*-env
