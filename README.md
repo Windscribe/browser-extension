@@ -30,7 +30,7 @@ Further documentations can be found [here](https://github.com/Windscribe/browser
 
 All client side blocking functionality is courtesy of Raymond Hill's [uBlock project](https://github.com/gorhill/uBlock)
 
-The blocklisted used by the various blocking features are sourced from:
+The blocklists used by the various blocking features are sourced from:
 
 - https://github.com/uBlockOrigin/uAssets
 - https://easylist.to
