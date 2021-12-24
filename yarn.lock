@@ -20080,6 +20080,14 @@ webext-react-scripts@2.1.6:
   optionalDependencies:
     fsevents "2.0.7"
 
+webext-redux@^2.1.5:
+  version "2.1.9"
+  resolved "https://registry.npmjs.org/webext-redux/-/webext-redux-2.1.9.tgz#f7fd01ea4b93191d07bcdd0db5966955766ef634"
+  integrity sha512-z7frkQ/avFgnMxUH6Q955hU8SDsHT9Zlq9az3OpY891RXw9nKODOTnUhNo9ZAlDFUPHhX2A+z6j74BCaYwEsfQ==
+  dependencies:
+    lodash.assignin "^4.2.0"
+    lodash.clonedeep "^4.5.0"
+
 webextension-polyfill@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/webextension-polyfill/-/webextension-polyfill-0.4.0.tgz#9cc5a60f0f2bf907a6b349fdd7e61701f54956f9"
@@ -20689,14 +20697,6 @@ write@^0.2.1:
   integrity sha1-X8A4KOJkzqP+kUVUdvejxWbLB1c=
   dependencies:
     mkdirp "^0.5.1"
-
-ws-webext-redux@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/ws-webext-redux/-/ws-webext-redux-2.2.1.tgz#9e88fa3079d3ea3943a8a0a999551181ce701e4d"
-  integrity sha512-FH0jIyUrnSCXqyVkvSggaqBOXnc6X5DrZ9rEv+wdb4NOxRPE8U+WDsagooRDRWQdEKwi0T9KBdvL5XiUf85fPA==
-  dependencies:
-    lodash.assignin "^4.2.0"
-    lodash.clonedeep "^4.5.0"
 
 ws@7.2.1:
   version "7.2.1"

@@ -10,7 +10,7 @@ import { SettingHeader, SettingItem } from 'components/Settings'
 import { openDebugLogView } from 'utils/debugLogger'
 import { createSelector } from 'reselect'
 import { actions } from 'state'
-import ToggleSettingItem from '../PreferencesPrivacy/ToggleSettingItem'
+import ToggleSettingItem from '../Preferences/ToggleSettingItem'
 import SettingAlert from 'ui/Alert'
 import { Scrollbars } from 'react-custom-scrollbars'
 

@@ -70,7 +70,7 @@
     "ui": "^0.1.0",
     "valid-url": "^1.0.9",
     "webext-react-scripts": "2.1.6",
-    "ws-webext-redux": "^2.2.1",
+    "webext-redux": "^2.1.5",
     "ws-api-client": "0.1.1"
   },
   "scripts": {

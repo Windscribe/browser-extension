@@ -118,6 +118,7 @@ const Feed = ({ notifications, dispatch }) => {
 
   return (
     <Scrollbars
+      autoHide
       style={{ height: `100%`, position: 'fixed' }}
       renderThumbVertical={({ style, ...props }) => (
         <div

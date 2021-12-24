@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { IS_FIREFOX } from 'utils/constants'
-import ToggleSettingItem from './ToggleSettingItem'
+import ToggleSettingItem from '../Preferences/ToggleSettingItem'
 import { Box } from '@rebass/emotion'
 import { SettingItem } from 'components/Settings'
 import { useConnect, useDispatch } from 'ui/hooks'

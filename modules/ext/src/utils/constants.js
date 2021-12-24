@@ -159,6 +159,8 @@ export const REDUCERS_TO_SYNC = [
   'missingUserFilter',
   'theme',
   'showDebugContextMenu',
+  'workerBlockEnabled',
+  'languageSwitchEnabled',
 ]
 
 // all of our used languages are here, name transforms to iso key as per isoLanguagesList.js

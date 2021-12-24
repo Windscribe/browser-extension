@@ -47,7 +47,7 @@ const fetchBlockListAndBestLocationAfterDay = ({ store }) => {
 
   if (!lastBlockListCheck || diffDays >= 1) {
     store.dispatch(actions.ublock.fetchblocklists({ logActivity: ACTIVITY }))
-    store.dispatch(actions.bestLocation.fetch())
+    store.dispatch(actions.bestLocation.fetch({ logActivity: ACTIVITY }))
   }
 }
 

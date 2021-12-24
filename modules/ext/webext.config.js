@@ -48,6 +48,7 @@ module.exports = {
           { from: path.join(`public/ublock/${platform}`) },
           { from: path.join('public/options-ui'), to: 'options-ui' },
           { from: path.join('public/content-scripts'), to: 'content-scripts' },
+          { from: path.join('public/browser-polyfill.min.js.map') },
         ]),
       ],
     }

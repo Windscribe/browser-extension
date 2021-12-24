@@ -42,7 +42,7 @@ const MenuOverlay = styled(Flex)`
 
   color: ${({ theme }) => theme.colors.fg};
 
-  z-index: 1;
+  z-index: 2;
 
   ${({ style: { isOpen = false } = {} }) =>
     isOpen

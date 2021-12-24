@@ -1,20 +1,10 @@
 /* eslint-disable no-undef */
 function intlLocale(localeCode) {
-  // kind of hacky. Will change when updating script injection function
-  if (typeof ODateTimeFormat !== 'undefined') {
-    const intl = ODateTimeFormat.prototype.resolvedOptions
-    ODateTimeFormat.prototype.resolvedOptions = function() {
-      const newIntl = intl.apply(this, arguments)
-      newIntl.locale = localeCode
-      return newIntl
-    }
-  } else {
-    const intl = Intl.DateTimeFormat.prototype.resolvedOptions
-    Intl.DateTimeFormat.prototype.resolvedOptions = function() {
-      const newIntl = intl.apply(this, arguments)
-      newIntl.locale = localeCode
-      return newIntl
-    }
+  Intl.DateTimeFormat = (locales, options = {}) => {
+    Object.assign(options, {
+      timeZone: Date.prefs[0],
+    })
+    return ODateTimeFormat([localeCode], options)
   }
 }
 

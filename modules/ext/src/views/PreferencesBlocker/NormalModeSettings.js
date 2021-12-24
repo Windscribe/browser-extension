@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useConnect } from 'ui/hooks'
 import { actions } from 'state/dux'
-import ToggleSettingItem from './ToggleSettingItem'
+import ToggleSettingItem from '../Preferences/ToggleSettingItem'
 import { createSelector } from 'reselect'
 
 const selector = createSelector(

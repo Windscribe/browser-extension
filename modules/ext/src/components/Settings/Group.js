@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
 import { Flex, Text } from '@rebass/emotion'
 import styled from '@emotion/styled'
-import { useClientRect } from 'ui/hooks'
+import { useTheme } from 'ui/hooks'
 import { WithToolTip } from 'components/Utils'
-import { css } from '@emotion/core'
-
-const MAX_TITLE_WIDTH = 275
+import { css, ThemeContext } from '@emotion/core'
 
 const GroupTitle = styled(Text)`
   letter-spacing: 2px;
@@ -15,8 +13,6 @@ const GroupTitle = styled(Text)`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  width: fit-content;
-  max-width: ${MAX_TITLE_WIDTH}px;
 `
 
 const SettingGroup = ({
@@ -26,25 +22,23 @@ const SettingGroup = ({
   ...props
 }) => {
   const titleRef = useRef(null)
-  const { width: titleWidth } = useClientRect(titleRef)
-
+  const { colors } = useTheme(ThemeContext)
+  const width = groupName === undefined ? 0 : '100%'
   return (
     <Flex flexDirection="column" p={0} {...props}>
-      <WithToolTip
-        tip={groupNameTip}
-        showOnOverflow
-        elWidth={titleWidth}
-        maxWidth={MAX_TITLE_WIDTH}
-      >
+      <WithToolTip tip={groupNameTip} showOnOverflow>
         <GroupTitle
           css={css`
             position: relative;
             top: 12px;
+            z-index: 1;
           `}
           pt={1}
           pb={2}
           fontSize={0}
           ref={titleRef}
+          bg={colors.darkgrey}
+          width={width}
         >
           {groupName}
         </GroupTitle>
