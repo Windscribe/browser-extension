@@ -74,14 +74,14 @@ export default ({ ...props }) => {
       {...props}
     >
       <LowerBumper
-        fill={colors.bg}
+        fill={colors.darkgrey}
         css={css`
           z-index: 100;
           position: absolute;
         `}
       />
       <LowerBumper
-        fill={colors.bg}
+        fill={colors.darkgrey}
         css={css`
           z-index: 100;
           position: absolute;

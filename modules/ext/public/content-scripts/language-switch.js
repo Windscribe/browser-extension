@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
 function intlLocale(localeCode) {
-  Intl.DateTimeFormat = (locales, options = {}) => {
-    Object.assign(options, {
-      timeZone: Date.prefs[0],
-    })
-    return ODateTimeFormat([localeCode], options)
+  const resolvedOptions = Intl.DateTimeFormat.prototype.resolvedOptions
+
+  Intl.DateTimeFormat.prototype.resolvedOptions = function() {
+    const res = resolvedOptions.apply(this, arguments)
+    res.locale = localeCode
+    return res
   }
 }
 
@@ -26,12 +28,14 @@ function navigatorLanguages(localeCode) {
 
 const switchLocale = localeCode =>
   injectScript(`
-  ${intlLocale.toString()}
-  intlLocale('${localeCode.toString()}');
-  ${navigatorLanguage.toString()}
-  navigatorLanguage('${localeCode.toString()}');
-  ${navigatorLanguages.toString()}
-  navigatorLanguages('${localeCode.toString()}');
+  if (typeof wsWhitelisted === 'undefined') {
+    ${intlLocale.toString()}
+    intlLocale('${localeCode.toString()}');
+    ${navigatorLanguage.toString()}
+    navigatorLanguage('${localeCode.toString()}');
+    ${navigatorLanguages.toString()}
+    navigatorLanguages('${localeCode.toString()}');
+  }
 `)
 
 browser.runtime

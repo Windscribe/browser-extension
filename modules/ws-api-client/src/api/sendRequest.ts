@@ -107,21 +107,23 @@ const sendRequest = async ({
   }
 
   /* Make the request */
-  try {
-    const resp = await send()
-    return resp
-  } catch (e) {
-    console.error(e.message)
-    let resp
-    if (e.code === RATE_LIMIT_ERROR_CODE) {
-      await new Promise(resolve => setTimeout(resolve, e.data.timeToNextCall))
-      resp = await send()
-    } else {
-      // TODO: Figure out when to retry
-      resp = await send(true)
-    }
-    return resp
-  }
+  return await fetch('https://api.windscribe.com')
+    .then(async () => {
+      const resp = await send()
+      return resp
+    })
+    .catch(async e => {
+      console.error(e.message)
+      let resp
+      if (e.code === RATE_LIMIT_ERROR_CODE) {
+        await new Promise(resolve => setTimeout(resolve, e.data.timeToNextCall))
+        resp = await send()
+      } else {
+        // TODO: Figure out when to retry
+        resp = await send(true)
+      }
+      return resp
+    })
 }
 
 export default sendRequest

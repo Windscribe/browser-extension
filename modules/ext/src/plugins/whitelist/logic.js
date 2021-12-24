@@ -3,8 +3,11 @@ import sleep from 'shleep'
 import { isEqual } from 'lodash'
 import { getDomain } from 'utils/parse-suffix-list'
 import pushToDebugLog from 'utils/debugLogger'
-
 import { WHITELIST_DOMAIN_TABLE } from 'utils/constants'
+import listen from 'utils/listen'
+import whitelistCheck from 'utils/whitelistCheck'
+
+listen(browser.webNavigation.onCommitted, whitelistCheck)
 
 const updateArrayElement = (array, filter, updateData) => {
   const arrayIndex = array.findIndex(filter)

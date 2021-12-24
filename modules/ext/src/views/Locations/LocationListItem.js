@@ -12,6 +12,8 @@ import DatacenterListItem from './DatacenterListItem'
 import ProCountryIconDark from 'assets/pro-flag-icon-dark.svg'
 import ProCountryIconLight from 'assets/pro-flag-icon-light.svg'
 import PlusIcon from 'assets/plus-icon.svg'
+import { actions } from 'state'
+import { useDispatch } from 'react-redux'
 
 /**
  * List item for a location, which can contain datacenters and can expand and collapse.
@@ -63,6 +65,17 @@ const LocationListItem = memo(
 
     const Flag = flags[countryCode]
     const theme = useTheme(ThemeContext)
+
+    const { traffic_max, traffic_used, username } = useConnect(s => s.session)
+    const dispatchHook = useDispatch() // 'dispatch' variable is already used
+
+    const getDataCenter = async id => {
+      if (traffic_max - traffic_used === 0) {
+        dispatchHook(actions.view.set(username ? 'NoData' : 'GhostNoData'))
+      } else {
+        onDatacenterSelected(id)
+      }
+    }
 
     const hasCursor =
       cursorListItemInfo?.type === 'location' && cursorListItemInfo?.id === id
@@ -169,7 +182,7 @@ const LocationListItem = memo(
                     cursorListItemInfo?.type === 'datacenter' &&
                     cursorListItemInfo?.id === id
                   }
-                  onClick={() => onDatacenterSelected(id)}
+                  onClick={() => getDataCenter(id)}
                   isUserPro={isUserPro}
                   isProOnly={pro === 1}
                   isDisabled={!hosts || hosts.length === 0}

@@ -37,7 +37,7 @@ const SettingGroup = ({
           pb={2}
           fontSize={0}
           ref={titleRef}
-          bg={colors.darkgrey}
+          bg={colors.bg}
           width={width}
         >
           {groupName}

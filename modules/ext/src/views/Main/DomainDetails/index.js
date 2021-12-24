@@ -25,7 +25,7 @@ export default () => {
       }}
     >
       <Box
-        bg={colors.bg}
+        bg={colors.darkgrey}
         tabIndex={0}
         aria-label={t('Domain Details')}
         css={css`

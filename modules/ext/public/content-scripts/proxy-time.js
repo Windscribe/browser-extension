@@ -23,31 +23,11 @@ function isClass(obj) {
   return isCtorClass || isPrototypeCtorClass
 }
 
-function prefs() {
-  if (!Date.oPrefs) {
-    Date.oPrefs = [
-      Intl.DateTimeFormat().resolvedOptions().timeZone,
-      -1 * new Date().getTimezoneOffset(),
-      new Date().getTimezoneOffset(),
-      timeString(),
-    ]
-  }
-
-  Date.prefs = Date.prefs || Date.oPrefs
-
-  try {
-    // get preferences for subframes synchronously
-    Date.prefs = window.parent.Date.prefs
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-function intlTimezone() {
+function intlTimezone(timeZone) {
   const ODateTimeFormat = Intl.DateTimeFormat
-  Intl.DateTimeFormat = (locales, options = {}) => {
+  Intl.DateTimeFormat = function(locales, options = {}) {
     Object.assign(options, {
-      timeZone: Date.prefs[0],
+      timeZone,
     })
     return ODateTimeFormat(locales, options)
   }
@@ -57,7 +37,7 @@ function intlTimezone() {
   return ODateTimeFormat
 }
 
-function shiftedDate() {
+function shiftedDate(offset, defaultOffset, dst) {
   var clean = str => {
     const toGMT = offset => {
       const z = n => (n < 10 ? '0' : '') + n
@@ -67,9 +47,9 @@ function shiftedDate() {
     }
     const GMTIndex = str.indexOf('GMT')
     const currentGMT = str.substring(GMTIndex + 3, GMTIndex + 8)
-    str = str.replace(currentGMT, toGMT(Date.prefs[1]))
+    str = str.replace(currentGMT, toGMT(offset))
     if (str.indexOf(' (') !== -1) {
-      str = str.split(' (')[0] + ' (' + Date.prefs[3] + ')'
+      str = str.split(' (')[0] + ' (' + dst + ')'
     }
     return str
   }
@@ -118,7 +98,7 @@ function shiftedDate() {
       }
 
       this.nd = new ODate(
-        getTime.apply(this) + (Date.prefs[2] - Date.prefs[1]) * 60 * 1000,
+        getTime.apply(this) + (defaultOffset - offset) * 60 * 1000,
       )
     }
 
@@ -268,7 +248,7 @@ function shiftedDate() {
     }
     // offset
     getTimezoneOffset() {
-      return Date.prefs[1]
+      return offset
     }
   }
 }
@@ -277,44 +257,37 @@ const injectScript = content => {
   const script = document.createElement('script')
   script.textContent = content
   document.documentElement.insertBefore(script, document.head)
-  // script.remove()
+  script.remove()
 }
 
-const shiftTime = () =>
+const shiftTime = timeWarp =>
   injectScript(`
-  if (!window.ODate) {
-    window.ODate = Date
+  if (typeof wsWhitelisted === 'undefined') {
+    if (!window.ODate) {
+      window.ODate = Date
+    }
+    ${isNative.toString()}
+    ${isClass.toString()}
+    ${timeString.toString()}
+    ${intlTimezone.toString()}
+    intlTimezone('${timeWarp.location}');
+    ${shiftedDate.toString()}
+    shiftedDate(${timeWarp.offset}, ${timeWarp.defaultOffset}, '${
+    timeWarp.dst
+  }');
+    Date = window.ShiftedDate;
   }
-  ${isNative.toString()}
-  ${isClass.toString()}
-  ${timeString.toString()}
-  ${prefs.toString()}
-  prefs();
-  ${intlTimezone.toString()}
-  let ODateTimeFormat = intlTimezone();
-  ${shiftedDate.toString()}
-  shiftedDate();
-  Date = window.ShiftedDate;
 `)
 
 browser.runtime
-  .sendMessage({ type: 'get-state', payload: ['proxyTimeEnabled', 'proxy'] })
-  .then(data => {
-    if (data !== undefined && data[0] && data[1].status === 'connected')
-      shiftTime()
+  .sendMessage({
+    type: 'get-state',
+    payload: ['proxyTimeEnabled'],
   })
-
-const proxyTimeListener = (message, sender) => {
-  if (message.type === 'proxy-time-off') {
-    injectScript(`
-      if (window.ODate) { Date = window.ODate }
-      if (Date.oPrefs) { Date.prefs = Date.oPrefs }
-    `)
-  } else if (message.type === 'shift-time') {
-    shiftTime()
-  }
-}
-
-if (!browser.runtime.onMessage.hasListener(proxyTimeListener)) {
-  browser.runtime.onMessage.addListener(proxyTimeListener)
-}
+  .then(data => {
+    if (data !== undefined && data[0]) {
+      browser.storage.local.get('timeWarp').then(({ timeWarp }) => {
+        if (timeWarp) shiftTime(timeWarp)
+      })
+    }
+  })

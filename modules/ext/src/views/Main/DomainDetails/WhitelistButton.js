@@ -25,7 +25,7 @@ const WhitelistButton = styled(IconButton)`
   background: transparent !important;
   * > svg > path {
     fill: ${({ disabled, theme }) =>
-      disabled ? theme.colors.inactive : theme.colors.fg};
+      disabled ? theme.colors.quarterwhite : theme.colors.white};
   }
 `
 
@@ -52,7 +52,9 @@ export default () => {
     x => x.domain === currentDomainInfo.hostname,
   )
 
-  const checkmarkColor = existingWhitelistInfo ? colors.fg : colors.fgLight
+  const checkmarkColor = existingWhitelistInfo
+    ? colors.white
+    : colors.quarterwhite
 
   return (
     <WithToolTip tip={shouldShowTip ? t('Whitelist Settings') : ''}>

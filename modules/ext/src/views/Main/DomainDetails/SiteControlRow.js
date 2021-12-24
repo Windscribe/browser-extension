@@ -21,7 +21,7 @@ export default () => {
   const [tabs, activeTabId] = useSelector(selector)
   const currentDomainInfo = formatActiveTabInfo(tabs[activeTabId])
   const { hostname, hostnameInvalid } = currentDomainInfo
-  const domainColor = hostnameInvalid ? colors.inactive : colors.fg
+  const domainColor = hostnameInvalid ? colors.quarterwhite : colors.white
 
   return (
     <>
