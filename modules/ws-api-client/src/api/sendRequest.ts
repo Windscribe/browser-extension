@@ -70,7 +70,7 @@ const sendRequest = async ({
     const timeToNextCall =
       Number(apiCallMinInterval) -
       (Date.now() - lastCallTimeStamps[endpoint] ?? 0)
-    if (timeToNextCall > 0) {
+    if (timeToNextCall > 0 && !useBackup) {
       throw {
         code: RATE_LIMIT_ERROR_CODE,
         message: `Last call to ${endpoint} less than ${apiCallMinInterval}ms ago. Call aborted. Retry in ${timeToNextCall}ms`,
@@ -107,23 +107,21 @@ const sendRequest = async ({
   }
 
   /* Make the request */
-  return await fetch('https://api.windscribe.com')
-    .then(async () => {
-      const resp = await send()
-      return resp
-    })
-    .catch(async e => {
-      console.error(e.message)
-      let resp
-      if (e.code === RATE_LIMIT_ERROR_CODE) {
-        await new Promise(resolve => setTimeout(resolve, e.data.timeToNextCall))
-        resp = await send()
-      } else {
-        // TODO: Figure out when to retry
-        resp = await send(true)
-      }
-      return resp
-    })
+  try {
+    const resp = await send()
+    return resp
+  } catch (e) {
+    console.error(e.message)
+    let resp
+    if (e.code === RATE_LIMIT_ERROR_CODE) {
+      await new Promise(resolve => setTimeout(resolve, e.data.timeToNextCall))
+      resp = await send()
+    } else {
+      // TODO: Figure out when to retry
+      resp = await send(true)
+    }
+    return resp
+  }
 }
 
 export default sendRequest

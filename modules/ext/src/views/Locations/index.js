@@ -19,6 +19,7 @@ import pickHosts from 'utils/pickHosts'
 import websiteLink from 'utils/websiteLink'
 import { getFuzzyCoords } from 'utils/coords'
 import { useConnect } from 'ui/hooks'
+import { ACCOUNT_STATES } from 'utils/constants'
 
 /**
  * List of locations and datacenters, as well as datacenters saved as favourites. The list
@@ -43,7 +44,7 @@ export default function Locations() {
     locationSorting,
   ] = useSelector(selector)
   const globalDispatch = useDispatch()
-  const { traffic_max, traffic_used, username } = useConnect(s => s.session)
+  const { status, username } = useConnect(s => s.session)
 
   const { t } = useTranslation()
   const { colors } = useTheme(ThemeContext)
@@ -160,7 +161,7 @@ export default function Locations() {
   }, [])
 
   const onAutopilotSelected = useCallback(() => {
-    if (traffic_max - traffic_used === 0) {
+    if (status === ACCOUNT_STATES.EXPIRED) {
       globalDispatch(actions.view.set(username ? 'NoData' : 'GhostNoData'))
     } else {
       connectToLocation({
@@ -171,7 +172,7 @@ export default function Locations() {
         isDatacenter: false,
       })
     }
-  }, [connectToLocation, globalDispatch, traffic_max, traffic_used, username])
+  }, [connectToLocation, globalDispatch, status, username])
 
   // if the user types an alphabetical character it sets focus to the search input
   useEffect(() => {

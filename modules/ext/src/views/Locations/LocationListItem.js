@@ -14,6 +14,7 @@ import ProCountryIconLight from 'assets/pro-flag-icon-light.svg'
 import PlusIcon from 'assets/plus-icon.svg'
 import { actions } from 'state'
 import { useDispatch } from 'react-redux'
+import { ACCOUNT_STATES } from 'utils/constants'
 
 /**
  * List item for a location, which can contain datacenters and can expand and collapse.
@@ -66,11 +67,11 @@ const LocationListItem = memo(
     const Flag = flags[countryCode]
     const theme = useTheme(ThemeContext)
 
-    const { traffic_max, traffic_used, username } = useConnect(s => s.session)
+    const { status, username } = useConnect(s => s.session)
     const dispatchHook = useDispatch() // 'dispatch' variable is already used
 
     const getDataCenter = async id => {
-      if (traffic_max - traffic_used === 0) {
+      if (status === ACCOUNT_STATES.EXPIRED) {
         dispatchHook(actions.view.set(username ? 'NoData' : 'GhostNoData'))
       } else {
         onDatacenterSelected(id)
