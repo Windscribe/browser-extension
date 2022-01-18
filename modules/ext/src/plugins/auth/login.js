@@ -216,22 +216,28 @@ const initBlockLists = async ({ dispatch, actions }) => {
     dispatch(actions.blockLists.fetch())
     /*
         ex of a basic shape of this response
-        [
+        blocklists: [
           {
             option: "name-of-blocklist",
             lists: [...array of lists that need to be imported],
             default: bool -> whether the list should be loaded by default
           }
-        ]
+        ],
+        useragents: "http..."
       */
     const { data } = await api.get({
       endpoint: '/ExtBlocklists',
-      params: { version: 2 },
+      params: { version: 3 },
     })
+    dispatch(actions.blockLists.fetchSuccess({ list: data.blocklists }))
+    dispatch(
+      actions.userAgent.getuseragentlist({
+        logActivity: 'initBlocklists',
+        dataSourceURL: data.useragents,
+      }),
+    )
 
-    dispatch(actions.blockLists.fetchSuccess({ list: data }))
-
-    const { toImport, toSelect, listsLoaded } = data.reduce(
+    const { toImport, toSelect, listsLoaded } = data.blocklists.reduce(
       (obj, item) => {
         const mappedList = item.lists.map(x => x.url)
         if (item.default) {
@@ -321,8 +327,6 @@ const initialize = async ({ getState, action, dispatch, session, actions }) => {
     .catch(() => {
       dispatch(actions.currentOS.set('unknown'))
     })
-
-  dispatch(actions.userAgent.getuseragentlist({ logActivity: ACTIVITY }))
 
   if (getState().splitPersonalityEnabled) {
     dispatch(actions.userAgent.activate())

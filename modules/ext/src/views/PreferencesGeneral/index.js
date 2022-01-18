@@ -13,6 +13,9 @@ import { actions } from 'state'
 import ToggleSettingItem from '../Preferences/ToggleSettingItem'
 import SettingAlert from 'ui/Alert'
 import { Scrollbars } from 'react-custom-scrollbars'
+import websiteLink from 'utils/websiteLink'
+import { WebLink } from 'components/Button'
+import LinkOutIcon from 'assets/external-link-icon.svg'
 
 const ACTIVITY = 'preferences_general'
 
@@ -144,7 +147,6 @@ export default () => {
             aria-label={t(`Proxy Port. Unchecked is 80, checked is 443`)}
           />
           <SettingItem
-            noBorder
             title={t('Debug Log')}
             ControlComponent={() =>
               debugLogSent ? (
@@ -181,6 +183,30 @@ export default () => {
               )
             }
           />
+          <WebLink
+            aria-label={t('Licenses')}
+            onClick={() => websiteLink({ path: 'terms/oss' })}
+            width={'100%'}
+          >
+            <SettingItem
+              noBorder
+              title={t('View Licenses')}
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                width: '100%',
+              }}
+              ControlComponent={() => (
+                <LinkOutIcon
+                  css={css`
+                    path {
+                      fill: ${colors.iconFg};
+                    }
+                  `}
+                />
+              )}
+            />
+          </WebLink>
         </Scrollbars>
       </Box>
     </Flex>

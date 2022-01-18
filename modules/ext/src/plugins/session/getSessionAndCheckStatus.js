@@ -30,10 +30,10 @@ export const resetToSameLocation = ({
   groups = null,
 }) => {
   const _groups = groups
-    ? groups.find(x => x.pro <= pro && x?.hosts?.length > 0)
+    ? groups?.find(x => x.pro <= pro && x?.hosts?.length > 0)
     : serverList.data
         .find(x => x.id === newLocationData.id)
-        .groups.find(x => x.pro <= pro && x?.hosts?.length > 0)
+        .groups?.find(x => x.pro <= pro && x?.hosts?.length > 0)
 
   const hosts = pickHosts(_groups?.hosts)
   if (typeof _groups === 'undefined' || hosts?.length <= 0) {
@@ -63,7 +63,7 @@ export const resetCurrentLocation = ({
   /* Only need the hosts from this */
   const { hosts } = serverList?.data
     .find(x => x.id === currentLocation.locationId)
-    .groups.find(x => x.id === currentLocation.dataCenterId)
+    .groups?.find(x => x.id === currentLocation.dataCenterId)
   return {
     ...currentLocation,
     hosts: pickHosts(hosts.filter(h => h.hostname !== exclude)),
@@ -295,7 +295,7 @@ export default actions => [
 
         // if location is free, there is yet a chance a user is connected to premium dataCenter within,
         // or this DC is not in the new list
-        const dataCenterInNewServerList = newLocationData?.groups.find(
+        const dataCenterInNewServerList = newLocationData?.groups?.find(
           x => x.id === currentLocation.dataCenterId,
         )
 
@@ -475,7 +475,7 @@ export default actions => [
               )
 
               const debugCcList = ccList.map(location => {
-                const allDcs = location.groups.map(dc => {
+                const allDcs = location.groups?.map(dc => {
                   return [dc.city + ' ' + dc.nick, dc.pro]
                 })
                 return {

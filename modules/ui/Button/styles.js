@@ -26,6 +26,7 @@ export const InlineButtonStyle = ({
   color = theme.colors[light ? 'white' : 'black'],
   disabled = false,
   opacity = 0.3,
+  width = 'auto',
 } = {}) =>
   css`
     ${baseStyle};
@@ -39,6 +40,7 @@ export const InlineButtonStyle = ({
         : theme.button.getColor(color)),
       ...(disabled && { pointerEvents: 'none', cursor: 'not-allowed' }),
       opacity: solid ? null : active ? 1 : opacity,
+      width: width,
     }};
 
     &:focus {

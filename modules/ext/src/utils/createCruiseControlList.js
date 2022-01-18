@@ -6,7 +6,7 @@ export default ({ serverlist, userPremiumStatus, cruiseControlDomains }) => {
   const filteredServerList = serverlist
     .filter(location => location.premium_only <= userPremiumStatus)
     .map(filteredLocation => {
-      const filteredGroups = filteredLocation.groups.filter(
+      const filteredGroups = filteredLocation.groups?.filter(
         dataCenter => dataCenter.pro <= userPremiumStatus,
       )
       return { ...filteredLocation, groups: filteredGroups }
@@ -18,7 +18,7 @@ export default ({ serverlist, userPremiumStatus, cruiseControlDomains }) => {
       ...loc,
       domains: cruiseControlDomains[loc.short_name],
       hosts: pickHosts(
-        flatten(Object.values(loc.groups).map(group => group.hosts)).filter(
+        flatten(Object.values(loc.groups)?.map(group => group.hosts)).filter(
           Boolean,
         ),
       ),

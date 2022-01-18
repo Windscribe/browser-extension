@@ -17,7 +17,7 @@ module.exports = {
     const matchedServerLocation = serverList.data.find(
       loc => loc.id === bestLocationId,
     )
-    const matchedServerDc = matchedServerLocation.groups.find(
+    const matchedServerDc = matchedServerLocation.groups?.find(
       dc => dc.id === bestLocation.id,
     )
 

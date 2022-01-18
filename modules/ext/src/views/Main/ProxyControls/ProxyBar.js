@@ -73,7 +73,7 @@ export default memo(({ hoveringOnInterface, currentInterface }) => {
               ? countryCode
               : our_ip &&
                 serverList.data.find(loc =>
-                  loc.groups.find(x => x.id === our_dc),
+                  loc.groups?.find(x => x.id === our_dc),
                 )?.country_code
           ]
         }

@@ -56,6 +56,7 @@ export default ({
         border-bottom-width: 2px;
         border-bottom-style: solid;
         border-bottom-color: ${!noBorder ? colors.divider : 'transparent'};
+        width: 100%;
       `}
     >
       <Flex

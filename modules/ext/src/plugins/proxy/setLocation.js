@@ -7,7 +7,7 @@ export default actions => ({
       pushToDebugLog({
         activity: 'autopilot_engaged',
         message: JSON.stringify(
-          getState().cruiseControlList.data.map(d => ({
+          getState().cruiseControlList.data?.map(d => ({
             name: d.name,
             hosts: d.hosts,
           })),

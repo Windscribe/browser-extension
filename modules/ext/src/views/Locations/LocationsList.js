@@ -233,7 +233,7 @@ export default function LocationsList({
                 return cursorItemInfo
               } else {
                 if (
-                  groups.findIndex(datacenter => {
+                  groups?.findIndex(datacenter => {
                     return (
                       cursorItemInfo.type === 'datacenter' &&
                       cursorItemInfo.id === datacenter.id

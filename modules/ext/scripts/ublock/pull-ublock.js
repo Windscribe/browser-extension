@@ -25,7 +25,7 @@ const platforms = ['firefox', 'chrome']
 const cwd = process.cwd()
 const tmp = path.resolve(__dirname, '..', '..', 'tmp')
 const ublockTmp = path.resolve(tmp, 'uBlock')
-const ublockAssetsTmp = path.resolve(tmp, 'uAssets')
+const ublockAssetsTmp = path.resolve(tmp, 'uBlock/submodules/uAssets')
 
 const publicDir = path.resolve(__dirname, '..', '..', 'public', 'ublock')
 const assetsFile = platform =>
@@ -37,26 +37,28 @@ const projects = [
 ]
 
 const cloneProject = async () => {
-  //const spinner = ora(`Cloning ublock ${uBlockVersion}`)
   logger.info(`Cloning ublock ${uBlockVersion}`)
   try {
-    //spinner.start()
+    
+    await Git().clone(projects[0].url, projects[0].dir)
 
-    await Promise.all(projects.map(x => Git().clone(x.url, x.dir)))
-
-    //spinner.stop()
     console.clear() // eslint-disable-line
 
     logger.success('Pulled ublock repo')
 
     logger.info('checking out tag')
-    // Checkout version
+    
     await Git(ublockTmp).checkout(uBlockVersion)
-
+    
     logger.success(`Successfully checked out version ${uBlockVersion}`)
+
+    logger.info('cloning uAssets')
+
+    await Git().clone(projects[1].url, projects[1].dir)
+
+    logger.success(`Successfully cloned uAssets`)
     return
   } catch (e) {
-    //spinner.stop()
     throw e
   }
 }

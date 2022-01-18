@@ -28,7 +28,7 @@ export default function useLocationsListState(
   const locationOfCurrentConnectedDatacenter = useMemo(() => {
     return locationsWithSortedDatacenters.find(
       location =>
-        location.groups.findIndex(
+        location.groups?.findIndex(
           datacenter => datacenter.id === currentConnectedDatacenterId,
         ) !== -1,
     )?.id
@@ -45,14 +45,14 @@ export default function useLocationsListState(
     if (currentConnectedDatacenterId !== null) {
       const locationIndex = locationsWithSortedDatacenters.findIndex(
         location =>
-          location.groups.findIndex(
+          location.groups?.findIndex(
             datacenter => datacenter.id === currentConnectedDatacenterId,
           ) !== -1,
       )
 
       const datacenterIndex = locationsWithSortedDatacenters[
         locationIndex
-      ].groups.findIndex(
+      ].groups?.findIndex(
         datacenter => datacenter.id === currentConnectedDatacenterId,
       )
 
@@ -396,7 +396,7 @@ function keyboardCursorForDatacenter(locations, locationId, datacenterId) {
       datacenterIndex: null,
     }
   }
-  const datacenterIndex = locations[locationIndex].groups.findIndex(
+  const datacenterIndex = locations[locationIndex].groups?.findIndex(
     datacenter => datacenter.id === datacenterId,
   )
 

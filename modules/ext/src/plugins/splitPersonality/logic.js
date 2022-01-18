@@ -3,7 +3,6 @@ import { platforms } from 'utils/constants'
 import { FILTER } from 'utils/constants'
 import listen from 'utils/listen'
 import pushToDebugLog from 'utils/debugLogger'
-import api from 'api'
 
 let uaListener
 let removeUaListener = () => {}
@@ -26,15 +25,16 @@ const userAgentListener = getState => ({ requestHeaders }) => {
 export default actions => [
   {
     type: actions.userAgent.getuseragentlist,
-    async process({ action, getState }, dispatch, done) {
-      const { logActivity } = action?.payload || {}
+    async process({ action }, dispatch, done) {
+      const { logActivity, dataSourceURL } = action?.payload || {}
       try {
-        const res = await api.sendRequest({
-          endpoint: `/extension/useragents.txt`,
-          assets: true,
+        pushToDebugLog({
+          activity: logActivity,
+          message: `Fetching user agents`,
         })
+        const res = await fetch(dataSourceURL)
         const uaTxt = await res.text()
-        const originalUa = getState().userAgent.original || ''
+        const originalUa = navigator.userAgent
         const currentPlatform = platforms.find(pl => originalUa.includes(pl))
 
         // filter out your own UA if in list, and use platform specific UA's
@@ -106,7 +106,6 @@ export default actions => [
       // in case there is no list, refetch.
       if (!userAgentList || userAgentList.length === 0) {
         dispatch(actions.splitPersonalityEnabled.set(false))
-        dispatch(actions.userAgent.getuseragentlist({ logActivity }))
         dispatch(actions.userAgent.deactivate())
         pushToDebugLog({
           activity: logActivity,

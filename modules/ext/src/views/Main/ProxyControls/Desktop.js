@@ -18,7 +18,7 @@ import Branch from 'ui/Branch'
 const getDataCenterFromId = (id, serverListData) =>
   serverListData?.reduce(
     (obj, loc) => {
-      const dataCenter = loc.groups.find(g => g.id === id)
+      const dataCenter = loc.groups?.find(g => g.id === id)
       if (!dataCenter) {
         return obj
       }

@@ -58,6 +58,7 @@ export default ({
           <Flex
             css={css`
               height: 50px;
+              width: 44px;
             `}
             alignItems="center"
           >
@@ -65,7 +66,7 @@ export default ({
               mr={1}
               css={css`
                 visibility: ${index > 0 ? 'visible' : 'hidden'};
-                width: 32px;
+                width: 50px;
                 height: 100%;
               `}
               {...backProps}
@@ -81,7 +82,7 @@ export default ({
               solid
               {...primaryProps}
               css={css`
-                width: 32px;
+                width: 50px;
                 height: 100%;
               `}
               ml={1}

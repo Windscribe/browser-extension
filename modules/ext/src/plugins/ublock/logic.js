@@ -1,4 +1,3 @@
-import { differenceWith, isEqual, isEmpty } from 'lodash'
 import pushToDebugLog from 'utils/debugLogger'
 import api from 'api'
 import { updateFilterLists, reloadAllFilterLists } from './utils'
@@ -67,27 +66,40 @@ export default actions => [
     latest: true,
     async process({ getState, action }, dispatch, done) {
       const { logActivity } = action?.payload || {}
-      const { blockLists } = getState()
-      const { list: oldBlockList } = blockLists
-      dispatch(actions.blockLists.fetch())
+      const { blockListsEnabled, advancedModeEnabled } = getState()
+
+      if (advancedModeEnabled) {
+        pushToDebugLog({
+          activity: logActivity,
+          message: `Not Fetching blocklists due to advanced mode`,
+        })
+        dispatch(actions.lastBlockListCheck.set(Date.now()))
+        done()
+        return
+      }
 
       try {
+        dispatch(actions.blockLists.fetch())
+        pushToDebugLog({
+          activity: logActivity,
+          message: `Fetching blocklists`,
+        })
         const { data } = await api.get({
           endpoint: '/ExtBlocklists',
-          params: { version: 2 },
+          params: { version: 3 },
         })
-
-        dispatch(actions.blockLists.fetchSuccess({ list: data }))
-
-        const newColumns = data.filter(
-          x => !oldBlockList.map(x => x.option).includes(x.option),
+        dispatch(actions.blockLists.fetchSuccess({ list: data.blocklists }))
+        dispatch(
+          actions.userAgent.getuseragentlist({
+            logActivity: 'initBlocklists',
+            dataSourceURL: data.useragents,
+          }),
         )
 
-        /* We want to import all the new columns urls */
-        const { toImport, toSelect } = newColumns.reduce(
+        const { toImport, toSelect } = data.blocklists.reduce(
           (obj, item) => {
             const mappedList = item.lists.map(x => x.url)
-            if (item.default) {
+            if (blockListsEnabled.includes(item.option)) {
               obj.toSelect = obj.toSelect.concat(mappedList)
             }
 
@@ -95,43 +107,34 @@ export default actions => [
 
             return obj
           },
-          { toImport: [], toSelect: [...µBlock.selectedFilterLists] },
+          { toImport: [], toSelect: [] },
         )
 
-        /* Find lists that need to be removed */
-        const toRemove = oldBlockList.reduce((arr, x, i) => {
-          if (!oldBlockList[i]?.lists) {
-            return arr
-          }
-
-          const listRemoved = differenceWith(
-            oldBlockList[i].lists,
-            x.lists,
-            isEqual,
-          ).map(x => x.url)
-
-          if (!isEmpty(listRemoved)) {
-            return arr.concat(listRemoved)
-          }
-
-          return arr
-        }, [])
-
-        await updateFilterLists({ toRemove, toImport }).then(() =>
-          updateFilterLists({ toSelect }),
-        )
-
-        await reloadAllFilterLists()
-
-        pushToDebugLog({
-          activity: logActivity,
-          message: `Succesfully fetched blocklists`,
-        })
         pushToDebugLog({
           activity: logActivity,
           level: 'DEBUG',
-          message: `Removed ${toRemove.length} blocklists and imported ${toImport.length}`,
+          message: `toImport: ${toImport.length} toSelect: ${toSelect.length}`,
         })
+
+        // remove all known lists
+        const toRemove = Object.keys(µBlock.availableFilterLists)
+        await updateFilterLists({ toRemove, toImport })
+
+        // wait for the removals to happen, then apply new selected lists
+        setTimeout(async () => {
+          await updateFilterLists({ toSelect })
+          await reloadAllFilterLists()
+
+          pushToDebugLog({
+            activity: logActivity,
+            message: `Succesfully fetched blocklists`,
+          })
+          pushToDebugLog({
+            activity: logActivity,
+            level: 'DEBUG',
+            message: `Removed ${toRemove.length} blocklists and imported ${toImport.length}`,
+          })
+        }, 500)
       } catch (error) {
         pushToDebugLog({
           activity: logActivity,

@@ -12,6 +12,7 @@ import {
   resetToSameLocation,
 } from '../../plugins/session/getSessionAndCheckStatus'
 import checkInternet from 'utils/check-internet'
+import sleep from 'shleep'
 
 const fetchTimeout = (ms, promise) => {
   return new Promise((resolve, reject) => {
@@ -153,7 +154,7 @@ export default actions => ({
       }
     }
 
-    const noSSLScribe = async () => {
+    const noSSLScribe = async retry => {
       try {
         const resp = await fetchTimeout(5000, fetch('http://nosslscribe.com'))
         if (!resp.ok) {
@@ -166,19 +167,32 @@ export default actions => ({
         })
         return true
       } catch (e) {
-        pushToDebugLog({
-          activity: logActivity,
-          level: 'ERROR',
-          message: `Error while checking creds against nosslscribe.com: ${JSON.stringify(
-            e,
-          )}`,
-        })
-        return false
+        if (retry <= 3) {
+          pushToDebugLog({
+            activity: logActivity,
+            level: 'ERROR',
+            message: `Error while checking creds against nosslscribe.com: ${JSON.stringify(
+              e,
+            )} Retrying in 1s`,
+          })
+          await sleep(1000)
+          const nextRetry = retry + 1
+          return await noSSLScribe(nextRetry)
+        } else {
+          pushToDebugLog({
+            activity: logActivity,
+            level: 'ERROR',
+            message: `Error while checking creds against nosslscribe.com: ${JSON.stringify(
+              e,
+            )}`,
+          })
+          return false
+        }
       }
     }
 
     const sslCheckAndConnect = async () => {
-      const setSSL = await noSSLScribe()
+      const setSSL = await noSSLScribe(1)
       const setPublicIp = await reApplyPublicIp()
 
       if (!setSSL && !setPublicIp) {
@@ -215,6 +229,7 @@ export default actions => ({
         dispatch(actions.proxy.assign({ status: 'connected' }))
         dispatch(actions.proxyDiscovered.set(true))
       }
+      await reApplyPublicIp()
     }
 
     const onProxySetupComplete = async () => {
