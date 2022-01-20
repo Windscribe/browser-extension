@@ -4,9 +4,9 @@ The uBlock extension is embedded into Windscribe as if the extension was a norma
 
 The main differences are that the `popup.html`, `background.html` and  `manifest.json` are removed entirely.
 
-All assets that are loaded from the removed `background.html`, must be copied over to the windscribe version of `background.html`, and any content script or permissions defined in the uBlock `manifest.json` must also be accounted for in the Windscribe `manifest.json`. While the removal of the uBlock versions are handled at build time by the `/modules/ext/scripts/ublock/pull-ublock.js` script, making sure we are loading the correct assets is done manually.
+All assets that are loaded from the removed `background.html`, must be copied over to the windscribe version of `background.html`, and any content script or permissions defined in the uBlock `manifest.json` must also be accounted for in the Windscribe `manifest.json`. While the removal of the uBlock versions are handled at build time by the `/modules/ext/scripts/ublock/pull-ublock.js` script, making sure we are loading the correct assets in `background.html` is done manually.
 
-The version of uBlock that is built and embedded is defined in `/modules/ext/package.json`. The `uBlockVersion` field is the branch name that is cloned, build and bundled into the extension.
+The version of uBlock that is built and embedded is defined in `/modules/ext/package.json`. The `uBlockVersion` field is the branch name that is cloned, built and bundled into the extension.
 
 We maintain a fork of uBlock on github, but try to keep the changes to a minimum so that there is less work to keep in sync with upstream changes.
 
@@ -21,7 +21,7 @@ The current convention is to download the latest tagged release of uBlock from t
 The key changes that are required as of `v1.40.4` are:
 
 - Update the document blocked message at `src/_locales/en/messages.json` to say "Windscribe" to avoid user confusion
-- Comment out chrome api overriting at `platform/common/vapi.js`, ie: https://github.com/Windscribe/uBlock/commit/71767abc2273f97b81bc76823a730d8b4492807a#diff-3757195e1d07b3c4c436935c011810a84bc37d195af0b3cb7bca588c88940c53
+- Comment out chrome api overwriting at `platform/common/vapi.js`, ie: https://github.com/Windscribe/uBlock/commit/71767abc2273f97b81bc76823a730d8b4492807a#diff-3757195e1d07b3c4c436935c011810a84bc37d195af0b3cb7bca588c88940c53
 - Comment out the extension icon updates performed by uBlock at `src/js/tab.js`, ie: https://github.com/Windscribe/uBlock/commit/71767abc2273f97b81bc76823a730d8b4492807a#diff-7370f0926ce8910f2c71660ffa846f43f1e74f943fcd70ea464485b5b7a4cf1b
 
 It is possible that future uBlock version will have many more breaking changes, especially when uBlock moves to manifest v3, so looking through the uBlock changelog is important prior to updating.
