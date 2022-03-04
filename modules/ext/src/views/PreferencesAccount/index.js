@@ -141,7 +141,7 @@ export default () => {
           onClick: () => websiteLink({ path: 'myaccount' }),
         }}
       />
-      <Box ml={3}>
+      <Box mx={3}>
         <SettingGroup groupName={t('Info')}>
           <SettingItem
             title={t('Username')}

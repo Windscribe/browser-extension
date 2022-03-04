@@ -15,6 +15,7 @@ export default actions => [
         dataCenterId,
         locationId,
         logActivity,
+        health,
       } = action.payload
 
       const { favoriteLocations } = getState()
@@ -48,6 +49,7 @@ export default actions => [
             countryCode,
             isCenterPro,
             locationId,
+            health,
           }),
         )
       }

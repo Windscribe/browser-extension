@@ -24,6 +24,8 @@ The key changes that are required as of `v1.40.4` are:
 - Comment out chrome api overwriting at `platform/common/vapi.js`, ie: https://github.com/Windscribe/uBlock/commit/71767abc2273f97b81bc76823a730d8b4492807a#diff-3757195e1d07b3c4c436935c011810a84bc37d195af0b3cb7bca588c88940c53
 - Comment out the extension icon updates performed by uBlock at `src/js/tab.js`, ie: https://github.com/Windscribe/uBlock/commit/71767abc2273f97b81bc76823a730d8b4492807a#diff-7370f0926ce8910f2c71660ffa846f43f1e74f943fcd70ea464485b5b7a4cf1b
 
+- Switch context menu code https://github.com/Windscribe/uBlock/commit/1ec8d2f8294fd7459acd7dda0bc48fd4397ead2b
+
 It is possible that future uBlock version will have many more breaking changes, especially when uBlock moves to manifest v3, so looking through the uBlock changelog is important prior to updating.
 
 Once the new branch has been pushed to github, update the `uBlockVersion` field in `/modules/ext/package.json`

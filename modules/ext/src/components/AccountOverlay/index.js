@@ -22,6 +22,7 @@ const ConfirmButton = ({ children, ...props }) => {
       css={css`
         width: 166px;
         margin-bottom: ${space[4]};
+        padding: 0 !important;
       `}
       background={colors.green}
       lg
@@ -36,6 +37,7 @@ const CancelButton = ({ children, ...props }) => (
   <ActionButton
     css={css`
       width: 166px;
+      padding: 0 !important;
     `}
     light
     lg
@@ -67,6 +69,38 @@ const Welcome = ({ close, startOnboarding }) => {
         </Text>
       </CancelButton>
     </>
+  )
+}
+
+const UblockDetected = ({ setUninstallView, useUblock }) => {
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <ConfirmButton onClick={() => setUninstallView(true)}>
+        <Text fontSize={1} p={2} level={3}>
+          {t('Use Built In Adblock')}
+        </Text>
+      </ConfirmButton>
+
+      <CancelButton onClick={useUblock}>
+        <Text fontSize={1} p={2} level={3}>
+          {t(`Keep Using uBlock`)}
+        </Text>
+      </CancelButton>
+    </>
+  )
+}
+
+const UninstallUblock = ({ useWSAdblock }) => {
+  const { t } = useTranslation()
+
+  return (
+    <CancelButton onClick={useWSAdblock}>
+      <Text fontSize={1} p={2} level={3}>
+        {t(`Ok`)}
+      </Text>
+    </CancelButton>
   )
 }
 
@@ -315,6 +349,26 @@ const getContent = ({ status, t }) => {
         img: teacherGarry,
         AdditionalComponent: Welcome,
       }
+    case 'UblockDetected':
+      return {
+        title: t(`uBlock Already Installed`),
+        message: t(
+          `Windscribe ad-blocker is powered by uBlock, which you already have installed. You shouldn't use both at the same time.`,
+        ),
+        img: cautionGarry,
+        AdditionalComponent: UblockDetected,
+      }
+    case 'UninstallUblock':
+      return {
+        title: t(`How To Disable uBlock`),
+        message: t(
+          `Navigate to the extension page (${
+            IS_CHROME ? 'chrome://extensions' : 'about:addons'
+          }). Locate the uBlock extension and toggle the blue switch.`,
+        ),
+        img: cautionGarry,
+        AdditionalComponent: UninstallUblock,
+      }
     case 'proPlanExpired':
       return {
         title: t(`Your Pro Plan Has Expired!`),
@@ -341,9 +395,7 @@ const getContent = ({ status, t }) => {
     case 'confirmAdvancedMode':
       return {
         title: t('Are you sure?'),
-        message: t(
-          'This will disable all of your current blocker settings, as well as whitelisted sites.',
-        ),
+        message: t('This will disable all of your current blocker settings.'),
         img: cautionGarry,
         AdditionalComponent: ConfirmAdvancedMode,
       }

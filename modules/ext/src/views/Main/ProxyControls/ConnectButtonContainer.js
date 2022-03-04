@@ -1,6 +1,5 @@
 import React from 'react'
 import { Flex } from '@rebass/emotion'
-import { css } from '@emotion/core'
 import { actions } from 'state'
 import ConnectingRing from 'assets/connecting-ring.svg'
 import ConnectedRing from 'assets/connected-ring.svg'
@@ -17,7 +16,6 @@ const selector = createSelector(
   s => s.proxy.status,
   s => s.session.status,
   s => s.session.username,
-  s => s.desktopClient.isConnected,
   (...args) => args,
 )
 
@@ -34,9 +32,13 @@ export default () => {
   return (
     <Flex
       ml={3}
-      css={css`
-        transform: translate(0px, -7px);
-      `}
+      css={{
+        transform: 'translate(0px, -7px)',
+        transition: '0.3s',
+        ':hover': {
+          transform: 'scale(1.1) translate(0px, -7px)',
+        },
+      }}
     >
       <ButtonContainer
         status={proxyStatus}
@@ -81,7 +83,6 @@ export default () => {
       {proxyStatus === 'connected' && (
         <ConnectBar>
           <ConnectedRing />
-          {/* {isConnectedToDesktop && <ConnectorLine />} */}
         </ConnectBar>
       )}
       {proxyStatus === 'error' && (

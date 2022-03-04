@@ -10,6 +10,7 @@ import SettingAlert from 'ui/Alert'
 import AddIcon from 'assets/plus-icon.svg'
 import WhitelistTray from './WhitelistTray'
 import EntryList from './entryList'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import {
   Provider,
@@ -134,46 +135,60 @@ export default () => {
               }}
             />
           </Box>
-          <Box ml={3}>
-            <SettingGroup groupName={t('Current Page')}>
-              <SettingItem
-                title={domainTitle}
-                disabled={alreadyWhitelisted}
-                ControlComponent={({ disabled = false }) => (
-                  <InlineButton
-                    tabIndex={mainTabIndex}
-                    aria-label={t(`Add current page: {{parent}}`, {
-                      parent: domainState.currentSiteDomain,
-                    })}
-                    solid
-                    onClick={() => {
-                      uiDispatch({
-                        type: 'setDeleteConfirm',
-                        payload: {
-                          confirmingDelete: false,
-                          currentlyDeletingDomain: null,
-                        },
-                      })
-                      uiDispatch({
-                        type: 'addCurrentPage',
-                        payload: { newDomain: domainState.currentSiteDomain },
-                      })
-                    }}
-                    disabled={disabled}
-                  >
-                    <AddIcon
-                      css={css`
-                        path {
-                          fill: ${disabled ? colors.inactive : colors.primary};
-                        }
-                      `}
-                    />
-                  </InlineButton>
-                )}
+          <Scrollbars
+            autoHeight={true}
+            autoHeightMin={324}
+            autoHeightMax={336}
+            renderThumbVertical={({ style, ...props }) => (
+              <div
+                {...props}
+                style={{ ...style, backgroundColor: colors.scrollBar }}
               />
-            </SettingGroup>
-            <EntryList whitelist={whitelist} />
-          </Box>
+            )}
+          >
+            <Box mx={3}>
+              <SettingGroup groupName={t('Current Page')}>
+                <SettingItem
+                  title={domainTitle}
+                  disabled={alreadyWhitelisted}
+                  ControlComponent={({ disabled = false }) => (
+                    <InlineButton
+                      tabIndex={mainTabIndex}
+                      aria-label={t(`Add current page: {{parent}}`, {
+                        parent: domainState.currentSiteDomain,
+                      })}
+                      solid
+                      onClick={() => {
+                        uiDispatch({
+                          type: 'setDeleteConfirm',
+                          payload: {
+                            confirmingDelete: false,
+                            currentlyDeletingDomain: null,
+                          },
+                        })
+                        uiDispatch({
+                          type: 'addCurrentPage',
+                          payload: { newDomain: domainState.currentSiteDomain },
+                        })
+                      }}
+                      disabled={disabled}
+                    >
+                      <AddIcon
+                        css={css`
+                          path {
+                            fill: ${disabled
+                              ? colors.inactive
+                              : colors.primary};
+                          }
+                        `}
+                      />
+                    </InlineButton>
+                  )}
+                />
+              </SettingGroup>
+              <EntryList whitelist={whitelist} />
+            </Box>
+          </Scrollbars>
         </Flex>
       </Provider>
     </div>

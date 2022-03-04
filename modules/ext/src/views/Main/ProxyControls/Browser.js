@@ -22,11 +22,11 @@ const selector = createSelector(
   (...args) => args,
 )
 
-export default memo(({ currentInterface }) => {
+export default memo(() => {
   const [countryCode, online, status] = useSelector(selector)
 
   const { t } = useTranslation()
-  const Flag = Flags[countryCode]
+  const Flag = Flags[countryCode] || Flags['AUTO']
   const viewContainerRef = useRef()
   const [showIpCopiedAlert, setIpCopiedAlert] = useState(false)
   const [isHoveringOnLocation, setIsHoveringOnLocation] = useState(false)
@@ -49,7 +49,7 @@ export default memo(({ currentInterface }) => {
             border-radius: 30px;
           `}
           isReversed={true}
-          topOffset="100%"
+          topOffset="80%"
           leftOffset="33%"
           domNode={viewContainerRef.current}
         />
@@ -79,10 +79,7 @@ export default memo(({ currentInterface }) => {
               />
             )}
           </Flex>
-          <LocationInfo
-            setIsHovering={setIsHoveringOnLocation}
-            currentInterface={currentInterface}
-          />
+          <LocationInfo setIsHovering={setIsHoveringOnLocation} />
         </Flex>
         <Box
           css={css`

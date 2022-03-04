@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Flex, Text } from '@rebass/emotion'
+import { Flex } from '@rebass/emotion'
 import { css } from '@emotion/core'
-import { IconButton } from 'ui/Button'
 import { actions } from 'state'
 import { useDispatch, useConnect, useTheme } from 'ui/hooks'
 import { ThemeContext } from '@emotion/core'
@@ -11,6 +10,9 @@ import TopNavSlant from 'assets/top-nav-bg-right.svg'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
 import { createSelector } from 'reselect'
+import BlockerIcon from 'assets/blocker-icon.svg'
+import PrivacyIcon from 'assets/privacy-icon.svg'
+import HeaderIcon from './HeaderIcon'
 
 const Header = styled(Flex)`
   background-color: ${({ bgColor }) => bgColor};
@@ -23,42 +25,23 @@ const Header = styled(Flex)`
   transition: 1s all ease;
 `
 
-const NotificationBadge = styled(Flex)`
-  background: ${({ theme, hasUnreadNotifications }) =>
-    hasUnreadNotifications ? theme.colors.green : 'none'};
-  opacity: ${({ show }) => (show ? 1 : 0)};
-  transition: opacity 0.3s ease-out;
-  cursor: pointer;
-  z-index: 1;
-  position: relative;
-  bottom: 12px;
-  left: 6px;
-  border-radius: 3px;
-  border: 1px solid ${({ theme }) => theme.colors.quarterwhite};
-  height: 14px;
-`
-
-const checkConnectedInterface = ({ currentInterface, proxy, session }) => {
-  if (currentInterface === 'browser') {
-    return (
-      proxy.status === 'connected' ||
-      proxy.status === 'connecting' ||
-      proxy.status === 'error'
-    )
-  } else if (currentInterface === 'os') {
-    const isVPNon = !!session?.our_ip
-    return isVPNon
-  }
+const checkConnectedInterface = ({ proxy }) => {
+  return (
+    proxy.status === 'connected' ||
+    proxy.status === 'connecting' ||
+    proxy.status === 'error'
+  )
 }
 
 const selector = createSelector(
   s => s.newsfeedIdsAlreadyViewed,
   s => s.newsfeedItems,
   s => s.proxy,
-  s => s.session,
+  s => s.blockListsEnabled,
+  s => s.privacyOptionsCount,
   (...args) => args,
 )
-export default ({ currentInterface }) => {
+export default () => {
   const { t } = useTranslation()
   const [notificationRead, setNotificationRead] = useState(false)
   const [showNewsfeedBadge, setShowNewsfeedBadge] = useState(true)
@@ -66,13 +49,15 @@ export default ({ currentInterface }) => {
   const dispatch = useDispatch()
   const setView = v => dispatch(actions.view.set(v))
 
-  const [newsfeedIdsAlreadyViewed, newsfeedItems, proxy, session] = useConnect(
-    selector,
-  )
-  const isConnected = checkConnectedInterface({
-    currentInterface,
+  const [
+    newsfeedIdsAlreadyViewed,
+    newsfeedItems,
     proxy,
-    session,
+    blockListsEnabled,
+    privacyOptionsCount,
+  ] = useConnect(selector)
+  const isConnected = checkConnectedInterface({
+    proxy,
   })
   const primaryBgColor = isConnected ? colors.halfblack : colors.darkgrey
   const unreadNewsfeedItems =
@@ -91,71 +76,111 @@ export default ({ currentInterface }) => {
   }
 
   return (
-    <Header alignItems="center" bgColor={primaryBgColor}>
-      <IconButton
-        css={css`
-          background: none !important;
-          margin: 0 16px;
-          path {
-            fill: ${colors.white};
-          }
-          &:hover {
-            background: ${isConnected
-              ? colors.microwhite
-              : colors.microblack} !important;
-          }
-        `}
-        onClick={() => setView('Preferences')}
-        aria-label={t('Preferences')}
-      >
-        <Menu className="joyride-element-opt-out" />
-      </IconButton>
-      <WsLogo
-        css={css`
-          overflow: visible;
-          cursor: pointer;
-          path {
-            fill: ${colors.white};
-          }
-        `}
-        onClick={() => dispatch(actions.view.set('Newsfeed'))}
-        onMouseEnter={() => {
-          !hasUnreadNotifications && setShowNewsfeedBadge(true)
-        }}
-        onMouseLeave={() => {
-          !hasUnreadNotifications && setShowNewsfeedBadge(false)
-        }}
-      />
-      <NotificationBadge
-        show={showNewsfeedBadge}
-        hasUnreadNotifications={hasUnreadNotifications}
-        px={'3px'}
-        onClick={() => dispatch(actions.view.set('Newsfeed'))}
-      >
-        <Text
-          color={hasUnreadNotifications ? colors.black : colors.white}
-          textAlign="center"
-          fontWeight="700"
-          fontSize="10px"
-          css={css`
-            padding-top: 3px;
-            align-self: flex-end;
-            margin: 0 auto;
-          `}
+    <>
+      <Header alignItems="center" bgColor={primaryBgColor}>
+        <Menu
+          className="joyride-element-opt-out"
+          css={{
+            cursor: 'pointer',
+            background: 'none !important',
+            margin: '0 24px',
+            fill: colors.halfwhite,
+            transition: 'fill 0.3s ease-out',
+            ':hover': {
+              fill: colors.white,
+            },
+          }}
+          onClick={() => setView('Preferences')}
+          aria-label={t('Preferences')}
+        />
+        <Flex
+          css={{ cursor: 'pointer' }}
+          onClick={() => dispatch(actions.view.set('Newsfeed'))}
+          onMouseEnter={() => {
+            !hasUnreadNotifications && setShowNewsfeedBadge(true)
+          }}
+          onMouseLeave={() => {
+            !hasUnreadNotifications && setShowNewsfeedBadge(false)
+          }}
         >
-          {notificationRead
-            ? newsfeedItems?.notifications?.length
-            : numberOfUnreadNotifications}
-        </Text>
-      </NotificationBadge>
-      <TopNavSlant
-        css={css`
-          fill: ${primaryBgColor};
-          position: absolute;
-          right: -46px;
-          transition: 1s all ease;
-        `}
-      />
-    </Header>
+          <WsLogo
+            css={css`
+              overflow: visible;
+              cursor: pointer;
+              path {
+                fill: ${colors.white};
+              }
+            `}
+          />
+          <Flex
+            css={{
+              borderRadius: '50%',
+              position: 'absolute',
+              height: '14px',
+              width: '14px',
+              backgroundColor: colors.lightGreen,
+              alignItems: 'center',
+              justifyContent: 'center',
+              top: '12px',
+              right: '-4px',
+              boxSizing: 'content-box',
+              background: hasUnreadNotifications ? colors.lightGreen : 'none',
+              opacity: showNewsfeedBadge ? 1 : 0,
+              border: hasUnreadNotifications
+                ? 'none'
+                : `1px solid ${colors.quarterwhite}`,
+              zIndex: '1',
+            }}
+          >
+            <Flex
+              pt={'1px'}
+              css={{
+                fontSize: '9px',
+                color: hasUnreadNotifications ? colors.green : colors.white,
+                fontWeight: '700',
+                lineHeight: '0',
+              }}
+            >
+              {notificationRead
+                ? newsfeedItems?.notifications?.length
+                : numberOfUnreadNotifications}
+            </Flex>
+          </Flex>
+        </Flex>
+        <TopNavSlant
+          css={css`
+            fill: ${primaryBgColor};
+            position: absolute;
+            right: -46px;
+            transition: 1s all ease;
+          `}
+        />
+      </Header>
+      <Flex
+        css={{
+          position: 'absolute',
+          top: '0px',
+          right: '0px',
+          zIndex: '30',
+          padding: '16px',
+          gap: '8px',
+        }}
+      >
+        <HeaderIcon
+          Icon={PrivacyIcon}
+          view={'PreferencesPrivacy'}
+          count={privacyOptionsCount}
+          className={'joyride-element-privacy'}
+          primaryBgColor={primaryBgColor}
+        />
+        <HeaderIcon
+          Icon={BlockerIcon}
+          view={'PreferencesBlocker'}
+          count={blockListsEnabled.length}
+          className={'joyride-element-blocker'}
+          primaryBgColor={primaryBgColor}
+        />
+      </Flex>
+    </>
   )
 }

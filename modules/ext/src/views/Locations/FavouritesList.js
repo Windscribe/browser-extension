@@ -14,9 +14,9 @@ function FavouritesList({
   onDatacenterSelected,
   onHeartIconClick,
   isUserPro,
+  locationLoadEnabled,
 }) {
   const theme = useTheme(ThemeContext)
-
   return (
     <Flex
       css={{
@@ -53,7 +53,13 @@ function FavouritesList({
       )}
       <Box css={{ paddingLeft: theme.space[4], height: '100%', width: '100%' }}>
         {favourites.map((favourite, index) => {
-          const { dataCenterId, name, nickname, isCenterPro } = favourite
+          const {
+            dataCenterId,
+            name,
+            nickname,
+            isCenterPro,
+            health,
+          } = favourite
           return (
             <DatacenterListItem
               // this is used for programmatically scrolling to a location, which we don't need to do
@@ -62,6 +68,7 @@ function FavouritesList({
               key={index}
               hasCursor={false}
               city={name}
+              health={health}
               id={dataCenterId}
               isFavourite={true}
               nick={nickname}
@@ -69,6 +76,7 @@ function FavouritesList({
               onHeartIconClick={() => onHeartIconClick(dataCenterId)}
               isUserPro={isUserPro}
               isProOnly={isCenterPro}
+              locationLoadEnabled={locationLoadEnabled}
             />
           )
         })}

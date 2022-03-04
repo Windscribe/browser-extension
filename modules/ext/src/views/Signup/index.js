@@ -12,7 +12,7 @@ export default () => {
   const { t } = useTranslation()
   return (
     <Box bg={colors.bg}>
-      <OverrideAppHeight height={'0px'} />
+      <OverrideAppHeight height={'300px'} />
       <Flex flexDirection="column">
         <Header headerText="Sign up" buttonText="Login" buttonView="Login" />
         <Flex flexDirection="column">

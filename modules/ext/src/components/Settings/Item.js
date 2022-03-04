@@ -122,7 +122,7 @@ export default ({
           )}
         </Flex>
         <Flex flexDirection="column">
-          <Box pr={3} ml="auto">
+          <Box ml="auto">
             <ControlComponent {...props} />
           </Box>
         </Flex>

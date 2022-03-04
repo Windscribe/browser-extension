@@ -36,6 +36,7 @@ import FR from './FRANCE.svg'
 import GB from './GB.svg'
 import GE from './GEORGIA.svg'
 import DE from './GERMANY.svg'
+import GH from './GHANA.svg'
 import GR from './GREECE.svg'
 import GT from './GUATEMALA.svg'
 
@@ -136,6 +137,7 @@ export default {
   GB,
   GE,
   DE,
+  GH,
   GR,
   GT,
   HK,

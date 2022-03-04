@@ -4,6 +4,13 @@ import { updateFilterLists, reloadAllFilterLists } from './utils'
 
 export default actions => [
   {
+    type: [actions.ublockEnabled.set, actions.ublockAsked.set],
+    latest: true,
+    async process(_, dispatch, done) {
+      done()
+    },
+  },
+  {
     type: actions.blockListsEnabled.toggle,
     latest: true,
     process: ({ getState, action }, dispatch, done) => {

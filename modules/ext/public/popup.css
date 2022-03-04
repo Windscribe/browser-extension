@@ -25,14 +25,12 @@
   overflow: hidden;
 }
 
-body {
-  margin: 0;
-  background: #1a2432;
-}
-
 html,
 body {
   scrollbar-width: none;
+  width: 324px;
+  margin: 0;
+  background: #1a2432;
 }
 
 #app-frame {
@@ -41,7 +39,6 @@ body {
   background: black;
   overflow: hidden;
   transition: height ease 0.2s, min-height ease 0.2s;
-  width: 324px;
 }
 /* Targeting a route to make sure it fills up the frame */
 #app-frame > * {

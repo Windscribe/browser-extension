@@ -12,7 +12,6 @@ import addOneMonthToDate from 'utils/addOneMonthToDate'
 import Branch from 'ui/Branch'
 import websiteLink from 'utils/websiteLink'
 import { SimpleButton } from 'ui/Button'
-import LowerBumper from 'assets/lower-bumper.svg'
 import { ACCOUNT_PLAN } from 'utils/constants'
 
 const getUsageColor = (percentage, colors) => {
@@ -73,23 +72,25 @@ export default ({ ...props }) => {
       `}
       {...props}
     >
-      <LowerBumper
-        fill={colors.darkgrey}
-        css={css`
-          z-index: 100;
-          position: absolute;
-        `}
-      />
-      <LowerBumper
-        fill={colors.darkgrey}
-        css={css`
-          z-index: 100;
-          position: absolute;
-          left: calc(100% - 24px);
-          transform: scaleX(-1);
-        `}
-      />
-      <Flex py={'6px'} px={3} justifyContent="space-between" bg={colors.black}>
+      <Flex justifyContent={'space-between'}>
+        <Box
+          height={'2px'}
+          width={`${100 - percentageUsed}%`}
+          bg={getUsageColor(percentageUsed, colors)}
+        />
+        <Box
+          height={'2px'}
+          width={`${percentageUsed}%`}
+          bg={getUsageColor(percentageUsed, colors)}
+          opacity={'.25'}
+        />
+      </Flex>
+      <Flex
+        py={'6px'}
+        px={'16px'}
+        justifyContent="space-between"
+        bg={colors.black}
+      >
         <WithToolTip
           tip={`${t('Reset Date')}: ${addOneMonthToDate(last_reset)}`}
         >

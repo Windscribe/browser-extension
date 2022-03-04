@@ -16,6 +16,7 @@ export const userStateKeysMap = [
   'webRTCEnabled',
   'advancedModeEnabled',
   'blockListsEnabled',
+  'privacyOptionsCount',
 ]
 
 export const isRequired = e => {

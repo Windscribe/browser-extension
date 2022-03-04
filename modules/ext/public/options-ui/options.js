@@ -27,7 +27,7 @@ const enableAdvancedModeTemplate = `
           </h1>
 
           <p>
-            Go to Preferences > Privacy > Advanced Mode
+            Go to Preferences > Blocker > Advanced Mode
           </p>
         </div>
       </div>

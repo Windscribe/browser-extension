@@ -18,7 +18,7 @@ const HidePassword = styled(HidePasswordSvg)`
   }
 `
 const StyledInput = styled.input`
-  ${({ theme, isInvalid }) => `    
+  ${({ theme, isInvalid }) => ` 
     margin-top: ${theme.space[2]};
     width:100%;
     height:40px;
@@ -27,7 +27,7 @@ const StyledInput = styled.input`
     color: ${theme.colors.fg};
     border-radius: 3px;
     outline: none;
-    border: ${isInvalid ? `1px solid ${theme.colors.redLight}` : 'none'};
+    border: 1px solid ${isInvalid ? theme.colors.redLight : 'transparent'};
     background-color: ${theme.colors.iconBg};    
     &:focus{
       border: 1px solid ${
@@ -50,7 +50,7 @@ export default ({
   name,
 }) => {
   const [seePassword, setSeePassword] = useState(!password)
-  const { colors, space, fontSizes } = useTheme(ThemeContext)
+  const { colors, fontSizes } = useTheme(ThemeContext)
 
   const togglePwdVisibility = () => {
     setSeePassword(!seePassword)
@@ -76,7 +76,7 @@ export default ({
           fontSize={0}
           aria-live="polite"
           alignSelf="flex-end"
-          ml={space[1]}
+          ml={'16px'}
         >
           {message}
         </Text>
@@ -95,6 +95,7 @@ export default ({
           }}
           autoFocus={autoFocus}
           readOnly={readOnly}
+          spellCheck={false}
         ></StyledInput>
         {password && (
           <Flex

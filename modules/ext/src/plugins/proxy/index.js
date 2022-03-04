@@ -81,6 +81,10 @@ export default {
       name: 'smokewall',
       initialState: true,
     },
+    {
+      name: 'failover',
+      initialState: 'Auto / Best',
+    },
   ],
   onWindowCreated() {
     // removed Jan 15th 2019

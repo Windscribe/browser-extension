@@ -23,7 +23,7 @@ export default () => {
       `}
     >
       <SettingHeader prefName={'Languages'} />
-      <Box ml={3}>
+      <Box mx={3}>
         {Object.keys(ACTIVE_LANGUAGES_MAP).map(lang => (
           <SettingsMenuItem
             key={lang}

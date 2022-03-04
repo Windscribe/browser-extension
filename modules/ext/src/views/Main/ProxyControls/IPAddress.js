@@ -72,7 +72,7 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
   return (
     <WithToolTip
       tip={
-        currentLocationName !== 'cruise_control'
+        status !== 'error' && currentLocationName !== 'cruise_control'
           ? proxyTimeTooltipText({
               timezone,
               status,
@@ -84,7 +84,8 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
       <Flex
         css={css`
           max-width: ${MAX_IP_WIDTH}px;
-          ${proxyTimeEnabled &&
+          ${status !== 'error' &&
+          proxyTimeEnabled &&
           currentLocationName !== 'cruise_control' &&
           `&::after {
             opacity: 0.6;
@@ -103,6 +104,7 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
           px={'4px'}
           ml={'-4px'}
           css={css`
+            user-select: none;
             overflow: hidden;
             text-overflow: ellipsis;
             cursor: ${status === 'error' ? 'default' : 'pointer'};

@@ -3,6 +3,7 @@ import api from 'api'
 import { omit } from 'lodash'
 import { IS_CHROME, SESSION_ERRORS, ACCOUNT_STATES } from 'utils/constants'
 import createCruiseControlList from 'utils/createCruiseControlList'
+import { detectUblock } from 'utils/detectUblock'
 import fetchServerList from 'utils/fetchServerList'
 import getEntries from 'plugins/lexicon'
 import { updateFilterLists, reloadAllFilterLists } from 'plugins/ublock/utils'
@@ -475,7 +476,11 @@ export default actions => [
             silent: true,
           }),
         )
-        dispatch(actions.view.set('Welcome'))
+        dispatch(
+          actions.view.set(
+            (await detectUblock()) ? 'UblockDetected' : 'Welcome',
+          ),
+        )
       } else if (shouldSetExpiredModal) {
         dispatch(actions.view.set('NoData'))
       }

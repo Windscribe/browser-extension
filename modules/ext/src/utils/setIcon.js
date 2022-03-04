@@ -11,12 +11,12 @@ export default async () => {
     console.error('No setIcon browser action')
     return
   }
-  const { online, desktopClient, proxy, session } = store.getState()
+  const { online, proxy, session } = store.getState()
   let icon = proxyOffIcon
   browser.browserAction.setTitle({ title: 'Disconnected' })
 
   if (online) {
-    const desktopConnected = desktopClient.isConnected || !!session?.our_ip
+    const desktopConnected = !!session?.our_ip
     const proxyConnected = proxy.status === 'connected'
 
     if (desktopConnected && proxyConnected) {

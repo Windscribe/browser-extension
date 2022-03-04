@@ -33,21 +33,21 @@ const createSteps = ({ t }) => {
       placement: 'top',
     },
     {
-      target: '.joyride-element-browser',
+      target: '.joyride-element-privacy',
       content: (
         <p>
-          {t('Control your browser proxy')}
+          {t('Control your privacy')}
           <br /> {t('settings by clicking here')}
         </p>
       ),
     },
     {
-      target: '.joyride-element-desktop',
+      target: '.joyride-element-blocker',
       content: (
         <p>
-          {t('Or, if you have the Windscribe app,')}
+          {t('Control your blocker')}
           <br />
-          {t('view your desktop connection')}
+          {t('settings by clicking here')}
         </p>
       ),
       placement: 'left',

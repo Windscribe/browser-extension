@@ -21,6 +21,7 @@ const ToolTip = ({ intl, message, maxWidth, ...props }) => (
         color: white;
         padding: 3px 6px;
         border-radius: 4px;
+        word-break: break-all;
         .tippy-svg-arrow {
           fill: ${tippyBg};
         }

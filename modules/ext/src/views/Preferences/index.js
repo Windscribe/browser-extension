@@ -8,6 +8,7 @@ import { getIsoName } from 'utils/isoLanguagesList'
 import { SettingHeader, SettingsMenuItem } from 'components/Settings'
 import NotificationsIcon from 'assets/notifications-icon.svg'
 import GeneralIcon from 'assets/general-icon.svg'
+import ConnectionIcon from 'assets/connection-icon.svg'
 import BlockerIcon from 'assets/blocker-icon.svg'
 import PrivacyIcon from 'assets/privacy-icon.svg'
 import AccountIcon from 'assets/account-icon.svg'
@@ -64,6 +65,11 @@ export default () => {
           IconLeft={GeneralIcon}
           title={t('General')}
           onClick={() => set('PreferencesGeneral')}
+        />
+        <SettingsMenuItem
+          IconLeft={ConnectionIcon}
+          title={t('Connection')}
+          onClick={() => set('PreferencesConnection')}
         />
         <SettingsMenuItem
           IconLeft={BlockerIcon}

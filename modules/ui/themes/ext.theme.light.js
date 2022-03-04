@@ -6,7 +6,7 @@ const changingColors = {
   fg: palette.darkgrey,
   fgLight: palette.halfblack,
   bg: palette.white,
-  bgLight: palette.halfwhite,
+  bgLight: palette.microblack,
   iconBg: palette.microblack,
   iconBgSolid: '#e5e6e8',
   iconFg: palette.black,

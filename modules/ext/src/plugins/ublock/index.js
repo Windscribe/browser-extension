@@ -8,6 +8,16 @@ export default {
       name: 'ublock',
     },
     {
+      name: 'ublockEnabled',
+      initialState: false,
+      stashOnLogout: true,
+    },
+    {
+      name: 'ublockAsked',
+      initialState: false,
+      stashOnLogout: true,
+    },
+    {
       name: 'blockLists',
       initialState: {
         loading: false,

@@ -94,6 +94,7 @@ export const SESSION_ERRORS = {
   SESSION_EXPIRED: 704, //"403::Session has expired."
   NOT_AVAILIBLE: 705, //"403::Not avaialble for this connection type."
   USER_SUSPENDED: 706, //403::User has status of suspended, action no permitted."
+  IP_SUSPENDED: 707, //403::Suspicious activity detected from your network. Please try again soon."
   NO_AUTH_HASH: 1337,
 }
 
@@ -140,6 +141,7 @@ export const REDUCERS_TO_SYNC = [
   'autoConnect',
   'proxyPort',
   'smokewall',
+  'failover',
   'userAgent',
   'webRTCEnabled',
   'locationSpooferEnabled',
@@ -161,6 +163,10 @@ export const REDUCERS_TO_SYNC = [
   'showDebugContextMenu',
   'workerBlockEnabled',
   'languageSwitchEnabled',
+  'privacyOptionsCount',
+  'ublockEnabled',
+  'ublockAsked',
+  'locationLoadEnabled',
 ]
 
 // all of our used languages are here, name transforms to iso key as per isoLanguagesList.js
@@ -206,8 +212,7 @@ export const AUTH_RESET_MIN_INTERVAL =
 
 export const RENDER_TIMEOUT = process.env.WEB_EXT_RENDER_TIMEOUT || 5000
 
-export const PROXY_PORT =
-  process.env.WEB_EXT_PROXY_PORT || IS_FIREFOX ? 80 : 443
+export const PROXY_PORT = process.env.WEB_EXT_PROXY_PORT || '443'
 
 export const API_CALL_MIN_INTERVAL =
   process.env.WEB_EXT_API_CALL_MIN_INTERVAL || 1000

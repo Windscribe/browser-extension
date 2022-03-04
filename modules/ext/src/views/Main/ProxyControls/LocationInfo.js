@@ -18,69 +18,55 @@ const selector = createSelector(
   },
 )
 
-export default memo(
-  ({ doubleHop, setIsHovering = false, desktopLocation = {} }) => {
-    const { name, nickname, isCruiseControl } = useSelector(selector)
+export default memo(({ setIsHovering = false }) => {
+  const { name, nickname, isCruiseControl } = useSelector(selector)
 
-    const dispatch = useDispatch()
-    const isOS = desktopLocation?.name ? true : false
+  const dispatch = useDispatch()
 
-    const locationName = isOS
-      ? desktopLocation?.name
-      : !isCruiseControl
-      ? name
-      : 'autopilot'
+  const locationName = !isCruiseControl ? name : 'autopilot'
 
-    const locationNickName = isOS
-      ? desktopLocation?.nickname
-      : !isCruiseControl
-      ? nickname
-      : ''
+  const locationNickName = !isCruiseControl ? nickname : ''
 
-    return (
-      <Flex
-        mt={'10px'}
-        mb={
-          isOS && doubleHop ? '2px' : !isOS && isCruiseControl ? '6px' : '0px'
-        }
-        alignItems="center"
+  return (
+    <Flex
+      mt={'10px'}
+      mb={isCruiseControl ? '6px' : '0px'}
+      alignItems="center"
+      css={css`
+        cursor: ${'pointer'};
+      `}
+      onMouseEnter={() => setIsHovering && setIsHovering(true)}
+      onMouseLeave={() => setIsHovering && setIsHovering(false)}
+      onClick={() => dispatch(actions.view.set('Locations'))}
+    >
+      <div
         css={css`
-          cursor: ${isOS ? 'default' : 'pointer'};
+          flex-direction: column;
+          display: inline-flex;
+          max-width: 170px;
         `}
-        onMouseEnter={() => setIsHovering && setIsHovering(true)}
-        onMouseLeave={() => setIsHovering && setIsHovering(false)}
-        onClick={() => !isOS && dispatch(actions.view.set('Locations'))}
       >
-        <div
+        <Text
           css={css`
-            flex-direction: column;
-            display: inline-flex;
-            max-width: 170px;
+            font-size: 16px;
           `}
+          color={'white'}
+          fontWeight="bold"
         >
-          <Text
-            css={css`
-              font-size: 16px;
-            `}
-            color={'white'}
-            fontWeight="bold"
-          >
-            {startCase(locationName)}
-          </Text>
-          <Text
-            mt={'10px'}
-            mb={!isOS ? '4px' : ''}
-            css={css`
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}
-            fontSize={1}
-            color={'white'}
-          >
-            {startCase(locationNickName)}
-          </Text>
-        </div>
-      </Flex>
-    )
-  },
-)
+          {startCase(locationName)}
+        </Text>
+        <Text
+          mt={'10px'}
+          css={css`
+            overflow: hidden;
+            text-overflow: ellipsis;
+          `}
+          fontSize={1}
+          color={'white'}
+        >
+          {startCase(locationNickName)}
+        </Text>
+      </div>
+    </Flex>
+  )
+})

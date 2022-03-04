@@ -4,12 +4,12 @@
     <title>help_icon</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill-rule="evenodd">
+    <g id="Page-1" stroke="none" stroke-width="1">
         <g id="Preferences---Add-Email" transform="translate(-424.000000, -99.000000)">
             <g id="Group-8" transform="translate(146.000000, 75.000000)">
                 <g id="Group-51-Copy-3" transform="translate(278.000000, 24.000000)">
                     <g id="Group-49" transform="translate(7.000000, 14.000000)"></g>
-                    <path d="M7,14 L9,14 L9,16 L7,16 L7,14 Z M9,12 L7,12 L7,8 L8,8 C9.65685425,8 11,6.65685425 11,5 C11,3.34314575 9.65685425,2 8,2 C6.34314575,2 5,3.34314575 5,5 L3,5 C3,2.23857625 5.23857625,0 8,0 C10.7614237,0 13,2.23857625 13,5 C13,7.41895791 11.2822403,9.43671155 9,9.89998188 L9,12 Z" id="help_icon" fill="#000000"></path>
+                    <path d="M7,14 L9,14 L9,16 L7,16 L7,14 Z M9,12 L7,12 L7,8 L8,8 C9.65685425,8 11,6.65685425 11,5 C11,3.34314575 9.65685425,2 8,2 C6.34314575,2 5,3.34314575 5,5 L3,5 C3,2.23857625 5.23857625,0 8,0 C10.7614237,0 13,2.23857625 13,5 C13,7.41895791 11.2822403,9.43671155 9,9.89998188 L9,12 Z" id="help_icon"></path>
                 </g>
             </g>
         </g>

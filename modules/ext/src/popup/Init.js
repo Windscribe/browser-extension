@@ -4,8 +4,8 @@ import { actions } from 'state'
 import LoadingScreen from 'components/LoadingScreen'
 import { RENDER_TIMEOUT } from 'utils/constants'
 import StoreTimeoutAlert from './StoreTimeoutAlert'
-import { OverrideAppHeight } from 'components/Utils'
 import App from './App'
+import { OverrideAppHeight } from 'components/Utils'
 
 const ACTIVITY = 'open_popup'
 
@@ -56,7 +56,7 @@ export default ({ popupHeight = '300px', store }) => {
       {showTimeoutError && <StoreTimeoutAlert ACTIVITY={ACTIVITY} />}
       {shouldRender && (
         <Suspense fallback={<LoadingScreen />}>
-          <App store={store} popupHeight={popupHeight} />
+          <App popupHeight={popupHeight} store={store} />
         </Suspense>
       )}
       {!shouldRender && !showTimeoutError && <LoadingScreen />}

@@ -9,7 +9,7 @@ export const Menu = styled(Box)`
 `
 
 export const MenuItem = styled(SimpleButton)`
-  padding: 16px 16px 16px 0px;    
+  padding: 16px 16px 16px 0px;
   width: 100%;
   border-bottom: 2px solid ${({ theme }) => theme.colors.divider};
   cursor: pointer;
@@ -21,13 +21,6 @@ export const MenuItem = styled(SimpleButton)`
 
   &:last-child {
     margin-bottom: ${({ theme }) => theme.space[2]};
-  }
-
-  &:hover
-    svg {
-      fill: ${({ active = false, theme }) =>
-        active ? theme.colors.primary : theme.colors.inactive}
-    }
   }
 `
 export const DeleteButton = styled(Button)`

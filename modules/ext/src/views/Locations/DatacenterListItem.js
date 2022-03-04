@@ -1,7 +1,7 @@
 // @ts-nocheck
 /** @jsx jsx */
 import { jsx, ThemeContext } from '@emotion/core'
-import { Box, Flex } from '@rebass/emotion'
+import { Box, Flex, Text } from '@rebass/emotion'
 import { useTheme } from 'ui/hooks'
 import BaseListItem from './BaseListItem'
 import Heart from 'assets/heart.svg'
@@ -12,6 +12,16 @@ import ProLocationIcon from 'assets/star.svg'
 import Arrow from 'assets/right-arrow-icon.svg'
 import DownIcon from 'assets/locationIcons/dc_down.svg'
 
+const getHealthColor = (health, colors) => {
+  if (health < 60) {
+    return colors.green
+  } else if (health < 89) {
+    return colors.yellow
+  } else {
+    return colors.red
+  }
+}
+
 /**
  * List item for an individual datacenter (inside a location). Can be clicked or toggled as
  * a favourite.
@@ -20,6 +30,7 @@ export default function DatacenterListItem({
   onClick,
   nick,
   city,
+  health,
   id,
   isFavourite,
   onHeartIconClick,
@@ -28,13 +39,14 @@ export default function DatacenterListItem({
   isUserPro,
   isProOnly,
   isDisabled = false,
+  locationLoadEnabled,
 }) {
-  const theme = useTheme(ThemeContext)
+  const { colors } = useTheme(ThemeContext)
 
   const icon = (() => {
     if (isDisabled) {
       if (!isUserPro && isProOnly) {
-        return <ProLocationIcon fill={theme.colors.fg} />
+        return <ProLocationIcon fill={colors.fg} />
       } else {
         return (
           <Flex css={{ justifyContent: 'center', width: '32px' }}>
@@ -59,14 +71,14 @@ export default function DatacenterListItem({
           }}
         >
           {isFavourite ? (
-            <Heart fill={theme.colors.fg} />
+            <Heart fill={colors.fg} />
           ) : (
-            <HeartOutline fill={theme.colors.fgLight} />
+            <HeartOutline fill={colors.fgLight} />
           )}
         </FaveIcon>
       )
     } else {
-      return <ProLocationIcon fill={theme.colors.fg} />
+      return <ProLocationIcon fill={colors.fg} />
     }
   })()
 
@@ -78,29 +90,29 @@ export default function DatacenterListItem({
       css={{
         ':hover .datacenter-list-item-arrow': {
           path: {
-            fill: theme.colors.fg,
+            fill: colors.fg,
           },
         },
         ':hover .datacenter-list-item-upgrade-text': {
           opacity: '1.0',
+        },
+        ':hover .datacenter-list-item-health-bar': {
+          opacity: '1.0 !important',
         },
       }}
     >
       <Flex
         css={{
           flexDirection: 'row',
-          '& > :not(:last-child)': {
-            marginRight: theme.space[4],
-          },
-          marginRight: theme.space[4],
+          margin: '16px 16px 16px 0',
         }}
       >
         {icon}
         <Flex css={{ alignItems: 'center' }} aria-label={city}>
-          {city}
-          <span css={{ fontWeight: 'bold', marginLeft: theme.space[2] }}>
-            {nick}
-          </span>
+          <Text css={{ fontWeight: '700' }} aria-label={city}>
+            {city}
+          </Text>
+          <Text css={{ marginLeft: '8px' }}>{nick}</Text>
         </Flex>
         <Box css={{ flex: '1' }}></Box>
         <Flex css={{ alignItems: 'center' }}>
@@ -113,7 +125,7 @@ export default function DatacenterListItem({
                 path: {
                   transitionProperty: 'fill',
                   transitionDuration: '0.2s',
-                  fill: hasCursor ? theme.colors.fg : theme.colors.divider,
+                  fill: hasCursor ? colors.fg : colors.divider,
                 },
               }}
             />
@@ -131,6 +143,20 @@ export default function DatacenterListItem({
           )}
         </Flex>
       </Flex>
+      {locationLoadEnabled && (
+        <Flex justifyContent={'space-between'}>
+          <Box
+            className="datacenter-list-item-health-bar"
+            width={`${health}%`}
+            height={'2px'}
+            bg={getHealthColor(health, colors)}
+            css={{
+              opacity: '0.5',
+              marginLeft: '8px',
+            }}
+          />
+        </Flex>
+      )}
     </BaseListItem>
   )
 }

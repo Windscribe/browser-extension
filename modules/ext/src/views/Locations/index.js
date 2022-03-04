@@ -33,6 +33,7 @@ export default function Locations() {
     s => s.currentLocation,
     s => s.session,
     s => s.locationSorting,
+    s => s.locationLoadEnabled,
     (...xs) => xs,
   )
   const [
@@ -42,6 +43,7 @@ export default function Locations() {
     currentLocation,
     session,
     locationSorting,
+    locationLoadEnabled,
   ] = useSelector(selector)
   const globalDispatch = useDispatch()
   const { status, username } = useConnect(s => s.session)
@@ -143,7 +145,7 @@ export default function Locations() {
 
   const onHeartIconClick = useCallback(datacenterId => {
     const [location, datacenter] = getDatacenter(datacenterId)
-    const { city, nick, gps, hosts, pro } = datacenter
+    const { city, nick, gps, hosts, pro, health } = datacenter
     const { country_code } = location
     globalDispatch(
       actions.favoriteLocations.toggle({
@@ -155,6 +157,7 @@ export default function Locations() {
         isCenterPro: pro === 1,
         dataCenterId: datacenter.id,
         locationId: location.id,
+        health,
       }),
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -341,6 +344,7 @@ export default function Locations() {
                 state={locationsListState}
                 dispatch={locationsListDispatch}
                 favouritesList={favoriteLocations}
+                locationLoadEnabled={locationLoadEnabled}
                 currentDatacenterId={currentLocation.dataCenterId}
                 isConnected={proxy.status === 'connected'}
                 initialSortBy={locationSorting}
@@ -354,6 +358,7 @@ export default function Locations() {
                 onDatacenterSelected={onDatacenterSelected}
                 onHeartIconClick={onHeartIconClick}
                 isUserPro={session.is_premium}
+                locationLoadEnabled={locationLoadEnabled}
               />
             ),
           }[currentView]

@@ -61,6 +61,7 @@ export default ({ home = () => websiteLink({ path: '/' }) }) => {
               backgroundImage: `url(${splashbg})`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: '324px 300px',
+              // minHeight: '300px',
             }}
           >
             <Header home={home} />

@@ -45,7 +45,16 @@ const parseResponse = async ({ response, debug = null }: ParseResponseArgs) => {
       } as ApiException
     }
   } else {
-    resData = await response.json()
+    resData = await response
+      .json()
+      .then(data => data)
+      .catch(() => ({
+        errorCode: 707,
+        errorMessage:
+          'Suspicious activity detected from your network. Please try again soon',
+        errorDescription: 'Suspicious activity detected from your network',
+        logStatus: null,
+      }))
     // handle json response errors
     if (Object.keys(resData).length === 0) {
       let errCode = 0

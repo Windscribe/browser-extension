@@ -47,8 +47,14 @@ export const palette = {
   microwhite: 'rgba(255, 255, 255, 0.1)',
   nanowhite: 'rgba(255, 255, 255, 0.05)',
   darkgrey: '#1a2432',
-  halfdarkgrey: '#1a243280',
+  halfdarkgrey: 'rgba(255, 255, 255, 0.08)',
   green: '#55ff8a',
+  lightGreen: 'rgba(49, 151, 91, 0.7)',
+
+  trueblack: 'rgba(0, 0, 0)',
+  truehalfblack: 'rgba(0, 0, 0, 0.5)',
+  truemicroblack: 'rgba(0, 0, 0, 0.15)',
+  truenanoblack: 'rgba(0, 0, 0, 0.08)',
 
   lightblue: '#a0feda',
   orange: '#ff8e00',

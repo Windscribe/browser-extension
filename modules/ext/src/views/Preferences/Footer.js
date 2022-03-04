@@ -24,8 +24,15 @@ const selector = createSelector(
 const LinkIconButtonThemed = styled(LinkIconButton)`
   background: ${({ theme }) => theme.colors.iconBg} !important;
   path {
-    fill: ${({ theme }) => theme.colors.iconFg} !important;
+    transition: 0.3s;
+    fill: ${({ theme }) => theme.colors.fgLight} !important;
   }
+  &:hover {
+    path {
+      fill: ${({ theme }) => theme.colors.fg} !important;
+    }
+  },
+}}
 `
 
 // eslint-disable-next-line no-unused-vars

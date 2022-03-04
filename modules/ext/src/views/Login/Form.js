@@ -4,7 +4,6 @@ import Footer from './Footer'
 import styled from '@emotion/styled'
 import { useConnect, useDispatch, useTheme } from 'ui/hooks'
 import { actions } from 'state'
-import { SESSION_ERRORS } from '../../utils/constants'
 import { debounce } from 'lodash'
 import LoadingScreen from 'components/LoadingScreen'
 import { useTranslation } from 'react-i18next'
@@ -18,33 +17,6 @@ const Form = styled.form`
   flex-direction: column;
   padding: ${({ theme }) => theme.space[2]};
 `
-
-const getLoginErrorMessage = ({ code, expiredUsername }) => {
-  if (code) {
-    switch (code) {
-      case 1337:
-        return `You already have an account, ${expiredUsername}, that has run out of data.
-        You must upgrade or wait for your free allowance to reset.`
-      case 1997:
-        return 'Username only, not your email'
-      case 502:
-      case 702:
-        return 'Wrong username or password'
-      case 706:
-        return 'Your account has been banned.'
-      case SESSION_ERRORS.SESSION_INVALID:
-      case 500:
-        return 'Your session is no longer valid. Please relog in.'
-      case 1340:
-        return 'Required to proceed'
-      case 1341:
-        return 'Incorrect, try again'
-      default:
-        return 'Windscribe has encountered a problem. Please try again later.'
-    }
-  }
-  return 'An unknown error occurred. Are you connected to the internet?'
-}
 const TextButton = styled(SimpleButton)`
   ${({ theme }) => `
     font-size: ${theme.fontSizes[1]};
@@ -113,7 +85,7 @@ export default () => {
     }
 
     browser.storage.local.get('user').then(({ user }) => {
-      setUsername(user)
+      if (user) setUsername(user)
     })
   }, [])
   //#endregion
@@ -122,10 +94,10 @@ export default () => {
     set2FAError(undefined)
     setErrorMessage(undefined)
     if (session.error) {
-      const msg = getLoginErrorMessage({
-        code: session.error.data?.errorCode,
-        expiredUsername,
-      })
+      let msg = session.error.data?.errorMessage
+      if (!msg) {
+        msg = 'An unknown error occurred. Are you connected to the internet?'
+      }
       //2FA error codes
       if (
         session.error.data?.errorCode === 1340 ||

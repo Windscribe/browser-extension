@@ -99,12 +99,8 @@ export default ({ store }) => {
         styles={css`
           ${emotionNormalize};
           * {
-            user-select: none;
             outline: none;
             box-sizing: border-box;
-          }
-          body {
-            background-color: black;
           }
           #app-frame > div {
             overflow: hidden;

@@ -4,7 +4,7 @@ import { useDispatch, useConnect } from 'ui/hooks'
 import { actions } from 'state'
 import styled from '@emotion/styled'
 import LeftArrow from 'assets/left-arrow-icon.svg'
-import { Flex, Text } from '@rebass/emotion'
+import { Flex } from '@rebass/emotion'
 import { IconButton } from 'ui/Button'
 import { WithToolTip } from 'components/Utils'
 import { useTheme } from 'ui/hooks'
@@ -26,7 +26,6 @@ export default ({
   additionalIconTip,
   showBackButton = true,
   AdditionalIcon,
-  noShadow = false,
   invert = false,
   usePrimary = false,
   shouldGoBack = true,
@@ -43,30 +42,9 @@ export default ({
     dispatch(actions.scrollToConnected.set(true)) &&
     dispatch(actions.view.back())
   const [prevPage] = view.previous.reverse()
-  const iconProps = {
-    css: {
-      '& > path': {
-        fill: usePrimary
-          ? colors.white
-          : invert
-          ? colors.iconBg
-          : colors.iconFg,
-      },
-    },
-    ...additionalIconProps,
-  }
 
   return (
-    <Flex
-      {...restProps}
-      flexDirection="column"
-      css={
-        !noShadow &&
-        css`
-          box-shadow: 0 2px 0 ${colors.divider};
-        `
-      }
-    >
+    <Flex {...restProps} flexDirection="column">
       <Flex
         p={3}
         css={css`
@@ -77,57 +55,61 @@ export default ({
           <BackArrowContainer
             aria-label={`Back to ${prevPage}`}
             onClick={shouldGoBack ? goBack : undefined}
-            css={css`
-              background: ${invert ? colors.bg : colors.iconBg} !important;
-            `}
+            css={{
+              background: `${invert ? colors.bg : colors.iconBg} !important`,
+              transition: '0.3s',
+              fill: colors.fgLight,
+              ':hover': {
+                fill: colors.fg,
+              },
+            }}
           >
-            <LeftArrow
-              css={css`
-                path {
-                  fill: ${colors.fg};
-                }
-              `}
-            />
+            <LeftArrow />
           </BackArrowContainer>
         )}
         <Flex
-          mr={AdditionalIcon ? 0 : 3}
+          mr={AdditionalIcon ? 0 : '32px'}
           css={css`
             flex: 1 1;
             justify-content: center;
             align-items: center;
           `}
         >
-          <Text
+          <Flex
             fontSize={4}
             fontWeight="bold"
-            css={css`
-              color: ${invert ? colors.white : colors.fg};
-            `}
+            css={{
+              color: `${invert ? colors.white : colors.fg}`,
+            }}
           >
             {prefName}
-          </Text>
+          </Flex>
         </Flex>
-        {
-          /* TODO: AdditionalIcon is very specific and confusing. Abstract better. */
-          AdditionalIcon && (
-            <WithToolTip tip={additionalIconTip}>
-              <IconButton
-                aria-label={additionalIconTip}
-                css={css`
-                  background: ${usePrimary
+        {/* TODO: AdditionalIcon is very specific and confusing. Abstract better. */}
+        {AdditionalIcon && (
+          <WithToolTip tip={additionalIconTip}>
+            <IconButton
+              aria-label={additionalIconTip}
+              css={{
+                background: `${
+                  usePrimary
                     ? colors.primary
                     : invert
                     ? colors.bg
-                    : colors.iconBg} !important;
-                `}
-                {...buttonProps}
-              >
-                <AdditionalIcon {...iconProps} />
-              </IconButton>
-            </WithToolTip>
-          )
-        }
+                    : colors.iconBg
+                } !important`,
+                transition: '0.3s',
+                fill: colors.fgLight,
+                ':hover': {
+                  fill: colors.fg,
+                },
+              }}
+              {...buttonProps}
+            >
+              <AdditionalIcon {...additionalIconProps} />
+            </IconButton>
+          </WithToolTip>
+        )}
         {searchInput && (
           <SearchInput
             searchInputOnChange={searchInputOnChange}

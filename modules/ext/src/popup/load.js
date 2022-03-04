@@ -32,7 +32,6 @@ window[IS_FIREFOX ? 'onunload' : 'onblur'] = () => {
 }
 
 window.store = store
-
 browser.storage.local.get('popupHeight').then(({ popupHeight }) => {
   ReactDOM.render(
     <ThemeProvider theme={darkTheme}>

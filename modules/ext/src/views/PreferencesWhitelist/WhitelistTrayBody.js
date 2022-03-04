@@ -32,29 +32,24 @@ const ConfigItem = ({
       pb={3}
       pt={4}
       pr={4}
-      css={css`
-        ${disabled && `cursor: default;`}
-      `}
+      css={{
+        transition: '0.3s',
+        color: active ? colors.fg : colors.fgLight,
+        cursor: 'pointer',
+        ':hover': {
+          color: colors.fg,
+        },
+      }}
     >
       <Box
         css={css`
           .text {
             text-align: left;
-            transition: color ease 0.5s;
-            ${!disabled &&
-            `&:hover {
-                color: ${colors.fg};
-          }`}
           }
         `}
         flex={1}
       >
-        <Text
-          className="text"
-          fontWeight={700}
-          fontSize={1}
-          color={active ? colors.fg : colors.fgLight}
-        >
+        <Text className="text" fontWeight={700} fontSize={1}>
           {message}
         </Text>
       </Box>
@@ -69,7 +64,7 @@ const ConfigItem = ({
           />
         </WebLink>
       ) : (
-        <CheckIcon fill={active ? colors.primary : colors.fgLight} />
+        <CheckIcon fill={active ? colors.primary : colors.inactive} />
       )}
     </MenuItem>
   )
@@ -123,6 +118,7 @@ export default ({ trayTabIndex }) => {
           onChange={() =>
             configDispatch({ type: 'toggleIncludeAllSubdomains' })
           }
+          css={{ marginRight: '16px' }}
         />
       </Box>
 

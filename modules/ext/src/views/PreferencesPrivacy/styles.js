@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import { keyframes } from '@emotion/core'
 import { Flex, Box } from '@rebass/emotion'
-import { InlineButton } from 'ui/Button'
 import splitIconLightBase64 from './splitIconLightBase64'
 import splitIconDarkBase64 from './splitIconDarkBase64'
 import proxyTimeIconBase64 from './proxyTimeIconBase64'
@@ -19,7 +18,6 @@ export const RotateContainer = styled(Box)`
 export const CookieMonsterSelectContainer = styled(Flex)`
   flex-direction: column;
   display: ${({ visible = false }) => !visible && 'none'};
-  padding-left: ${({ theme }) => theme.space[3]};
 
   & > * {
     padding: ${({ theme }) => theme.space[2]} 0;
@@ -36,12 +34,12 @@ export const CookieMonsterSelectContainer = styled(Flex)`
   }
 `
 
-export const CookieMonsterButton = styled(InlineButton)`
-  display: flex;
+export const CookieMonsterButton = styled(Flex)`
+  cursor: pointer;
   justify-content: space-between;
   position: relative;
   color: ${({ active = false, theme }) =>
-    active ? theme.colors.primary : theme.colors.fg};
+    active ? theme.colors.fg : theme.colors.fgLight};
   width: 100%;
 `
 
@@ -66,6 +64,7 @@ export const SplitIconStyled = styled.div`
   height: 16px;
   background-repeat: no-repeat;
   cursor: pointer;
+  fill: red;
 `
 
 export const ProxyTimeIconStyled = styled.div`

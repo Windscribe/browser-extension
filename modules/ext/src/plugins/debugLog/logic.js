@@ -195,7 +195,7 @@ export default actions => [
             contexts: ['all'],
           })
         } else {
-          browser.contextMenus.removeAll()
+          browser.contextMenus.remove('view-debug-log')
         }
         dispatch(actions.showDebugContextMenu.set(newValue))
         done()

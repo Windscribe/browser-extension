@@ -31,7 +31,6 @@ const createFindProxyForURLFunction = ({
         '*://assets.windscribe.com/*',
         '*://*.staticnetcontent.com/*',
         'https://windscribe.com/installed/*',
-        'https://wsappcontrol.com:13337/',
       ].concat(userWhitelist)
 
       return [

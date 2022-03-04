@@ -5,8 +5,9 @@ import { actions } from 'state'
 
 export default () => {
   const dispatch = useDispatch()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const goToMain = useCallback(() => dispatch(actions.view.set('Main')), [])
+  const goToMain = useCallback(async () => dispatch(actions.view.set('Main')), [
+    dispatch,
+  ])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const startOnboarding = useCallback(() =>
     dispatch(actions.showOnboarding.set(true), []),

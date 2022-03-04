@@ -24,6 +24,8 @@ export default {
   ],
   onPermissionAdded: ({ permissions }) => {
     if (permissions.includes('contentSettings')) {
+      const { privacyOptionsCount } = store.getState()
+      store.dispatch(actions.privacyOptionsCount.set(privacyOptionsCount + 1))
       store.dispatch(
         actions.notificationBlockerEnabled.setandlog({
           value: true,

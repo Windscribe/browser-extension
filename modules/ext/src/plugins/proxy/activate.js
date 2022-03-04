@@ -368,11 +368,32 @@ export default actions => ({
             )
             break
           case RECOVERY_STATES[1]:
-            const currentLocationData = serverList.data.find(
-              x => x.id === currentLocation.locationId,
-            )
-            const newLocationData = Object.entries(currentLocationData).reduce(
-              (acc, [key, value]) => {
+            if (getState().failover === 'Auto / Best') {
+              await getBestLocation({
+                serverList,
+                dispatch,
+                premium: session.is_premium,
+                activity: recoveryMode,
+              })
+              pushToDebugLog({
+                activity: logActivity,
+                level: 'INFO',
+                message: `proxy recovery ${recoveryStateIndex} - reset to AutoPilot`,
+              })
+              dispatch(actions.currentLocation.set(autoPilot))
+            }
+            break
+          case RECOVERY_STATES[2]:
+            if (
+              getState().failover !== 'None' &&
+              getState().failover !== 'None'
+            ) {
+              const currentLocationData = serverList.data.find(
+                x => x.id === currentLocation.locationId,
+              )
+              const newLocationData = Object.entries(
+                currentLocationData,
+              ).reduce((acc, [key, value]) => {
                 if (key === 'groups') {
                   acc[key] = value.filter(
                     i => i.id !== currentLocation.dataCenterId,
@@ -381,40 +402,25 @@ export default actions => ({
                   acc[key] = value
                 }
                 return acc
-              },
-              {},
-            )
-            pushToDebugLog({
-              activity: logActivity,
-              level: 'INFO',
-              message: `proxy recovery ${recoveryStateIndex} - resetToSameLocation: ${JSON.stringify(
-                newLocationData,
-              )}`,
-            })
-            dispatch(
-              actions.currentLocation.set(
-                resetToSameLocation({
-                  serverList,
+              }, {})
+              pushToDebugLog({
+                activity: logActivity,
+                level: 'INFO',
+                message: `proxy recovery ${recoveryStateIndex} - resetToSameLocation: ${JSON.stringify(
                   newLocationData,
-                  groups: newLocationData.groups,
-                  pro: session.is_premium,
-                }),
-              ),
-            )
-            break
-          case RECOVERY_STATES[2]:
-            await getBestLocation({
-              serverList,
-              dispatch,
-              premium: session.is_premium,
-              activity: recoveryMode,
-            })
-            pushToDebugLog({
-              activity: logActivity,
-              level: 'INFO',
-              message: `proxy recovery ${recoveryStateIndex} - reset to AutoPilot`,
-            })
-            dispatch(actions.currentLocation.set(autoPilot))
+                )}`,
+              })
+              dispatch(
+                actions.currentLocation.set(
+                  resetToSameLocation({
+                    serverList,
+                    newLocationData,
+                    groups: newLocationData.groups,
+                    pro: session.is_premium,
+                  }),
+                ),
+              )
+            }
             break
           default:
             break

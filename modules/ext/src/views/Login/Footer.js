@@ -13,7 +13,6 @@ const LoginButton = styled(SimpleButton)`
   background-color: ${enabled ? theme.colors.green : theme.colors.iconBg};
   font-size: ${theme.fontSizes[1]} ; 
   margin-right:${theme.space[2]};
-  margin-bottom:${theme.space[3]}
   ${
     enabled
       ? `&:hover,
@@ -30,7 +29,7 @@ const TextButton = styled(SimpleButton)`
   ${({ theme }) => `
     font-size: ${theme.fontSizes[1]};
     color: ${theme.colors.fgLight};
-    padding-bottom:${theme.space[2]};
+    padding-bottom: 6px;
     vertical-align: center;
     &:hover,&:focus{
       color: ${theme.colors.fg};

@@ -41,6 +41,7 @@ const LocationListItem = memo(
     countryCode,
     isProOnly,
     isUserPro,
+    locationLoadEnabled,
   }) => {
     const [datacentersHeight, setDatacentersHeight] = useState(null)
     const dataCentersRef = useRef(null)
@@ -64,7 +65,7 @@ const LocationListItem = memo(
       }
     }, [isExpandedOrSearchOnlyMatchesDatacenter])
 
-    const Flag = flags[countryCode]
+    const Flag = flags[countryCode] || flags['AUTO']
     const theme = useTheme(ThemeContext)
 
     const { status, username } = useConnect(s => s.session)
@@ -165,7 +166,7 @@ const LocationListItem = memo(
             (isLocationMatchedInSearch
               ? datacenters
               : searchFilteredDatacenters
-            ).map(({ nick, city, id, pro, hosts }, index) => {
+            ).map(({ nick, city, id, pro, hosts, health }, index) => {
               const isFavourite =
                 favouritesList.findIndex(favourite => {
                   return favourite.dataCenterId === id
@@ -175,6 +176,7 @@ const LocationListItem = memo(
                   key={index}
                   nick={nick}
                   city={city}
+                  health={health}
                   id={id}
                   isFavourite={isFavourite}
                   onHeartIconClick={() => onHeartIconClick(id)}
@@ -187,6 +189,7 @@ const LocationListItem = memo(
                   isUserPro={isUserPro}
                   isProOnly={pro === 1}
                   isDisabled={!hosts || hosts.length === 0}
+                  locationLoadEnabled={locationLoadEnabled}
                 />
               )
             })}

@@ -65,7 +65,7 @@ export const IconButtonStyle = ({
   width: 32px;
   height: 32px;
   position: relative;
-  transition: ${defaultTransition}, box-shadow ease 0.3s;
+  transition: 0.3s;
 
   &:active,
   &:focus {

@@ -22,6 +22,7 @@ export default function LocationsList({
   state,
   dispatch,
   favouritesList,
+  locationLoadEnabled,
 
   // some locations can only be connected to with a pro account
   isUserPro = false,
@@ -199,7 +200,7 @@ export default function LocationsList({
       )}
       <div
         css={{
-          paddingLeft: theme.space[4],
+          padding: '0 0 16px 16px',
         }}
       >
         {!isSearching && (
@@ -268,6 +269,7 @@ export default function LocationsList({
                 favouritesList={favouritesList}
                 isProOnly={premium_only === 1}
                 isUserPro={isUserPro}
+                locationLoadEnabled={locationLoadEnabled}
               />
             )
           },
