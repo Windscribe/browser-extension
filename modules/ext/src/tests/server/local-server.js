@@ -36,4 +36,9 @@ expressServer.use(
   express.static(path.join(__dirname, 'static', 'proxyTime')),
 )
 
+expressServer.use(
+  '/languageWarp',
+  express.static(path.join(__dirname, 'static', 'languageWarp')),
+)
+
 module.exports = expressServer

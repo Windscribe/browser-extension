@@ -41,7 +41,7 @@ export default ({
   const goBack = () =>
     dispatch(actions.scrollToConnected.set(true)) &&
     dispatch(actions.view.back())
-  const [prevPage] = view.previous.reverse()
+  const prevPage = view.previous[view.previous.length - 1]
 
   return (
     <Flex {...restProps} flexDirection="column">

@@ -243,25 +243,6 @@ const OtherExtension = ({ close }) => {
   )
 }
 
-const ConfirmAdvancedMode = ({ close, toggleAdvancedMode }) => {
-  const { t } = useTranslation()
-  return (
-    <>
-      <ConfirmButton onClick={close}>
-        <Text fontSize={1} p={1} level={3}>
-          {t('Take me back')}
-        </Text>
-      </ConfirmButton>
-
-      <CancelButton onClick={toggleAdvancedMode}>
-        <Text fontSize={1} p={1} level={3}>
-          {t("Yes, I'm sure")}
-        </Text>
-      </CancelButton>
-    </>
-  )
-}
-
 const GhostNotAllowed = ({ close, goToSignUp }) => {
   const { t } = useTranslation()
   return (
@@ -391,13 +372,6 @@ const getContent = ({ status, t }) => {
         ),
         img: rateUsGarry,
         AdditionalComponent: RateUs,
-      }
-    case 'confirmAdvancedMode':
-      return {
-        title: t('Are you sure?'),
-        message: t('This will disable all of your current blocker settings.'),
-        img: cautionGarry,
-        AdditionalComponent: ConfirmAdvancedMode,
       }
     case 'somethingWeird':
       return {

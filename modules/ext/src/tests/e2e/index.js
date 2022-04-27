@@ -1,16 +1,18 @@
 const { flatten } = require('lodash')
-const createUser = require('../admin/createTestUser')
+// const createUser = require('../admin/createTestUser')
 const login = require('./login')
 const onBoarding = require('./onBoarding')
 const connect = require('./connect')
-const smokewall = require('./smokewall')
+const general = require('./general')
+const connection = require('./connection')
 
 const domains = {
-  createUser,
+  // createUser,
   login,
   onBoarding,
   connect,
-  smokewall,
+  general,
+  connection,
 }
 
 module.exports = (whitelist = []) =>

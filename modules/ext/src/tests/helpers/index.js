@@ -24,6 +24,18 @@ const click = async (popup, selector) => {
   }
 }
 
+const find = async (popup, selector) => {
+  try {
+    await popup.waitForSelector(selector, {
+      visible: true,
+      timeout: 500,
+    })
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 const getState = page =>
   page.evaluate(
     // NOTE: this function gets stringified!
@@ -59,4 +71,5 @@ module.exports = {
   getState,
   screenshot,
   click,
+  find,
 }

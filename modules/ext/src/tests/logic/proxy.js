@@ -12,13 +12,13 @@ module.exports = [
         browser.proxy.settings.get({}, resolve),
       )
 
-      const { status } = store.getState().proxy
+      const { status } = await store.getState().proxy
 
       return [settings, status]
     },
     assert: ([settings, status]) => {
-      expect(status).to.equal('disconnected')
-      expect(settings.value.mode).to.equal('system')
+      expect(status).to.equal('connected')
+      expect(settings.value.mode).to.equal('pac_script')
     },
   },
   {

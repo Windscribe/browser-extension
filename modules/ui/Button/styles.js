@@ -67,8 +67,7 @@ export const IconButtonStyle = ({
   position: relative;
   transition: 0.3s;
 
-  &:active,
-  &:focus {
+  &:hover {
     ${{
       focusBackground,
       boxShadow: `0 0 0 8px ${

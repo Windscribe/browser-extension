@@ -185,13 +185,6 @@ export const WHITELIST_DOMAIN_TABLE = {
   'www.netflix.com': ['nflxvideo.net'],
 }
 
-// TODO: set this in plugin
-export const DO_NOT_CLEAR_ON_LOGOUT = [
-  'expiredUsername',
-  'userStashes',
-  'bgReady',
-]
-
 export const SESSION_POLLER_INTERVAL =
   +process.env.WEB_EXT_SESSION_POLLER_INTERVAL || 600000 // 10 minute
 
@@ -208,11 +201,12 @@ export const AUTH_ERROR_COUNT_MAX =
   process.env.WEB_EXT_AUTH_ERROR_COUNT_MAX || 50
 
 export const AUTH_RESET_MIN_INTERVAL =
-  process.env.WEB_EXT_AUTH_RESET_MIN_INTERVAL || 5000
+  process.env.WEB_EXT_AUTH_RESET_MIN_INTERVAL || 250
 
 export const RENDER_TIMEOUT = process.env.WEB_EXT_RENDER_TIMEOUT || 5000
 
-export const PROXY_PORT = process.env.WEB_EXT_PROXY_PORT || IS_FIREFOX ? '80' : '443'
+export const PROXY_PORT =
+  process.env.WEB_EXT_PROXY_PORT || IS_FIREFOX ? '80' : '443'
 
 export const API_CALL_MIN_INTERVAL =
   process.env.WEB_EXT_API_CALL_MIN_INTERVAL || 1000

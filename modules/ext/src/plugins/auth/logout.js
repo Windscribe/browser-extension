@@ -1,6 +1,6 @@
 import md5 from 'md5'
 import sleep from 'shleep'
-import { ACCOUNT_STATES, DO_NOT_CLEAR_ON_LOGOUT } from 'utils/constants'
+import { ACCOUNT_STATES } from 'utils/constants'
 import { getDb } from 'utils/db'
 import { updateFilterLists, reloadAllFilterLists } from 'plugins/ublock/utils'
 import getEntries from 'plugins/lexicon'
@@ -85,7 +85,7 @@ export default actions => ({
       }),
     )
 
-    const doNotClearOnLogout = DO_NOT_CLEAR_ON_LOGOUT
+    const doNotClearOnLogout = ['expiredUsername', 'userStashes', 'bgReady']
     // this is to retain error message from being logged out via invalid session
     const sessionError = state.session.error
     if (sessionError) {
@@ -101,8 +101,8 @@ export default actions => ({
       Object.entries(actions)
         .filter(([k]) => k !== 'view')
         .forEach(([reducer, action]) => {
-          if (doNotClearOnLogout.includes(reducer)) return
-          action.default && dispatch(action.default())
+          if (!doNotClearOnLogout.includes(reducer))
+            action.default && dispatch(action.default())
         })
 
       await sleep(550)

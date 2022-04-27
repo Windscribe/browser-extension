@@ -8,6 +8,7 @@ import fetchServerList from 'utils/fetchServerList'
 import getEntries from 'plugins/lexicon'
 import { updateFilterLists, reloadAllFilterLists } from 'plugins/ublock/utils'
 import pushToDebugLog from 'utils/debugLogger'
+import checkIp from 'utils/public-ip'
 
 const ACTIVITY = 'logging_in'
 const log = (message, opts = {}) =>
@@ -291,6 +292,8 @@ const initialize = async ({ getState, action, dispatch, session, actions }) => {
       actions,
     }),
   ])
+
+  checkIp().then(publicIp => dispatch(actions.proxy.assign({ publicIp })))
 
   /* Fetch and parse blocklist */
   await Promise.all([

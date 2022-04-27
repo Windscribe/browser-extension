@@ -9,6 +9,8 @@ import { ACCOUNT_STATES } from 'utils/constants'
 import pushToDebugLog from 'utils/debugLogger'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSelector } from 'reselect'
+import { useTheme } from 'ui/hooks'
+import { ThemeContext } from '@emotion/core'
 
 const ACTIVITY = 'proxy_bar'
 
@@ -16,11 +18,14 @@ const selector = createSelector(
   s => s.proxy.status,
   s => s.session.status,
   s => s.session.username,
+  s => s.online,
   (...args) => args,
 )
 
 export default () => {
-  const [proxyStatus, sessionStatus, username] = useSelector(selector)
+  const [proxyStatus, sessionStatus, username, online] = useSelector(selector)
+  const { colors } = useTheme(ThemeContext)
+
   const dispatch = useDispatch()
   const activate = () =>
     dispatch(actions.proxy.activate({ logActivity: ACTIVITY }))
@@ -82,12 +87,12 @@ export default () => {
       )}
       {proxyStatus === 'connected' && (
         <ConnectBar>
-          <ConnectedRing />
+          <ConnectedRing fill={online ? colors.green : colors.yellow} />
         </ConnectBar>
       )}
       {proxyStatus === 'error' && (
         <ConnectBar>
-          <ConnectionFailureRing />
+          <ConnectionFailureRing fill={online ? colors.green : colors.yellow} />
         </ConnectBar>
       )}
     </Flex>

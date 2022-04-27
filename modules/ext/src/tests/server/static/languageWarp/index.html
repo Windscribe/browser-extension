@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>hey hey hey</h1>
+  </body>
+
+  <script>
+    let container = document.body
+
+    let writeNewEl = () => {
+      let el = document.createElement('p')
+      el.className = 'current-ua'
+      el.textContent = navigator.language.toString()
+
+      // document.body.inne(el);
+      container.appendChild(el)
+    }
+    setTimeout(writeNewEl, 100)
+  </script>
+</html>

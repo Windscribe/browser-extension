@@ -12,7 +12,7 @@ const checkProxyIp = {
   it: 'should check if checkip response is the same as what appears in UI',
   run: async popup => {
     const { proxy } = await getState(popup)
-    await popup.waitFor(2000)
+    await popup.waitForTimeout(1000)
     const uiIp = await popup.$eval(
       'div[label="ip-address"]',
       el => el.innerHTML,
@@ -42,7 +42,7 @@ const connectToProxyLocation = (location, dataCenter) => ({
     ) {
       await popup.reload()
     }
-    await popup.waitFor(3000)
+    await popup.waitForTimeout(3000)
     const { view: curView } = await getState(popup)
     if (curView.current === 'Main') {
       await click(popup, 'button[aria-label="Locations"] > div')
@@ -50,7 +50,7 @@ const connectToProxyLocation = (location, dataCenter) => ({
 
     await click(popup, `div[aria-label="${location}"]`)
     await click(popup, `div[aria-label="${dataCenter}"]`)
-    await popup.waitFor(6000) //connection time
+    await popup.waitForTimeout(6000) //connection time
     const { proxy: proxyAfterConnect } = await getState(popup)
     return [proxyBeforeConnect, proxyAfterConnect]
   },
@@ -71,7 +71,7 @@ const disconnect = {
     const { proxy: proxyBeforeConnect } = await getState(popup)
 
     await click(popup, `button[aria-label="proxy-toggle"]`)
-    await popup.waitFor(5000)
+    await popup.waitForTimeout(2000)
     const { proxy: proxyAfterConnect } = await getState(popup)
     return [proxyBeforeConnect, proxyAfterConnect]
   },
@@ -86,7 +86,7 @@ const disconnect = {
 const connectToProxy = () =>
   process.env.TEST_API_URL.includes('staging')
     ? connectToProxyLocation('United States', 'Los Angeles')
-    : connectToProxyLocation('US Central', 'Atlanta')
+    : connectToProxyLocation('US Central', 'Dallas')
 
 module.exports = [
   checkProxyIp,

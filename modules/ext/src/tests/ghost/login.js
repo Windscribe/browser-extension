@@ -14,7 +14,7 @@ const tests = [
     run: async popup => {
       await popup.click('button[name="ghost"]')
 
-      await popup.waitFor(2000)
+      await popup.waitForTimeout(2000)
       const { session } = await getState(popup)
 
       return [session]

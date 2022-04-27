@@ -36,6 +36,7 @@ export default () => {
         Icon={SmokewallIcon}
       >
         <ToggleSwitch
+          type={'Smokewall'}
           toggleValue={smokewall}
           onToggle={() => {
             dispatch(

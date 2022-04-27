@@ -146,6 +146,7 @@ export default function DatacenterListItem({
       {locationLoadEnabled && (
         <Flex justifyContent={'space-between'}>
           <Box
+            aria-label={'healthBar'}
             className="datacenter-list-item-health-bar"
             width={`${health}%`}
             height={'2px'}

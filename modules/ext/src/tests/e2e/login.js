@@ -13,10 +13,8 @@ module.exports = [
     it: 'should show 2FA',
     run: async popup => {
       await popup.click('button[name="login"]')
-      await popup.waitFor(2000)
       await popup.click('button[name="open2FA"]')
       const openTwoFAInput = await popup.$('input[name="2FA"]')
-      await popup.waitFor(2000)
       await popup.click('button[name="close2FA"]')
       const closeTwoFAInput = await popup.$('input[name="2FA"]')
       return [openTwoFAInput, closeTwoFAInput]
@@ -36,15 +34,15 @@ module.exports = [
       const passwordInput = await popup.$('input[name="password"]')
 
       await usernameInput.click({ clickCount: 3 })
-      await usernameInput.press('Backspace')
-      await usernameInput.type(global.TEST_USER.username, { delay: 50 }) // Types slower, like a user
+      // await usernameInput.press('Backspace')
+      await usernameInput.type(process.env.TEST_USER, { delay: 50 }) // Types slower, like a user
 
       await passwordInput.click({ clickCount: 3 })
-      await passwordInput.press('Backspace')
-      await passwordInput.type(global.TEST_USER.password, { delay: 50 })
+      // await passwordInput.press('Backspace')
+      await passwordInput.type(process.env.TEST_PASSWORD, { delay: 50 })
 
       await popup.click('button[type="submit"]')
-      await popup.waitFor(2000)
+      await popup.waitForTimeout(2000)
       const { session } = await getState(popup)
 
       return [session]
@@ -93,9 +91,7 @@ module.exports = [
     assert: list => {
       list.forEach(l => {
         const sampleListUrl = l.lists[0].url
-        expect(sampleListUrl).to.include(
-          'https://assets.windscribe.com/extension/ws/',
-        )
+        expect(sampleListUrl).to.include('https://deploy.windscribe.com/')
         expect(sampleListUrl).to.include('.txt')
       })
     },

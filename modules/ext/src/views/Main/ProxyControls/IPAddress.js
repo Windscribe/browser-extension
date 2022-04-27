@@ -21,6 +21,7 @@ const selector = createSelector(
   s => s.session.our_ip,
   s => s.session.our_addr,
   s => s.proxyTimeEnabled,
+  s => s.online,
   (...args) => args,
 )
 
@@ -33,6 +34,7 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
     our_ip,
     our_addr,
     proxyTimeEnabled,
+    online,
   ] = useSelector(selector)
 
   const { colors } = useTheme(ThemeContext)
@@ -46,6 +48,16 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
   }
 
   let ipClickTimeout = null
+
+  const ipColor = () => {
+    if (isIpBlurred) {
+      return 'transparent'
+    } else if (online) {
+      return isConnected ? colors.green : colors.halfwhite
+    } else {
+      return colors.yellow
+    }
+  }
 
   const handleIpClicks = () => {
     if (status === 'error') return
@@ -112,13 +124,7 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
           `}
           fontSize={0}
           notranslate="true"
-          color={
-            isIpBlurred
-              ? 'transparent'
-              : isConnected
-              ? colors.green
-              : colors.halfwhite
-          }
+          color={ipColor()}
           onClick={() => handleIpClicks()}
           onMouseUp={() => {
             writeTextToClipboard(currentIp)

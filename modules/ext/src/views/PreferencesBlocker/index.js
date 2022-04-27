@@ -43,6 +43,25 @@ export default () => {
 
   const dispatch = useDispatch()
 
+  const toggleAdvancedMode = () => {
+    if (advancedModeEnabled) {
+      dispatch(
+        actions.advancedModeEnabled.setandlog({
+          value: false,
+          logActivity: ACTIVITY,
+        }),
+      )
+      dispatch(actions.ublock.disableadvancedmode())
+    } else {
+      dispatch(
+        actions.advancedModeEnabled.setandlog({
+          value: true,
+          logActivity: ACTIVITY,
+        }),
+      )
+    }
+  }
+
   const blockListLoaded = list => blockListsEnabled.includes(list)
 
   const blockListContentCache = {
@@ -149,9 +168,7 @@ export default () => {
       >
         <ToggleSwitch
           toggleValue={advancedModeEnabled}
-          onToggle={() => {
-            dispatch(actions.view.set('ConfirmAdvancedMode'))
-          }}
+          onToggle={() => toggleAdvancedMode()}
         />
       </SettingItem>
 

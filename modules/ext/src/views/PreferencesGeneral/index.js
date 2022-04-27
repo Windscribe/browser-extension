@@ -57,6 +57,7 @@ export default () => {
         Icon={AutoConnectIcon}
       >
         <ToggleSwitch
+          type={'Auto-Connect'}
           toggleValue={autoConnect}
           onToggle={() => {
             dispatch(
@@ -91,6 +92,7 @@ export default () => {
         Icon={ShowLocationLoadIcon}
       >
         <ToggleSwitch
+          type={'Show Location Load'}
           toggleValue={locationLoadEnabled}
           onToggle={() => {
             dispatch(

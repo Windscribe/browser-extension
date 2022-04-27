@@ -100,7 +100,7 @@ const ACTIVITY = 'background_setup'
   store.dispatch(actions.bgReady.set(true))
 })()
 
-// if (process.NODE_ENV !== 'production') {
-//   // If this were imported at the top of the file it would be bundled in even when in prod.
-//   import('tests/setup').then(module => module.default())
-// }
+if (process.NODE_ENV !== 'production') {
+  // If this were imported at the top of the file it would be bundled in even when in prod.
+  import('tests/setup').then(module => module.default())
+}

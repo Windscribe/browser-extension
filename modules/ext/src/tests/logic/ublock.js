@@ -19,9 +19,7 @@ module.exports = [
 
       return [
         store.getState().blockListsEnabled,
-        µBlock.selectedFilterLists.find(
-          x => x === `${window.windscribeListUrl}/easylist.txt`,
-        ),
+        µBlock.selectedFilterLists.find(x => x.includes('easylist.txt')),
       ]
     },
     assert: ([enabled, filters]) => {
@@ -44,9 +42,7 @@ module.exports = [
 
       return [
         store.getState().blockListsEnabled,
-        µBlock.selectedFilterLists.find(
-          x => x === `${window.windscribeListUrl}/easyprivacy.txt`,
-        ),
+        µBlock.selectedFilterLists.find(x => x.includes('easyprivacy.txt')),
       ]
     },
     assert: ([enabled, filters]) => {

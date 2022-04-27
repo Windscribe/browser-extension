@@ -6,7 +6,7 @@ import { WithToolTip } from 'components/Utils'
 import { useTranslation } from 'react-i18next'
 import { delay } from 'utils/delay'
 
-export default ({ toggleValue, disabled, onToggle }) => {
+export default ({ type = '', toggleValue, disabled, onToggle }) => {
   const { colors } = useTheme(ThemeContext)
   const { t } = useTranslation()
 
@@ -30,6 +30,7 @@ export default ({ toggleValue, disabled, onToggle }) => {
             await delay(250)
           }
         }}
+        aria-label={`${type} toggle`}
       >
         <Box
           css={{

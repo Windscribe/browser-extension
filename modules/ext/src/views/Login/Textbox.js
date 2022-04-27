@@ -18,11 +18,11 @@ const HidePassword = styled(HidePasswordSvg)`
   }
 `
 const StyledInput = styled.input`
-  ${({ theme, isInvalid }) => ` 
+  ${({ theme, type, isInvalid }) => ` 
     margin-top: ${theme.space[2]};
     width:100%;
     height:40px;
-    padding: ${theme.space[3]} ${theme.space[4]};
+    padding: 12px ${type === 'password' ? '32px' : '16px'} 12px 16px;
     font-size: ${theme.fontSizes[1]};
     color: ${theme.colors.fg};
     border-radius: 3px;
@@ -96,7 +96,7 @@ export default ({
           autoFocus={autoFocus}
           readOnly={readOnly}
           spellCheck={false}
-        ></StyledInput>
+        />
         {password && (
           <Flex
             pr={1}

@@ -35,7 +35,7 @@ rimraf(userDataDir, () => {})
 // Access chrome object in Extensions
 // https://github.com/GoogleChrome/puppeteer/issues/2878
 
-const EXT_LOAD_DELAY = 100
+const EXT_LOAD_DELAY = 2000
 const extPopupHtml = 'popup.html'
 const port = process.env.TEST_SERVER_PORT || 1337
 let browser, bgPage, page, expressServerListener
@@ -45,7 +45,7 @@ let launchBrowser = () =>
     headless: false,
     devtools: false,
     dumpio: true,
-    product: 'firefox',
+    product: 'chrome',
     args: [
       `--disable-extensions-except=${extPath}`,
       `--load-extension=${extPath}`,
@@ -78,7 +78,7 @@ let setupBrowser = async ({ showPopup }) => {
 
   if (showPopup) {
     await page.goto(`chrome-extension://${extID}/${extPopupHtml}`)
-    await page.waitFor(3000)
+    await page.waitForTimeout(3000)
     await page.reload()
     await page.tracing.start({
       path: path.resolve(`./automated_tests/traces/trace.json`),
@@ -86,7 +86,7 @@ let setupBrowser = async ({ showPopup }) => {
   }
 
   // wait for page to load
-  await page.waitFor(3000)
+  await page.waitForTimeout(3000)
   const backgroundPageTarget = targets.find(
     target => target.type() === 'background_page',
   )
@@ -104,7 +104,7 @@ describe('chrome extension', () => {
   const logicTests = argv.logic ? getLogicTests(argv.whitelist) : []
   const e2eTests = argv.e2e ? getE2eTests(argv.whitelist) : []
   const ghostTests = argv.ghost ? getGhostTests(argv.whitelist) : []
-  const allTests = [...logicTests, ...e2eTests, ...ghostTests]
+  const allTests = [...e2eTests, ...logicTests, ...ghostTests]
 
   for (let t of allTests) {
     // eslint-disable-next-line no-loop-func
@@ -115,7 +115,10 @@ describe('chrome extension', () => {
 
       if (t.eval) {
         const evalRes = await bgPage.evaluate(t.eval, {
-          testUser: global.TEST_USER,
+          testUser: {
+            username: process.env.TEST_USER,
+            password: process.env.TEST_PASSWORD,
+          },
         })
         t.assert(evalRes)
       }
@@ -129,7 +132,7 @@ describe('chrome extension', () => {
         await screenshot(page, t.name)
       }
 
-      await page.waitFor(500)
+      await page.waitForTimeout(500)
     })
   }
 

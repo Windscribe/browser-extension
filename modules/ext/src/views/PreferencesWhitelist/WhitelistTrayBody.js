@@ -212,7 +212,7 @@ export default ({ trayTabIndex }) => {
                     <Button
                       tabIndex={trayTabIndex}
                       aria-label="Cancel"
-                      onClick={closeMenu}
+                      onMouseDown={closeMenu}
                       css={css`
                         width: 50%;
                         border-color: ${colors.fgLight} !important;

@@ -9,14 +9,14 @@ const email = require('./email')
 const whitelist = require('./whitelist')
 const statusChanges = require('./statusChanges')
 // const sessionPoller = require('./session-poller'
-const createUser = require('../admin/createTestUser')
-const adminLogin = require('../admin/loginWithAdminUser.js')
+// const createUser = require('../admin/createTestUser')
+// const adminLogin = require('../admin/loginWithAdminUser.js')
 
 const logout = require('./logout')
 // TODO: split these up into sub domains later for different flows
 const domains = {
-  createUser,
-  adminLogin,
+  // createUser,
+  // adminLogin,
   auth,
   proxy,
   statusChanges,

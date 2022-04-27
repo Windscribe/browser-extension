@@ -18,6 +18,7 @@ export default ({ type, value, current, ACTIVITY }) => {
           }),
         )
       }}
+      aria-label={value}
       css={{
         color: current ? colors.primary : colors.truehalfblack,
         fontWeight: '700',

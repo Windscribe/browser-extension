@@ -13,6 +13,7 @@ export default ({ type, current, items, ACTIVITY }) => {
   return (
     <>
       <Flex
+        aria-label={type}
         css={css`
           color: ${colors.fgLight};
           align-items: center;

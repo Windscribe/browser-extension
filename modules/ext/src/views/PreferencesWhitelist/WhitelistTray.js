@@ -68,17 +68,10 @@ const MenuOverflow = styled(Flex)`
 export default () => {
   const WhitelistContext = useContext(Context)
   const { menuOpen } = WhitelistContext.state.uiState
-  const { uiDispatch, configDispatch } = WhitelistContext.dispatches
   const trayTabIndex = menuOpen ? 0 : -1
 
   return (
-    <MenuOverlay
-      style={{ isOpen: menuOpen, tabIndex: trayTabIndex }}
-      onClick={() => {
-        configDispatch({ type: 'reset' })
-        uiDispatch({ type: 'closeMenu' })
-      }}
-    >
+    <MenuOverlay style={{ isOpen: menuOpen, tabIndex: trayTabIndex }}>
       <AnimationContainer pose={menuOpen ? 'open' : 'closed'}>
         <Flex role="dialog" aria-modal={true} flexDirection="column">
           <AltTheme invertCurrentTheme>

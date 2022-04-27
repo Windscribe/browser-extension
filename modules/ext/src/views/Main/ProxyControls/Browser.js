@@ -49,7 +49,7 @@ export default memo(() => {
             border-radius: 30px;
           `}
           isReversed={true}
-          topOffset="80%"
+          topOffset="70%"
           leftOffset="33%"
           domNode={viewContainerRef.current}
         />

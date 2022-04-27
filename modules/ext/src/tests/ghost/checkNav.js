@@ -15,7 +15,7 @@ const tests = [
         popup.reload()
       }
       await popup.click('div[aria-label="Usage Bar"]')
-      await popup.waitFor(2000)
+      await popup.waitForTimeout(2000)
       const state = await getState(popup)
 
       return state
