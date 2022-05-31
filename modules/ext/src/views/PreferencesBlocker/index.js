@@ -174,7 +174,7 @@ export default () => {
 
       {advancedModeEnabled && (
         <SettingLink
-          title="µBlock Settings"
+          title="uBlock Settings"
           openLink={() => browser.tabs.create({ url: 'options-ui/index.html' })}
         />
       )}

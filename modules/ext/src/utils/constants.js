@@ -28,8 +28,8 @@ export const ENVS = {
   PROD: {
     API_URL: 'https://api.windscribe.com',
     ASSETS_URL: 'https://assets.windscribe.com',
-    BACKUP_API_URL: 'https://api.staticnetcontent.com',
-    BACKUP_ASSETS_URL: 'https://assets.staticnetcontent.com',
+    BACKUP_API_URL: 'https://api.totallyacdn.com',
+    BACKUP_ASSETS_URL: 'https://assets.totallyacdn.com',
     ROOT_URL: 'https://www.windscribe.com',
     TEST_LOCATION: {
       locationId: 7,

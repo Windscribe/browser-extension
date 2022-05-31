@@ -1,6 +1,11 @@
 export default async () => {
-  const response = await fetch('https://checkipv4.windscribe.com').then(r =>
-    r.text(),
-  )
-  return response.trim()
+  const controller = new AbortController()
+  setTimeout(() => controller.abort(), 3000)
+
+  const response = await fetch('https://checkipv4.windscribe.com', {
+    signal: controller.signal,
+  })
+    .then(r => r.text())
+    .catch(() => '---.---.---.---')
+  return response
 }

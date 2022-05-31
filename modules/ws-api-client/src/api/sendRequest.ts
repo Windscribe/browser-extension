@@ -60,7 +60,7 @@ const sendRequest = async ({
     const { lastCallTimeStamps = {}, apiCallMinInterval } = getConfig()
     const params =
       useBackup && endpoint.includes('ExtBlocklists') // Only need to add `domain` on ExtBlocklists
-        ? { ...defaultParams, domain: 'staticnetcontent.com' }
+        ? { ...defaultParams, domain: 'totallyacdn.com' }
         : defaultParams
 
     const apiUrl = prepareValidUrl({ url: endpoint, assets, useBackup })
@@ -82,7 +82,19 @@ const sendRequest = async ({
       setConfig({
         lastCallTimeStamps: { ...lastCallTimeStamps, [endpoint]: Date.now() },
       })
-      const response = await _fetch(url, config)
+
+      const controller = new AbortController()
+
+      setTimeout(() => controller.abort(), 3000)
+      let params: RequestInit = {
+        headers: config.headers as HeadersInit,
+        method: config.method,
+        body: config.body,
+        signal: controller.signal,
+      }
+
+      const response = await fetch(url, params)
+
       if (response.status === 404) {
         throw {
           code: response.status,

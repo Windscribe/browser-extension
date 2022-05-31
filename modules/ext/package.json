@@ -1,6 +1,6 @@
 {
   "name": "ext",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "~7.8.3",
