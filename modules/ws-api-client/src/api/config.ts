@@ -1,6 +1,7 @@
 import { Dispatch, SessionType } from './commonTypes'
 
 export interface Config {
+  workingApi?: string | null
   apiUrl?: string
   assetsUrl?: string
   backupApiUrl?: string
@@ -14,6 +15,7 @@ export interface Config {
 }
 
 export let globalConfig: Config = {
+  workingApi: null,
   apiUrl: process.env.API_URL,
   assetsUrl: process.env.ASSETS_URL,
   backupApiUrl: process.env.BACKUP_API_URL,

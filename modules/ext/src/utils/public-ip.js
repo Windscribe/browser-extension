@@ -1,11 +1,16 @@
-export default async () => {
-  const controller = new AbortController()
-  setTimeout(() => controller.abort(), 3000)
+import api from 'api'
 
-  const response = await fetch('https://checkipv4.windscribe.com', {
-    signal: controller.signal,
-  })
-    .then(r => r.text())
-    .catch(() => '---.---.---.---')
-  return response
+export default async () => {
+  const { workingApi } = api.getConfig()
+  if (workingApi) {
+    const controller = new AbortController()
+    setTimeout(() => controller.abort(), 3000)
+
+    return await fetch(`https://checkip${workingApi}`, {
+      signal: controller.signal,
+    })
+      .then(r => r.text())
+      .catch(() => '---.---.---.---')
+  }
+  return '---.---.---.---'
 }

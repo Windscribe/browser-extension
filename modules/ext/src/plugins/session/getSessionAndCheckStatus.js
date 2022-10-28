@@ -162,13 +162,7 @@ export default actions => [
           message: `get latest session info failed: ${err.message}`,
         })
         // if session if invalid, logout
-        // 501 & 502 are validation errors
-        if (
-          err.code === SESSION_ERRORS.SESSION_INVALID ||
-          err.code === SESSION_ERRORS.NO_AUTH_HASH ||
-          err.code === 501 ||
-          err.code === 502
-        ) {
+        if (err.code === SESSION_ERRORS.SESSION_INVALID) {
           // this error will appear when you reach login page
           dispatch(
             actions.session.assign({

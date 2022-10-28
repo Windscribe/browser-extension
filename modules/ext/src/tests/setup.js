@@ -11,7 +11,7 @@ import { store, actions } from 'state'
 
 export default async () => {
   window.ipAddress = await checkIp()
-  window.ublockNetWhitelist = µBlock.netWhitelist
+  // window.ublockNetWhitelist = µBlock.netWhitelist
   window.checkIp = checkIp
   window.constants = constants
   window.sleep = sleep

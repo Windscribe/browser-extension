@@ -1,5 +1,6 @@
 import { flatten } from 'lodash'
 import pickHosts from './pickHosts'
+import { store } from 'state'
 
 export default ({ serverlist, userPremiumStatus, cruiseControlDomains }) => {
   // we only care about servers we can actually access
@@ -25,14 +26,17 @@ export default ({ serverlist, userPremiumStatus, cruiseControlDomains }) => {
     }))
 }
 
-export const stringify = cruiseControlList =>
-  cruiseControlList
+export const stringify = cruiseControlList => {
+  const proxyPort = store.getState().proxyPort
+
+  return cruiseControlList
     .map(
       loc =>
         `if ([${flatten(
           loc.domains.map(domain => [`'*://${domain}/*'`, `'*.${domain}/*'`]),
         )}].some(d => shExpMatch(url, d))) {
-      return '${loc.hosts.map(x => `HTTPS ${x}:443`).join('; ')}'
+      return '${loc.hosts.map(x => `HTTPS ${x}:${proxyPort}`).join('; ')}'
     }`,
     )
     .join('\n')
+}

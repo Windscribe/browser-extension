@@ -121,6 +121,7 @@ export default memo(({ showIpCopiedAlert, setIpCopiedAlert }) => {
             text-overflow: ellipsis;
             cursor: ${status === 'error' ? 'default' : 'pointer'};
             ${isIpBlurred && `text-shadow: 0px 0px 6px rgba(255,255,255,0.5);`}
+            width: 140px;
           `}
           fontSize={0}
           notranslate="true"

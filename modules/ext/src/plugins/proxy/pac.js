@@ -1,13 +1,15 @@
 // TODO: this file is getting minified in the build and breaking the pacfile
 // import shouldNotProxy from 'plugins/proxy/shouldNotProxy'
 import { stringify } from 'utils/createCruiseControlList'
+import api from 'api'
+import { store } from 'state'
 
 // get array of hostnames if exists (used for fallbacks)
-const getParsedHostnamesString = hostnames => {
+const getParsedHostnamesString = (hostnames, proxyPort) => {
   if (hostnames?.length > 0) {
     return hostnames.reduce((acc, hostname) => {
       //convert each into proxy list format
-      acc += `HTTPS ${hostname}:443;`
+      acc += `HTTPS ${hostname}:${proxyPort};`
       return acc
     }, '')
   } else {
@@ -21,6 +23,9 @@ const createFindProxyForURLFunction = ({
   cruiseControlList,
   whitelist = [],
 }) => {
+  const { workingApi } = api.getConfig()
+  const proxyPort = store.getState().proxyPort
+
   const pac = `
   function FindProxyForURL (url, host) {
     function shouldNotProxy(url, host, userWhitelist) {
@@ -30,7 +35,14 @@ const createFindProxyForURLFunction = ({
         '*://api.windscribe.com/*',
         '*://assets.windscribe.com/*',
         '*://*.staticnetcontent.com/*',
-        '*://*.totallyacdn.com/*',
+        '*://api.totallyacdn.com/*',
+        '*://assets.totallyacdn.com/*',
+        ${
+          workingApi !== '.windscribe.com'
+            ? `'*://api${workingApi}/*', 
+            '*://assets${workingApi}/*',`
+            : ''
+        }
         'https://windscribe.com/installed/*',
       ].concat(userWhitelist)
 
@@ -48,7 +60,7 @@ const createFindProxyForURLFunction = ({
       return 'DIRECT'
     }
     ${cruiseControlList ? stringify(cruiseControlList) : ''}
-    return '${getParsedHostnamesString(hostnames)}'
+    return '${getParsedHostnamesString(hostnames, proxyPort)}'
   }
 `
   return pac

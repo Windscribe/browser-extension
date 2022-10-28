@@ -67,6 +67,7 @@ export default memo(() => {
             css={css`
               align-items: center;
               justify-content: start;
+              width: 150px;
             `}
           >
             <ConnectionStatus status={status} online={online} />

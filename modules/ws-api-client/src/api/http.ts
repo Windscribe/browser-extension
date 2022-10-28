@@ -108,6 +108,22 @@ const request: ApiRequest = async ({
       assets,
       actionCreators: {},
     })
+
+    if (!response) {
+      throw {
+        code: 0,
+        message: 'Error fetching API',
+        debug: {
+          response: {},
+          debugOpts: {},
+          endpoint: '',
+          url: '',
+        },
+        data:
+          '{"errorCode":0, "errorMessage":"Error fetching API", "logStatus":null}',
+      }
+    }
+
     /* check for errors in the response body */
     const data = await parseResponse({
       response,
@@ -118,6 +134,7 @@ const request: ApiRequest = async ({
         url: global.url,
       },
     })
+
     if (successfulReduxAction) {
       dispatcher({ actionCreator: successfulReduxAction, data })
     }

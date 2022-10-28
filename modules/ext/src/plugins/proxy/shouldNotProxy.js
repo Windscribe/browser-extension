@@ -1,3 +1,5 @@
+import api from 'api'
+
 // These functions exist in the pac sandbox, but not in the typical browser env
 
 export const isPlainHostName = host => host.indexOf('.') === -1
@@ -60,16 +62,24 @@ export function shExpMatch(url, pattern) {
 */
 
 // if this returns true then proxy should go DIRECT
+
 export default function shouldNotProxy(url, host, userWhitelist) {
+  const { workingApi } = api.getConfig()
+
   const lanIps = /(^(127|10)\.\d{1,3}\.\d{1,3}\.\d{1,3}$)|(^192\.168\.\d{1,3}\.\d{1,3}$)|(^172\.1[6-9]\.\d{1,3}\.\d{1,3}$)|(^172\.2[0-9]\.\d{1,3}\.\d{1,3}$)|(^172\.3[0-1]\.\d{1,3}\.\d{1,3}$)/
 
   const whitelist = [
     '*://api.windscribe.com/*',
     '*://assets.windscribe.com/*',
     '*://*.staticnetcontent.com/*',
-    '*://*.totallyacdn.com/*',
+    '*://api.totallyacdn.com/*',
+    '*://assets.totallyacdn.com/*',
     'https://windscribe.com/installed/*',
   ].concat(userWhitelist)
+
+  if (workingApi !== '.windscribe.com') {
+    whitelist.push(`*://api${workingApi}/*`, `*://assets${workingApi}/*`)
+  }
 
   return [
     isPlainHostName(host),

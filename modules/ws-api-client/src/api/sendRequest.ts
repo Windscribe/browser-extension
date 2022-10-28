@@ -3,18 +3,33 @@ import { RequestArgs, ApiException } from './commonTypes'
 import { getConfig, setConfig } from './config'
 
 interface PrepareValidUrlArgs {
+  apiDomain: string
   url: string
   assets?: boolean
   useBackup?: boolean
+  useDoh?: boolean
 }
 
-const prepareValidUrl = ({
+const fetchDoh = async () => {
+  const res = await fetch(
+    'https://1.1.1.1/dns-query?name=dynamic-api-host.windscribe.com&type=TXT',
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/dns-json',
+      },
+    },
+  )
+  const data = await res.json()
+
+  return data.Answer[0].data.slice(1, -1)
+}
+
+const prepareValidUrl = async ({
+  apiDomain,
   url,
   assets = false,
-  useBackup = false,
 }: PrepareValidUrlArgs) => {
-  const { assetsUrl, apiUrl, backupApiUrl, backupAssetsUrl } = getConfig()
-
   const urlValidator = new RegExp(/^http|ftp|file:\/\//gim)
   // If it's a full url send use it as is
   if (urlValidator.test(url)) {
@@ -22,11 +37,7 @@ const prepareValidUrl = ({
   }
   let baseUrl
 
-  if (useBackup) {
-    baseUrl = assets ? backupAssetsUrl : backupApiUrl
-  } else {
-    baseUrl = assets ? assetsUrl : apiUrl
-  }
+  baseUrl = assets ? `https://assets${apiDomain}` : `https://api${apiDomain}`
 
   // If it's a base endpoint without a / starting add it
   if (!urlValidator.test(url) && !url.startsWith('/')) {
@@ -37,8 +48,6 @@ const prepareValidUrl = ({
   }
 }
 
-const _fetch = typeof fetch === 'function' ? fetch : require('node-fetch')
-
 const sendRequest = async ({
   endpoint,
   debugOpts = {},
@@ -48,7 +57,7 @@ const sendRequest = async ({
 }: RequestArgs): Promise<Response> => {
   const RATE_LIMIT_ERROR_CODE = 7331
   /* Sets the url, if there's params it'll construct and append the params to the url */
-  const defaultParams = { ...opts.params, platform: getConfig().platform }
+  const params = { ...opts.params, platform: getConfig().platform }
   /*
       Sets up the config.
       if there's a key named method just pass the options object.
@@ -56,17 +65,22 @@ const sendRequest = async ({
     */
   const config = opts.method ? opts : { ...opts, method }
 
-  const send = async (useBackup = false) => {
+  const send = async (apiDomain, useBackup = false) => {
     const { lastCallTimeStamps = {}, apiCallMinInterval } = getConfig()
-    const params =
-      useBackup && endpoint.includes('ExtBlocklists') // Only need to add `domain` on ExtBlocklists
-        ? { ...defaultParams, domain: 'totallyacdn.com' }
-        : defaultParams
 
-    const apiUrl = prepareValidUrl({ url: endpoint, assets, useBackup })
+    const apiUrl = await prepareValidUrl({
+      apiDomain,
+      url: endpoint,
+      assets,
+    })
+
+    if (!apiUrl) return null
+
     const url = apiUrl + `?${qs.stringify(params)}`
+
     const debugUrl = apiUrl
     global.url = debugUrl
+
     const timeToNextCall =
       Number(apiCallMinInterval) -
       (Date.now() - lastCallTimeStamps[endpoint] ?? 0)
@@ -86,14 +100,21 @@ const sendRequest = async ({
       const controller = new AbortController()
 
       setTimeout(() => controller.abort(), 3000)
-      let params: RequestInit = {
+      const request: RequestInit = {
         headers: config.headers as HeadersInit,
         method: config.method,
         body: config.body,
         signal: controller.signal,
       }
 
-      const response = await fetch(url, params)
+      const response = await fetch(url, request)
+
+      let { workingApi } = getConfig()
+      if (!workingApi) {
+        setConfig({
+          workingApi: apiDomain,
+        })
+      }
 
       if (response.status === 404) {
         throw {
@@ -106,6 +127,7 @@ const sendRequest = async ({
           data: { debugUrl, debugOpts },
         } as ApiException
       }
+
       return response
     } catch (e) {
       console.error(e)
@@ -118,19 +140,42 @@ const sendRequest = async ({
     }
   }
 
+  const { apiUrl, backupApiUrl, workingApi } = getConfig()
+
+  const apiDomain = apiUrl.split('api')[1]
+  const backupApiDomain = backupApiUrl.split('api')[1]
+
   /* Make the request */
   try {
-    const resp = await send()
+    const resp = await send(workingApi || apiDomain)
     return resp
   } catch (e) {
     console.error(e.message)
     let resp
     if (e.code === RATE_LIMIT_ERROR_CODE) {
       await new Promise(resolve => setTimeout(resolve, e.data.timeToNextCall))
-      resp = await send()
+      resp = await send(workingApi || apiDomain)
     } else {
-      // TODO: Figure out when to retry
-      resp = await send(true)
+      try {
+        setConfig({
+          workingApi: null,
+        })
+        resp = await send(backupApiDomain, true)
+
+        return resp
+      } catch {
+        try {
+          setConfig({
+            workingApi: null,
+          })
+          const dohUrl = await fetchDoh()
+          resp = await send(`.${dohUrl}`, true)
+
+          return resp
+        } catch {
+          return null
+        }
+      }
     }
     return resp
   }

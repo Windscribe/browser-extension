@@ -69,7 +69,7 @@ export default () => {
         <DropDown
           type={'proxyPort'}
           current={proxyPort}
-          items={['443', '80']}
+          items={['443', '9443']}
           ACTIVITY={ACTIVITY}
         />
       </SettingItem>

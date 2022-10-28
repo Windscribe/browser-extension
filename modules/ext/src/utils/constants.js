@@ -206,7 +206,7 @@ export const AUTH_RESET_MIN_INTERVAL =
 export const RENDER_TIMEOUT = process.env.WEB_EXT_RENDER_TIMEOUT || 5000
 
 export const PROXY_PORT =
-  process.env.WEB_EXT_PROXY_PORT || IS_FIREFOX ? '80' : '443'
+  process.env.WEB_EXT_PROXY_PORT || IS_FIREFOX ? '9443' : '443'
 
 export const API_CALL_MIN_INTERVAL =
   process.env.WEB_EXT_API_CALL_MIN_INTERVAL || 1000

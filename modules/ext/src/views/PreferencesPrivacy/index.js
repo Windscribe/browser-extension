@@ -162,7 +162,7 @@ export default () => {
         subHeading={
           'Limits WebRTC requests to prevent leaks. This may break some applications.'
         }
-        path={'features/timezone-spoofing'}
+        path={'features/webrtc-slayer'}
         Icon={WebRTCIcon}
       >
         <ToggleSwitch
