@@ -361,6 +361,8 @@ export default actions => [
             actions.session.fetchFailure({
               data: {
                 // dont allow login via email address
+                errorMessage:
+                  'Please login with your username, not your email address.',
                 errorCode: 1997,
               },
             }),

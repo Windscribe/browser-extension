@@ -229,7 +229,6 @@ export default actions => ({
         dispatch(actions.proxy.assign({ status: 'connected' }))
         dispatch(actions.proxyDiscovered.set(true))
       }
-      await reApplyPublicIp()
     }
 
     const onProxySetupComplete = async () => {
@@ -239,6 +238,8 @@ export default actions => ({
 
       // If silent mode, do not show notification and show connected status right away
       if (silent) {
+        dispatch(actions.proxy.assign({ status: 'connected' }))
+
         await sslCheckAndConnect()
 
         pushToDebugLog({
@@ -289,7 +290,7 @@ export default actions => ({
           whitelist: createWhitelist(whitelist),
         })
         const proxySettingAfter = await new Promise(resolve => {
-          browser.proxy.settings.get({}, function (details) {
+          browser.proxy.settings.get({}, function(details) {
             resolve(details.levelOfControl)
           })
         })
@@ -441,7 +442,7 @@ export default actions => ({
       if (IS_CHROME) {
         //check if controlled by another extension
         const proxySetting = await new Promise(resolve => {
-          browser.proxy.settings.get({}, function (details) {
+          browser.proxy.settings.get({}, function(details) {
             resolve(details.levelOfControl)
           })
         })

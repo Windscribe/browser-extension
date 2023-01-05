@@ -5,6 +5,7 @@ import { getDb } from 'utils/db'
 import { updateFilterLists, reloadAllFilterLists } from 'plugins/ublock/utils'
 import getEntries from 'plugins/lexicon'
 import pushToDebugLog from 'utils/debugLogger'
+import api from 'api'
 
 /* We should remove all lists not related to windscribe. and unset all the ones that are  */
 const cleanupUboLists = async blockLists => {
@@ -84,6 +85,14 @@ export default actions => ({
         logout: true,
       }),
     )
+
+    // decreases session count by 1
+    api.delete({
+      endpoint: '/Session',
+      params: {
+        session_type_id: 2,
+      },
+    })
 
     const doNotClearOnLogout = ['expiredUsername', 'userStashes', 'bgReady']
     // this is to retain error message from being logged out via invalid session

@@ -51,3 +51,87 @@ repo: https://github.com/Windscribe/browser-extension
 - [ ] checkout `master` from public repo
 - [ ] overwrite all files and push to github
 - [ ] tag a release with a matching version and changelog (no need to reference gitlab issue numbers, just issue descriptions)
+
+## Full QA Checklist
+
+Note: Keep the Dev Console open in the background and watch for any console errors. Any and all Console errors must be reported as bugs.
+
+## 1. Update checks
+Update from the previous version and verify that:
+- [ ] General settings are retained.
+- [ ] Blocker settings are retained.
+- [ ] Privacy settings are retained.
+- [ ] Whitelist is retained.
+​
+​
+## 2. Full Browser Shutdown & Restart
+- [ ] General settings are retained.
+- [ ] Blocker settings are retained.
+- [ ] Privacy settings are retained.
+- [ ] Whitelist is retained. 
+​
+## 3. Server List Updates
+Server List should update when:
+- [ ] Account status changes.
+- [ ] loc_hash changes.
+- [ ] Pro status changes.
+- [ ] ALC changes.
+- [ ] If new list does not contain current connect location, move up the location tree and fallback to Auto-Pilot.
+​
+## 4. Feature / Functionality Checks
+- ### General:
+- [ ] Auto-connect works.
+- [ ] Notifications work.
+- [ ] Smokewall works. - Use General > Debug Log to figure out proxy hostnames for a location. Then block said hostnames using the hosts file or using ROBERT. For example, for Chennai - Adyar, search for "proxy location: Chennai hosts:" in the Debug Log. FYI, hostnames for Chennai are "in-005.whiskergalaxy.com", "in-006.whiskergalaxy.com", and "in-007.whiskergalaxy.com". :)
+- ### Blocker:
+- [ ] Ad-blocker works.
+- - [ ] YouTube loads + ads blocked.
+- - [ ] popads.net blocked (toggling Ad Crusher should unblock).
+- - [ ] Ad Crusher not breaking popular websites: load Reddit, bbc.co.uk, Wikipedia, Twitter, Amazon, [Yahoo Finance](https://finance.yahoo.com/quote/JNJ) etc.
+- [ ] Tracker blocker works. Test on [nordvpn.com](https://nordvpn.com/) or [surfshark.com](https://surfshark.com/) heh.
+- [ ] Malware blocker works. [Test here](https://free-softs.drtrcherbs.in).
+- [ ] Social network widget blocker works. [Test here](http://wp.social-media-buttons-test.previewized.com/).
+- [ ] "We use cookies" blocker works. Test on [nordvpn.com](https://nordvpn.com/).
+- [ ] Advanced mode works - check if custom lists can be added, etc.
+- ### Privacy:
+- [ ] Cookie Monster works. Test on Bing. Perform a search, open a new tab and note how the search query persist. Close both tabs and visit Bing again. The search term must now not persist.
+- [ ] Notification Blocker works. Test using [HTML5 Web Notifications](https://www.bennish.net/web-notifications.html).
+- [ ] WebRTC Slayer works. [Test here](https://browserleaks.com/webrtc).
+- [ ] Location Warp works. [Test here](https://browserleaks.com/javascript).
+- [ ] Time Warp works. [Test here](https://browserleaks.com/javascript).
+- [ ] Language Warp works. [Test here](https://browserleaks.com/javascript).
+- [ ] User Agent Rotater works. [Test here](https://browserleaks.com/javascript).
+- [ ] Worker Blocker works. [Test here](https://z0ccc.github.io/LocateJS/).
+- ### Account:
+- [ ] Edit Account works.
+- [ ] E-mail linking to account works.
+- ### Whitelist:
+- [ ] Adding to Whitelist works.
+- [ ] Editing element in Whitelist works.
+- [ ] Removing from Whitelist works.
+​
+## 5. UX Tests:
+- [ ] "Sign up" redirects to relevant locations on the website.
+- [ ] "Forgot Password" works.
+- [ ] Alphabetical / Geographical Location toggle works.
+- [ ] Theme change works.
+- [ ] Upgrade behaviour.
+- [ ] Downgrade behaviour.
+- [ ] Out of Data behaviour.
+- - [ ] Upon reset after out of data, new creds are fetched upon repeated auth errors.
+- [ ] Browser start with proxy enabled. Have tabs open, do a restart (normal / hard), make sure one is not asked for authentication.
+- [ ] Backup API works. Test with background.html + Network. Make sure it fails over to another. hostnames = api.windscribe.com, api.staticnetcontent.com, api.whiskergalaxy.com, api.totallyacdn.com
+- [ ] Double Hop Detection works.
+- [ ] Auto-Pilot works.
+- [ ] Favorites
+- - [ ] Adding locations to favorites works.
+- - [ ] Removing locations from favorites works.
+- - [ ] Favorites are saved between restarts.
+- - [ ] Connecting to favorite location works (and IP changes).
+​
+## 6. Other Tests:
+- [ ] General UI glitches
+- - [ ] View persistence.
+- - [ ] Fonts.
+- [ ] Extension errors
+- - [ ] DevTools (background.html)
