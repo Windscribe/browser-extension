@@ -4,46 +4,46 @@ import { useConnect } from 'ui/hooks'
 import { useTheme } from 'ui/hooks'
 import { ThemeContext } from '@emotion/core'
 import { Flex } from '@rebass/emotion'
-import WhitelistIcon from 'assets/whitelist.svg'
+import AllowlistIcon from 'assets/allowlist.svg'
 import formatActiveTabInfo from 'plugins/tabs/format'
 import { WithToolTip } from 'components/Utils'
-import { DomainBarContext } from './'
+import { DomainBarContext } from '.'
 import { createSelector } from 'reselect'
 
 const selector = createSelector(
   s => s.tabs,
   s => s.activeTabId,
-  s => s.whitelist,
+  s => s.allowlist,
   (...args) => args,
 )
 
 export default () => {
   const { t } = useTranslation()
-  const [tabs, activeTabId, whitelist] = useConnect(selector)
+  const [tabs, activeTabId, allowlist] = useConnect(selector)
   const currentDomainInfo = formatActiveTabInfo(tabs[activeTabId])
-  const { showingWhitelist, setShowingWhitelist } = useContext(DomainBarContext)
+  const { showingAllowlist, setShowingAllowlist } = useContext(DomainBarContext)
   const disabled = !!currentDomainInfo?.hostnameInvalid
   const { colors } = useTheme(ThemeContext)
 
-  const existingWhitelistInfo = whitelist.find(
+  const existingAllowlistInfo = allowlist.find(
     x => x.domain === currentDomainInfo.hostname,
   )
 
   const iconFill = disabled
     ? colors.quarterwhite
-    : existingWhitelistInfo
+    : existingAllowlistInfo
     ? colors.white
     : colors.halfwhite
 
   return (
-    <WithToolTip tip={disabled ? '' : t('Whitelist Settings')}>
+    <WithToolTip tip={disabled ? '' : t('Allowlist Settings')}>
       <Flex
         px={'16px'}
         py={'8px'}
         ml="auto"
-        aria-label={t('Whitelist Settings open')}
+        aria-label={t('Allowlist Settings open')}
         onClick={() => {
-          if (!disabled) setShowingWhitelist(!showingWhitelist)
+          if (!disabled) setShowingAllowlist(!showingAllowlist)
         }}
         css={{
           position: 'relative',
@@ -55,7 +55,7 @@ export default () => {
           },
         }}
       >
-        <WhitelistIcon />
+        <AllowlistIcon />
       </Flex>
     </WithToolTip>
   )

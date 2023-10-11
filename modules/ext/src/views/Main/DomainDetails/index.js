@@ -11,15 +11,15 @@ export const DomainBarContext = createContext()
 
 export default () => {
   const { colors } = useTheme(ThemeContext)
-  const [showingWhitelist, setShowingWhitelist] = useState(false)
+  const [showingAllowlist, setShowingAllowlist] = useState(false)
   const [shouldReload, setShouldReload] = useState(false)
   const { t } = useTranslation()
 
   return (
     <DomainBarContext.Provider
       value={{
-        showingWhitelist,
-        setShowingWhitelist,
+        showingAllowlist,
+        setShowingAllowlist,
         shouldReload,
         setShouldReload,
       }}

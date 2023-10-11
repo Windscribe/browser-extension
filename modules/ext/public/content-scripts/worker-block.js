@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const blockWorker = () =>
   injectScript(`
-    if (typeof wsWhitelisted === 'undefined') {
+    if (typeof wsAllowlisted === 'undefined') {
       window.manageWebWorkers = new (function() {
         let oldWorker = window.Worker
         let newWorker = function() {

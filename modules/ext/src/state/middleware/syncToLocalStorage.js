@@ -29,14 +29,14 @@ const sync = async ({ reducer, state, action }) => {
   }
 }
 
-export default whitelist => store => next => action => {
-  /* TODO: Currently the whitelist only includes reducers
+export default allowlist => store => next => action => {
+  /* TODO: Currently the allowlist only includes reducers
     Maybe later we'll want more granularity and include action types as well
   */
   const [reducer] = action.type.split('_')
   if (window.LOG_ACTIONS) log(action)
   // Check if reducers is an array
-  if (!Array.isArray(whitelist)) throw new Error('Reducer list is not an array')
+  if (!Array.isArray(allowlist)) throw new Error('Reducer list is not an array')
   // No need to update the local store on init
   if (action.type.includes('HYDRATE') || action.type.includes('CLEAR')) {
     console.warn('skipping storage sync')
@@ -58,7 +58,7 @@ export default whitelist => store => next => action => {
   const asyncKeys = ['loading', 'error']
   const hasAsyncKeys = x => x?.loading
 
-  if (whitelist.includes(reducer)) {
+  if (allowlist.includes(reducer)) {
     if (
       hasAsyncKeys(prevState)
         ? !isEqual(omit(prevState, asyncKeys), omit(nextState, asyncKeys))

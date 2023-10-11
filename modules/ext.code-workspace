@@ -1,45 +1,44 @@
 {
   "folders": [
-	{
-		"path": "ext"
-	},
-	{
-		"path": "ui"
-	},
-	{
-		"path": "ws-api-client"
-	}
-],
-"settings": {
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/*.hot-update.json": true,
-    "**/*.hot-update.js": true
-  },
-  "path-autocomplete.pathMappings": {
-    "$root": "${workspace}/src"
-  },
-  "cSpell.words": [
-    "Onboarding",
-    "all",
-    "include",
-    "subdomains",
-    "whitelisted"
+    {
+      "path": "ext"
+    },
+    {
+      "path": "ui"
+    },
+    {
+      "path": "ws-api-client"
+    }
   ],
-  "javascript.validate.enable": false,
-  "typescript.surveys.enabled": false
-
-},
-"extensions": {
-	"recommendations": [
-		"ionutvmi.path-autocomplete",
-    "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode",
-    "jpoissonnier.vscode-styled-components"
-	]
-}
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/*.hot-update.json": true,
+      "**/*.hot-update.js": true
+    },
+    "path-autocomplete.pathMappings": {
+      "$root": "${workspace}/src"
+    },
+    "cSpell.words": [
+      "Onboarding",
+      "all",
+      "include",
+      "subdomains",
+      "allowlisted"
+    ],
+    "javascript.validate.enable": false,
+    "typescript.surveys.enabled": false
+  },
+  "extensions": {
+    "recommendations": [
+      "ionutvmi.path-autocomplete",
+      "EditorConfig.EditorConfig",
+      "esbenp.prettier-vscode",
+      "jpoissonnier.vscode-styled-components"
+    ]
+  }
 }

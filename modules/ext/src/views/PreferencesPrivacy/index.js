@@ -10,6 +10,7 @@ import { ThemeContext, css } from '@emotion/core'
 import { InlineButton } from 'ui/Button'
 import proxyTimeTooltipText from 'utils/proxyTimeTooltipText'
 import { createSelector } from 'reselect'
+import { IS_CHROME } from 'utils/constants'
 import ProxyTimeIcon from 'assets/time-icon.svg'
 import CookieMonsterSelect from './CookieMonsterSelect'
 import NotificationBlockSetting from './NotificationBlockSetting'
@@ -23,6 +24,8 @@ import TimeWarpIcon from 'assets/settingIcons/timeWarp.svg'
 import LocationWarpIcon from 'assets/settingIcons/locationWarp.svg'
 import WebRTCIcon from 'assets/settingIcons/webRTC.svg'
 import WorkerBlockIcon from 'assets/settingIcons/workerBlock.svg'
+import AdPrivacyIcon from 'assets/settingIcons/adPrivacy.svg'
+
 import Menu from '../Preferences/Menu'
 
 const ACTIVITY = 'preferences_privacy'
@@ -40,6 +43,8 @@ const selector = createSelector(
   s => s.workerBlockEnabled,
   s => s.cookieMonsterEnabled,
   s => s.cookieMonsterOnlyThirdParty,
+  s => s.adPrivacyEnabled,
+
   (...args) => args,
 )
 
@@ -60,6 +65,7 @@ export default () => {
     workerBlockEnabled,
     cookieMonsterEnabled,
     cookieMonsterOnlyThirdParty,
+    adPrivacyEnabled,
   ] = useSelector(selector)
 
   const setPrivacyOptionsCount = v => {
@@ -338,6 +344,28 @@ export default () => {
           }}
         />
       </SettingItem>
+      {IS_CHROME && (
+        <SettingItem
+          title={'Ad Privacy'}
+          subHeading={'Disable contextual ad topics and suggestions.'}
+          // path={'features/worker-block'}
+          Icon={AdPrivacyIcon}
+        >
+          <ToggleSwitch
+            toggleValue={adPrivacyEnabled}
+            onToggle={() => {
+              setReloadAlert(true)
+              setPrivacyOptionsCount(adPrivacyEnabled)
+              dispatch(
+                actions.adPrivacyEnabled.setandlog({
+                  value: !adPrivacyEnabled,
+                  logActivity: ACTIVITY,
+                }),
+              )
+            }}
+          />
+        </SettingItem>
+      )}
     </Menu>
   )
 }

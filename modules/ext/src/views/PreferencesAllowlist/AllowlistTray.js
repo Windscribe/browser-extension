@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import styled from '@emotion/styled'
 import posed from 'react-pose'
 import { Flex } from '@rebass/emotion'
-import MenuHeader from './WhitelistTrayHeader'
-import MenuBody from './WhitelistTrayBody'
+import MenuHeader from './AllowlistTrayHeader'
+import MenuBody from './AllowlistTrayBody'
 import AltTheme from './AltTheme'
 
 import { Context } from './state'
@@ -66,8 +66,8 @@ const MenuOverflow = styled(Flex)`
 `
 
 export default () => {
-  const WhitelistContext = useContext(Context)
-  const { menuOpen } = WhitelistContext.state.uiState
+  const AllowlistContext = useContext(Context)
+  const { menuOpen } = AllowlistContext.state.uiState
   const trayTabIndex = menuOpen ? 0 : -1
 
   return (

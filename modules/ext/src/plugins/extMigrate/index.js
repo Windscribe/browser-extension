@@ -36,15 +36,15 @@ export default {
           })
         }
       }
-      //migrate any old whitelist data
-      const oldWhitelistDataString = localStorage.getItem(
+      //migrate any old allowlist data
+      const oldAllowlistDataString = localStorage.getItem(
         'wsextension_listsInfo',
       )
-      if (oldWhitelistDataString) {
+      if (oldAllowlistDataString) {
         try {
-          const oldWhitelistData = JSON.parse(oldWhitelistDataString)
+          const oldAllowlistData = JSON.parse(oldAllowlistDataString)
           const wlItems = {}
-          oldWhitelistData.lists.whiteList.forEach(domain => {
+          oldAllowlistData.lists.allowList.forEach(domain => {
             wlItems[domain] = {
               domain,
               includeAllSubdomains: true,
@@ -53,7 +53,7 @@ export default {
               allowCookies: false,
             }
           })
-          oldWhitelistData.lists.proxyWhiteList.forEach(domain => {
+          oldAllowlistData.lists.proxyAllowList.forEach(domain => {
             if (wlItems[domain]) {
               wlItems[domain] = {
                 ...wlItems[domain],
@@ -69,7 +69,7 @@ export default {
               }
             }
           })
-          oldWhitelistData.lists.cookieWhiteList.forEach(domain => {
+          oldAllowlistData.lists.cookieAllowList.forEach(domain => {
             if (wlItems[domain]) {
               wlItems[domain] = {
                 ...wlItems[domain],
@@ -87,16 +87,16 @@ export default {
           })
           pushToDebugLog({
             activity: 'migrate_old_ext_data',
-            message: `whitelist items to import: ${JSON.stringify(wlItems)}`,
+            message: `allowlist items to import: ${JSON.stringify(wlItems)}`,
           })
           try {
             delete wlItems['windscribe.com']
           } catch (e) {}
           Object.values(wlItems).forEach(item =>
             store.dispatch(
-              actions.whitelist.save({
-                whitelistObject: item,
-                logActivity: 'migrate_whitelist',
+              actions.allowlist.save({
+                allowlistObject: item,
+                logActivity: 'migrate_allowlist',
               }),
             ),
           )

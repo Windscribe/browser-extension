@@ -4,7 +4,7 @@ import { store, actions } from 'state'
 export default {
   lexiconEntries: [
     {
-      name: 'whitelist',
+      name: 'allowlist',
       initialState: [],
       stashOnLogout: true,
       resolvers: {
@@ -12,15 +12,15 @@ export default {
       },
     },
     {
-      name: 'originalWhitelistInfo',
+      name: 'originalAllowlistInfo',
       initialState: null,
     },
   ],
   async initialize() {
-    const ACTIVITY = 'whitelist_init'
-    const { whitelist } = store.getState()
-    if (whitelist.length === 0) {
-      const whitelistObject = {
+    const ACTIVITY = 'allowlist_init'
+    const { allowlist } = store.getState()
+    if (allowlist.length === 0) {
+      const allowlistObject = {
         domain: 'windscribe.com',
         includeAllSubdomains: true,
         allowDirectConnect: false,
@@ -28,9 +28,9 @@ export default {
         allowCookies: true,
       }
       store.dispatch(
-        actions.whitelist.save({
+        actions.allowlist.save({
           logActivity: ACTIVITY,
-          whitelistObject,
+          allowlistObject,
         }),
       )
     }

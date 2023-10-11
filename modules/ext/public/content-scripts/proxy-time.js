@@ -262,7 +262,7 @@ const injectScript = content => {
 
 const shiftTime = timeWarp =>
   injectScript(`
-  if (typeof wsWhitelisted === 'undefined') {
+  if (typeof wsAllowlisted === 'undefined') {
     if (!window.ODate) {
       window.ODate = Date
     }

@@ -48,12 +48,12 @@ const DomainInput = styled(Input)`
 export default ({ trayTabIndex }) => {
   const { colors } = useTheme(ThemeContext)
   const { t } = useTranslation()
-  const WhitelistContext = useContext(Context)
-  const { mode, canSave } = WhitelistContext.state.uiState
-  const { domain } = WhitelistContext.state.configState
+  const AllowlistContext = useContext(Context)
+  const { mode, canSave } = AllowlistContext.state.uiState
+  const { domain } = AllowlistContext.state.configState
 
-  const { configDispatch, uiDispatch } = WhitelistContext.dispatches
-  const domainInWhitelist = WhitelistContext.actions.entityInExistingWhitelist({
+  const { configDispatch, uiDispatch } = AllowlistContext.dispatches
+  const domainInAllowlist = AllowlistContext.actions.entityInExistingAllowlist({
     entity: domain,
   })
 
@@ -62,7 +62,7 @@ export default ({ trayTabIndex }) => {
 
   const checkDomainVality = () => {
     //check if the input is actually a domain on blur/change
-    const isValid = isValidDomain(domain) && !domainInWhitelist
+    const isValid = isValidDomain(domain) && !domainInAllowlist
     uiDispatch({
       type: 'setCanSave',
       payload: { canSave: isValid },
@@ -87,7 +87,7 @@ export default ({ trayTabIndex }) => {
   return (
     <>
       <Branch
-        if={domainInWhitelist && (mode === 'add' || mode === 'addCur')}
+        if={domainInAllowlist && (mode === 'add' || mode === 'addCur')}
         Then={() => (
           <Text
             aria-live="polite"
@@ -97,7 +97,7 @@ export default ({ trayTabIndex }) => {
             fontWeight="bold"
             color={colors.red}
           >
-            {domain} {t('is already whitelisted')}
+            {domain} {t('is already allowlisted')}
           </Text>
         )}
         Else={() => (
@@ -143,14 +143,14 @@ export default ({ trayTabIndex }) => {
               if={mode === 'add'}
               Then={() => (
                 <DomainInput
-                  aria-label="Enter domain to whitelist"
+                  aria-label="Enter domain to allowlist"
                   showBar={false}
                   aria-required="true"
                   inputRef={InputRef}
                   type="text"
                   autoComplete="off"
                   name="Domain Input"
-                  placeholder={t('Enter domain to whitelist')}
+                  placeholder={t('Enter domain to allowlist')}
                   value={domain}
                   onChange={({ target }) => {
                     configDispatch({
@@ -161,7 +161,7 @@ export default ({ trayTabIndex }) => {
                       checkDomainVality()
                     }
                   }}
-                  isInvalid={domainInWhitelist}
+                  isInvalid={domainInAllowlist}
                   onBlur={() => {
                     if (!isDirty) {
                       setIsDirty(true)

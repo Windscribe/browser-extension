@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Windscribe - Free Proxy and Ad Blocker",
   "short_name": "Windscribe",
-  "version": "3.4.8",
+  "version": "3.4.9",
   "description": "Windscribe helps you mask your physical location, circumvent censorship, and block ads and trackers on websites you use every day",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
   "default_locale": "en",

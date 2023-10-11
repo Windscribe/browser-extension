@@ -21,17 +21,17 @@ const getParsedHostnamesString = (hostnames, proxyPort) => {
 const createFindProxyForURLFunction = ({
   hostnames = [],
   cruiseControlList,
-  whitelist = [],
+  allowlist = [],
 }) => {
   const { workingApi } = api.getConfig()
   const proxyPort = store.getState().proxyPort
 
   const pac = `
   function FindProxyForURL (url, host) {
-    function shouldNotProxy(url, host, userWhitelist) {
+    function shouldNotProxy(url, host, userAllowlist) {
       let lanIps = /(^(127|10)\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$)|(^192\\.168\\.\\d{1,3}\\.\\d{1,3}$)|(^172\\.1[6-9]\\.\\d{1,3}\\.\\d{1,3}$)|(^172\\.2[0-9]\\.\\d{1,3}\.\\d{1,3}$)|(^172\\.3[0-1]\\.\\d{1,3}\\.\\d{1,3}$)/
 
-      let whitelist = [
+      let allowlist = [
         '*://api.windscribe.com/*',
         '*://assets.windscribe.com/*',
         '*://*.staticnetcontent.com/*',
@@ -44,7 +44,7 @@ const createFindProxyForURLFunction = ({
             : ''
         }
         'https://windscribe.com/installed/*',
-      ].concat(userWhitelist)
+      ].concat(userAllowlist)
 
       return [
         isPlainHostName(host),
@@ -52,11 +52,11 @@ const createFindProxyForURLFunction = ({
         // TODO: how to test local protocols?
         ['http', 'ftp', 'ws'].every(protocol => !url.startsWith(protocol)),
         lanIps.test(host),
-        whitelist.some(pattern => shExpMatch(url, pattern)),
+        allowlist.some(pattern => shExpMatch(url, pattern)),
       ].some(_ => _)
     }
-    let whitelist = ${JSON.stringify(whitelist)}
-    if (shouldNotProxy(url, host, whitelist)) {
+    let allowlist = ${JSON.stringify(allowlist)}
+    if (shouldNotProxy(url, host, allowlist)) {
       return 'DIRECT'
     }
     ${cruiseControlList ? stringify(cruiseControlList) : ''}

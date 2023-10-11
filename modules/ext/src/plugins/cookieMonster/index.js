@@ -1,7 +1,7 @@
 import { COOKIE_MONSTER_ENABLED } from 'utils/constants'
 import { uniqWith, isEqual } from 'lodash'
 import { store, actions } from 'state'
-import domainExistsInWhitelist from 'utils/domainExistsInWhitelist'
+import domainExistsInAllowlist from 'utils/domainExistsInAllowlist'
 import * as utils from './utils'
 import format from 'plugins/tabs/format'
 export default {
@@ -22,7 +22,7 @@ export default {
       cookieMonsterEnabled,
       cookieMonsterOnlyThirdParty,
       tabs,
-      whitelist,
+      allowlist,
     } = store.getState()
 
     // TODO: check if another tab is on the same domain, if so return early
@@ -30,13 +30,13 @@ export default {
     const tab = tabs[id]
     if (!tab) return
 
-    const isWhitelisted = domainExistsInWhitelist({
-      whitelist,
+    const isAllowlisted = domainExistsInAllowlist({
+      allowlist,
       url: tab.url,
       domain: format(tab).hostname,
     })
 
-    if (cookieMonsterEnabled && !isWhitelisted) {
+    if (cookieMonsterEnabled && !isAllowlisted) {
       const { firstParty, thirdParty } = await utils.collectCookies({
         tab,
         cookieMonsterOnlyThirdParty,

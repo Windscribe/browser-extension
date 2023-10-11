@@ -6,7 +6,7 @@ const ublock = require('./ublock')
 const userAgent = require('./userAgent')
 const debugLog = require('./debugLog')
 const email = require('./email')
-const whitelist = require('./whitelist')
+const allowlist = require('./allowlist')
 const statusChanges = require('./statusChanges')
 // const sessionPoller = require('./session-poller'
 // const createUser = require('../admin/createTestUser')
@@ -21,7 +21,7 @@ const domains = {
   proxy,
   statusChanges,
   ublock,
-  whitelist,
+  allowlist,
   userAgent,
   debugLog,
   email,
@@ -29,11 +29,11 @@ const domains = {
   logout,
 }
 
-module.exports = (whitelist = []) =>
-  whitelist.length
+module.exports = (allowlist = []) =>
+  allowlist.length
     ? flatten(
         Object.entries(domains)
-          .filter(([key]) => whitelist.includes(key))
+          .filter(([key]) => allowlist.includes(key))
           .map(([, v]) => v),
       )
     : flatten(Object.values(domains))

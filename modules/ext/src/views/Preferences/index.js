@@ -12,7 +12,7 @@ import ConnectionIcon from 'assets/connection-icon.svg'
 import BlockerIcon from 'assets/blocker-icon.svg'
 import PrivacyIcon from 'assets/privacy-icon.svg'
 import AccountIcon from 'assets/account-icon.svg'
-import WhitelistIcon from 'assets/whitelist-icon-settings.svg'
+import AllowlistIcon from 'assets/allowlist-icon-settings.svg'
 import { EMAIL } from 'utils/constants'
 import Footer from './Footer'
 import HeaderInfoRow from './HeaderInfoRow'
@@ -89,10 +89,10 @@ export default () => {
           }
         />
         <SettingsMenuItem
-          IconLeft={WhitelistIcon}
-          title={t('Whitelist')}
+          IconLeft={AllowlistIcon}
+          title={t('Allowlist')}
           noBorder
-          onClick={() => set('PreferencesWhitelist')}
+          onClick={() => set('PreferencesAllowlist')}
         />
       </Box>
 

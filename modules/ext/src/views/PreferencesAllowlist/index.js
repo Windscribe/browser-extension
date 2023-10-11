@@ -8,7 +8,7 @@ import { InlineButton } from 'ui/Button'
 import { SettingHeader, SettingGroup, SettingItem } from 'components/Settings'
 import SettingAlert from 'ui/Alert'
 import AddIcon from 'assets/plus-icon.svg'
-import WhitelistTray from './WhitelistTray'
+import AllowlistTray from './AllowlistTray'
 import EntryList from './entryList'
 import { Scrollbars } from 'react-custom-scrollbars'
 
@@ -26,23 +26,23 @@ import { createSelector } from 'reselect'
 const selector = createSelector(
   s => s.tabs,
   s => s.activeTabId,
-  s => s.whitelist,
+  s => s.allowlist,
   (...args) => args,
 )
 
-const genEntityInWhitelist = (optionalWl = []) => ({
-  whitelist = optionalWl,
+const genEntityInAllowlist = (optionalWl = []) => ({
+  allowlist = optionalWl,
   entity,
-}) => !!whitelist.find(({ domain }) => domain === entity)
+}) => !!allowlist.find(({ domain }) => domain === entity)
 
-const entityInWhitelist = genEntityInWhitelist()
+const entityInAllowlist = genEntityInAllowlist()
 
 export default () => {
   const { colors } = useTheme(ThemeContext)
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const [tabs, activeTabId, whitelist] = useConnect(selector)
+  const [tabs, activeTabId, allowlist] = useConnect(selector)
 
   const shouldReloadPage = tabs[activeTabId]?.shouldReloadPage || false
 
@@ -50,10 +50,10 @@ export default () => {
   const viewContainerRef = useRef()
 
   // our 'current' domain
-  useEffect(() => domainDispatch({ type: 'queryDomain' }), [whitelist])
+  useEffect(() => domainDispatch({ type: 'queryDomain' }), [allowlist])
 
   const [domainState, domainDispatch] = useReducer(
-    domainStateReducer({ entityInWhitelist, whitelist }),
+    domainStateReducer({ entityInAllowlist, allowlist }),
     {
       ...domainStateObj,
       domainObject: tabs[activeTabId],
@@ -75,8 +75,8 @@ export default () => {
     ? domainState.currentSiteDomain
     : 'Invalid Domain'
 
-  const alreadyWhitelisted = domainState.domainValid
-    ? domainState.currentSiteDomainInWhitelist
+  const alreadyAllowlisted = domainState.domainValid
+    ? domainState.currentSiteDomainInAllowlist
     : true
 
   return (
@@ -89,8 +89,8 @@ export default () => {
           state: { uiState, domainState, configState },
           dispatches: { uiDispatch, configDispatch, domainDispatch },
           actions: {
-            entityInWhitelist,
-            entityInExistingWhitelist: genEntityInWhitelist(whitelist), //we 'prepack' root whitelist here
+            entityInAllowlist,
+            entityInExistingAllowlist: genEntityInAllowlist(allowlist), //we 'prepack' root allowlist here
           },
         }}
       >
@@ -107,17 +107,17 @@ export default () => {
             }}
           />
         )}
-        <WhitelistTray />
+        <AllowlistTray />
         <Flex flexDirection="column">
           <Box>
             <SettingHeader
               usePrimary
-              prefName={t('Whitelist')}
+              prefName={t('Allowlist')}
               AdditionalIcon={AddIcon}
               additionalIconTip="Add New"
               additionalIconProps={{
                 tabIndex: mainTabIndex,
-                'aria-label': 'Add new whitelist entry',
+                'aria-label': 'Add new allowlist entry',
               }}
               buttonProps={{
                 tabIndex: mainTabIndex,
@@ -150,7 +150,7 @@ export default () => {
               <SettingGroup groupName={t('Current Page')}>
                 <SettingItem
                   title={domainTitle}
-                  disabled={alreadyWhitelisted}
+                  disabled={alreadyAllowlisted}
                   ControlComponent={({ disabled = false }) => (
                     <InlineButton
                       tabIndex={mainTabIndex}
@@ -186,7 +186,7 @@ export default () => {
                   )}
                 />
               </SettingGroup>
-              <EntryList whitelist={whitelist} />
+              <EntryList allowlist={allowlist} />
             </Box>
           </Scrollbars>
         </Flex>

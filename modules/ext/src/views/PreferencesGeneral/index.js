@@ -12,7 +12,6 @@ import Menu from '../Preferences/Menu'
 import SettingItem from '../Preferences/SettingItem'
 import SettingLink from '../Preferences/SettingLink'
 import ToggleSwitch from '../Preferences/ToggleSwitch'
-import AutoConnectIcon from 'assets/settingIcons/autoConnect.svg'
 import NotificationsIcon from 'assets/settingIcons/notifications.svg'
 import ShowLocationLoadIcon from 'assets/settingIcons/showLocationLoad.svg'
 import DebugMenuIcon from 'assets/settingIcons/debugMenu.svg'
@@ -23,7 +22,6 @@ const ACTIVITY = 'preferences_general'
 
 const settingsSelector = createSelector(
   s => s.allowSystemNotifications,
-  s => s.autoConnect,
   s => s.showDebugContextMenu,
   s => s.locationLoadEnabled,
   (...settings) => settings,
@@ -34,7 +32,6 @@ export default () => {
   const dispatch = useDispatch()
   const [
     allowSystemNotifications,
-    autoConnect,
     showDebugContextMenu,
     locationLoadEnabled,
   ] = useConnect(settingsSelector)
@@ -51,24 +48,6 @@ export default () => {
       showReloadAlert={showReloadAlert}
       setReloadAlert={setReloadAlert}
     >
-      <SettingItem
-        title={'Auto-Connect'}
-        subHeading={'Automatically connect on browser start.'}
-        Icon={AutoConnectIcon}
-      >
-        <ToggleSwitch
-          type={'Auto-Connect'}
-          toggleValue={autoConnect}
-          onToggle={() => {
-            dispatch(
-              actions.autoConnect.setandlog({
-                value: !autoConnect,
-                logActivity: ACTIVITY,
-              }),
-            )
-          }}
-        />
-      </SettingItem>
       <SettingItem
         title={'Notifications'}
         subHeading={'Show connect/disconnect OS notifications.'}

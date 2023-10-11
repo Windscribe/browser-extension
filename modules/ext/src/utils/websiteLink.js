@@ -42,21 +42,32 @@ export default async ({
       platform: IS_CHROME ? 'chrome' : 'firefox',
     })
 
-    const response = await api.post({
-      endpoint: '/WebSession',
-      params: {
-        session_type_id: 1,
-        temp_session: 1,
-      },
-    })
+    try {
+      // Attempt the API post request
+      const response = await api.post({
+        endpoint: '/WebSession',
+        params: {
+          session_type_id: 1,
+          temp_session: 1,
+        },
+      })
 
-    return browser.tabs.create({
-      url:
-        rootUrl +
-        addPath(path) +
-        addParams({ ...params, temp_session: response?.data?.temp_session }) +
-        addHash(hash),
-    })
+      // If successful, construct the full URL
+      return browser.tabs.create({
+        url:
+          rootUrl +
+          addPath(path) +
+          addParams({ ...params, temp_session: response?.data?.temp_session }) +
+          addHash(hash),
+      })
+    } catch (error) {
+      // If there's an error (fetch fails), fall back to a simpler URL structure
+      console.error('Fetch failed:', error)
+
+      return browser.tabs.create({
+        url: rootUrl + addPath(path),
+      })
+    }
   }
 
   return browser.tabs.create({

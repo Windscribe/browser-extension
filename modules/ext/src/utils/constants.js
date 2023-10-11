@@ -126,7 +126,7 @@ export const REDUCERS_TO_SYNC = [
   'currentOS',
   'cruiseControlList',
   'proxy',
-  'whitelist',
+  'allowlist',
   'blockLists',
   'lastDebugLogCheck',
   'lastBlockListCheck',
@@ -177,8 +177,8 @@ export const ACTIVE_LANGUAGES_MAP = {
   chinese: 'zh',
 }
 
-// extra whitelist rules for specific domains (to ensure proper whitelisting)
-export const WHITELIST_DOMAIN_TABLE = {
+// extra allowlist rules for specific domains (to ensure proper allowlisting)
+export const ALLOWLIST_DOMAIN_TABLE = {
   'youtube.com': ['googlevideo.com'],
   'www.youtube.com': ['googlevideo.com'],
   'netflix.com': ['nflxvideo.net'],

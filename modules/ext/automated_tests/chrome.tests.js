@@ -5,7 +5,7 @@ const fs = require('fs-extra')
 const rimraf = require('rimraf')
 const path = require('path')
 const argv = require('yargs')
-  .alias('W', 'whitelist')
+  .alias('W', 'allowlist')
   .array('W')
   .boolean('keepOpen')
   .boolean('autoConnect')
@@ -101,9 +101,9 @@ describe('chrome extension', () => {
     await setupBrowser({ showPopup: argv.e2e || argv.ghost })
   })
 
-  const logicTests = argv.logic ? getLogicTests(argv.whitelist) : []
-  const e2eTests = argv.e2e ? getE2eTests(argv.whitelist) : []
-  const ghostTests = argv.ghost ? getGhostTests(argv.whitelist) : []
+  const logicTests = argv.logic ? getLogicTests(argv.allowlist) : []
+  const e2eTests = argv.e2e ? getE2eTests(argv.allowlist) : []
+  const ghostTests = argv.ghost ? getGhostTests(argv.allowlist) : []
   const allTests = [...e2eTests, ...logicTests, ...ghostTests]
 
   for (let t of allTests) {

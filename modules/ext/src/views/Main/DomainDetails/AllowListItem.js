@@ -2,13 +2,13 @@ import React, { useContext, forwardRef } from 'react'
 import { useTheme } from 'ui/hooks'
 import { ThemeContext } from '@emotion/core'
 import { WithToolTip } from 'components/Utils'
-import { WhiteListItemStyle } from './style'
-import { DomainBarContext } from './'
+import { AllowListItemStyle } from './style'
+import { DomainBarContext } from '.'
 
 export default forwardRef(
   ({ Icon, title, selected = false, disabled = false, ...props }, ref) => {
     const { colors } = useTheme(ThemeContext)
-    const { showingWhitelist } = useContext(DomainBarContext)
+    const { showingAllowlist } = useContext(DomainBarContext)
 
     let itemActiveColor = selected ? colors.fg : colors.fgLight
     if (disabled) {
@@ -16,11 +16,11 @@ export default forwardRef(
     }
     return (
       <WithToolTip tip={title} trigger="mouseenter">
-        <WhiteListItemStyle
+        <AllowListItemStyle
           aria-label={title}
           aria-pressed={selected}
           ref={ref}
-          tabIndex={showingWhitelist ? 0 : -1}
+          tabIndex={showingAllowlist ? 0 : -1}
           px={2}
           py={3}
           alignItems="center"
@@ -29,7 +29,7 @@ export default forwardRef(
           {...props}
         >
           <Icon fill={itemActiveColor} />
-        </WhiteListItemStyle>
+        </AllowListItemStyle>
       </WithToolTip>
     )
   },

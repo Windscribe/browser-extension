@@ -1,7 +1,7 @@
 import assert from 'assert'
-import domainExistsInWhitelist from '../domainExistsInWhitelist'
+import domainExistsInAllowlist from '../domainExistsInAllowlist'
 
-const whitelist = [
+const allowlist = [
   {
     domain: 'test.github.com',
     includeAllSubdomains: true,
@@ -27,14 +27,14 @@ const whitelist = [
 
 const defaultUrl = 'https://test.github.com/'
 
-const isWhitelisted = (domain, url = defaultUrl) =>
-  domainExistsInWhitelist({ domain, whitelist, url })
+const isAllowlisted = (domain, url = defaultUrl) =>
+  domainExistsInAllowlist({ domain, allowlist, url })
 
-/* Should find matching domain in whitelist' */
-describe('Check whitelist', () => {
-  it('Should find matching domain in whitelist', () =>
-    assert(isWhitelisted('maps.google.ca', 'https://maps.google.ca')))
+/* Should find matching domain in allowlist' */
+describe('Check allowlist', () => {
+  it('Should find matching domain in allowlist', () =>
+    assert(isAllowlisted('maps.google.ca', 'https://maps.google.ca')))
 
   it('Should find domain that has different subdomain', () =>
-    assert(isWhitelisted('github.com')))
+    assert(isAllowlisted('github.com')))
 })

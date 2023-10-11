@@ -5,7 +5,7 @@ const expect = chai.expect
 
 module.exports = [
   {
-    it: 'should add a new whitelist entry',
+    it: 'should add a new allowlist entry',
     eval: async () => {
       const data = {
         domain: 'google.com',
@@ -15,17 +15,17 @@ module.exports = [
         allowCookies: false,
       }
       store.dispatch(
-        actions.whitelist.save({
-          whitelistObject: data,
-          logActivity: 'save_whitelist_test',
+        actions.allowlist.save({
+          allowlistObject: data,
+          logActivity: 'save_allowlist_test',
         }),
       )
 
       await window.sleep(100)
 
-      const whitelist = store.getState().whitelist
+      const allowlist = store.getState().allowlist
 
-      return [whitelist.find(d => d.domain === data.domain), data, whitelist]
+      return [allowlist.find(d => d.domain === data.domain), data, allowlist]
     },
     assert: ([entry, data]) => expect(entry).to.deep.equal(data),
   },
@@ -40,19 +40,19 @@ module.exports = [
         allowCookies: false,
       }
       store.dispatch(
-        actions.whitelist.save({
-          whitelistObject: data,
-          logActivity: 'save_whitelist_test',
+        actions.allowlist.save({
+          allowlistObject: data,
+          logActivity: 'save_allowlist_test',
         }),
       )
 
       await window.sleep(100)
 
-      const whitelist = store.getState().whitelist
+      const allowlist = store.getState().allowlist
 
       return [
-        whitelist.find(d => d.domain === data.domain),
-        whitelist.find(
+        allowlist.find(d => d.domain === data.domain),
+        allowlist.find(
           d => d.domain === 'googlevideo.com' && d.addedBy === data.domain,
         ),
         data,
@@ -76,11 +76,11 @@ module.exports = [
   {
     it: 'should update an entry with dependents',
     eval: () => {
-      const { whitelist } = window.store.getState()
+      const { allowlist } = window.store.getState()
       /* Target the youtube entry */
       const findWsEntry = ({ domain }) => domain === 'youtube.com'
 
-      let entry = whitelist.find(findWsEntry)
+      let entry = allowlist.find(findWsEntry)
 
       if (!entry) {
         entry = {
@@ -91,24 +91,24 @@ module.exports = [
           allowCookies: true,
         }
         window.store.dispatch(
-          window.actions.whitelist.save({
-            whitelistObject: entry,
-            logActivity: 'save_whitelist_test',
+          window.actions.allowlist.save({
+            allowlistObject: entry,
+            logActivity: 'save_allowlist_test',
           }),
         )
       }
 
       window.store.dispatch(
-        window.actions.whitelist.update({
-          whitelistObject: { ...entry, allowCookies: !entry.allowCookies },
-          logActivity: 'update_whitelist_test',
+        window.actions.allowlist.update({
+          allowlistObject: { ...entry, allowCookies: !entry.allowCookies },
+          logActivity: 'update_allowlist_test',
         }),
       )
 
-      const updatedEntry = window.store.getState().whitelist.find(findWsEntry)
+      const updatedEntry = window.store.getState().allowlist.find(findWsEntry)
       const updatedDep = window.store
         .getState()
-        .whitelist.find(x => x.domain === 'googlevideo.com')
+        .allowlist.find(x => x.domain === 'googlevideo.com')
 
       return [entry, updatedEntry, updatedDep]
     },
@@ -130,9 +130,9 @@ module.exports = [
   {
     it: 'should remove an entry with dependents',
     eval: async () => {
-      const { whitelist } = window.store.getState()
+      const { allowlist } = window.store.getState()
 
-      let entry = whitelist.find(({ domain }) => domain === 'youtube.com')
+      let entry = allowlist.find(({ domain }) => domain === 'youtube.com')
 
       if (!entry) {
         entry = {
@@ -143,26 +143,26 @@ module.exports = [
           allowCookies: true,
         }
         window.store.dispatch(
-          window.actions.whitelist.save({
-            whitelistObject: entry,
-            logActivity: 'save_whitelist_test',
+          window.actions.allowlist.save({
+            allowlistObject: entry,
+            logActivity: 'save_allowlist_test',
           }),
         )
       }
 
       window.store.dispatch(
-        window.actions.whitelist.pop({
+        window.actions.allowlist.pop({
           domain: entry.domain,
-          logActivity: 'remove_whitelist_test',
+          logActivity: 'remove_allowlist_test',
         }),
       )
 
       await window.sleep(100)
 
-      const updatedWhitelist = store.getState().whitelist
+      const updatedAllowlist = store.getState().allowlist
 
-      const hasDomain = updatedWhitelist.find(x => x.domain === 'youtube.com')
-      const hasDep = updatedWhitelist.find(x => x.domain === 'googlevideo.com')
+      const hasDomain = updatedAllowlist.find(x => x.domain === 'youtube.com')
+      const hasDep = updatedAllowlist.find(x => x.domain === 'googlevideo.com')
 
       return [hasDomain, hasDep]
     },
@@ -172,7 +172,7 @@ module.exports = [
     },
   },
   // {
-  //   it: 'should add a new whitelist entry to allow ads',
+  //   it: 'should add a new allowlist entry to allow ads',
   //   eval: async () => {
   //     let data = {
   //       domain: 'cnn.com',
@@ -181,13 +181,13 @@ module.exports = [
   //       allowAds: true,
   //       allowCookies: false,
   //     }
-  //     store.dispatch(actions.whitelist.save(data))
+  //     store.dispatch(actions.allowlist.save(data))
 
-  //     let whitelist = store.getState().whitelist
+  //     let allowlist = store.getState().allowlist
   //     //let uboEntry = µBlock.netWhitelist[data.domain]
   //     let uboEntry = µBlock.selectedFilterLists
 
-  //     return [whitelist.find(d => d.domain === data.domain), data, uboEntry]
+  //     return [allowlist.find(d => d.domain === data.domain), data, uboEntry]
   //   },
   //   assert: ([entry, data, uboEntry]) => {
   //     expect(entry).to.deep.equal(data)
@@ -201,11 +201,11 @@ module.exports = [
   {
     it: 'should update an entry',
     eval: async () => {
-      const { whitelist } = window.store.getState()
+      const { allowlist } = window.store.getState()
       /* Target the initial windscribe entry */
       const findWsEntry = ({ domain }) => domain === 'windscribe.com'
 
-      let entry = whitelist.find(findWsEntry)
+      let entry = allowlist.find(findWsEntry)
 
       if (!entry) {
         entry = {
@@ -216,23 +216,23 @@ module.exports = [
           allowCookies: true,
         }
         window.store.dispatch(
-          window.actions.whitelist.save({
-            whitelistObject: entry,
-            logActivity: 'save_whitelist_test',
+          window.actions.allowlist.save({
+            allowlistObject: entry,
+            logActivity: 'save_allowlist_test',
           }),
         )
       }
 
       window.store.dispatch(
-        window.actions.whitelist.update({
-          whitelistObject: { ...entry, allowCookies: !entry.allowCookies },
-          logActivity: 'update_whitelist_test',
+        window.actions.allowlist.update({
+          allowlistObject: { ...entry, allowCookies: !entry.allowCookies },
+          logActivity: 'update_allowlist_test',
         }),
       )
 
       await window.sleep(100)
 
-      const updatedEntry = window.store.getState().whitelist.find(findWsEntry)
+      const updatedEntry = window.store.getState().allowlist.find(findWsEntry)
 
       return [entry, updatedEntry]
     },

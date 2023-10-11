@@ -32,29 +32,29 @@ export const configStateReducer = ({ dispatch }) => (state, action) => {
         domain: newDomain,
       }
     }
-    case 'saveWhitelistEntry': {
+    case 'saveAllowlistEntry': {
       return dispatch(
-        actions.whitelist.save({
-          whitelistObject: state,
-          logActivity: 'save_whitelist_prefs_page',
+        actions.allowlist.save({
+          allowlistObject: state,
+          logActivity: 'save_allowlist_prefs_page',
         }),
       )
     }
-    case 'updateWhitelistEntry': {
+    case 'updateAllowlistEntry': {
       return dispatch(
-        actions.whitelist.update({
-          whitelistObject: state,
-          logActivity: 'update_whitelist_prefs_page',
+        actions.allowlist.update({
+          allowlistObject: state,
+          logActivity: 'update_allowlist_prefs_page',
         }),
       )
     }
-    case 'removeWhitelistEntry':
+    case 'removeAllowlistEntry':
       // you can provide your own entry, otherwise it will flush whatever is in state
       const { entry = state } = action.payload || {}
       return dispatch(
-        actions.whitelist.pop({
+        actions.allowlist.pop({
           domain: entry.domain,
-          logActivity: 'remove_whitelist_prefs_page',
+          logActivity: 'remove_allowlist_prefs_page',
         }),
       )
     case 'toggleAllowDirectConnect':
@@ -77,11 +77,11 @@ export const configStateReducer = ({ dispatch }) => (state, action) => {
 export const domainStateObj = {
   /* Queried domain states */
   currentSiteDomain: null,
-  currentSiteDomainInWhitelist: false,
+  currentSiteDomainInAllowlist: false,
   domainValid: false,
-  domainInWhitelist: false, // should only be changed on input
+  domainInAllowlist: false, // should only be changed on input
 }
-export const domainStateReducer = ({ entityInWhitelist, whitelist }) => (
+export const domainStateReducer = ({ entityInAllowlist, allowlist }) => (
   state,
   action,
 ) => {
@@ -95,8 +95,8 @@ export const domainStateReducer = ({ entityInWhitelist, whitelist }) => (
         ...state,
         currentSiteDomain: hostname,
         domainValid: !hostnameInvalid,
-        currentSiteDomainInWhitelist: entityInWhitelist({
-          whitelist,
+        currentSiteDomainInAllowlist: entityInAllowlist({
+          allowlist,
           entity: hostname,
         }),
       }

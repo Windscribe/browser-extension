@@ -64,7 +64,7 @@ export default actions => ({
 
       // specific workaround for post crash bug where pac file is not "cleared" yet
       if (IS_CHROME) {
-        browser.proxy.settings.get({ incognito: false }, function (config) {
+        browser.proxy.settings.get({ incognito: false }, config => {
           const stringyConfig = JSON.stringify(config)
           // check if our pac is still there (this means it was a bad set from before)
           if (stringyConfig?.includes('windscribe')) {
@@ -107,7 +107,7 @@ export default actions => ({
       browser.runtime.sendMessage({
         hostnames: null,
         direct: true,
-        whitelist: [],
+        allowlist: [],
       })
       onProxyTeardownComplete()
     }

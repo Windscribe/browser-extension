@@ -22,10 +22,10 @@ const createSteps = ({ t }) => {
       placement: 'left',
     },
     {
-      target: '.joyride-element-whitelist',
+      target: '.joyride-element-allowlist',
       content: (
         <p>
-          {t('Whitelist a site to bypass our proxy,')}
+          {t('Allowlist a site to bypass our proxy,')}
           <br />
           {t('allow ads, or enable cookie storage')}
         </p>

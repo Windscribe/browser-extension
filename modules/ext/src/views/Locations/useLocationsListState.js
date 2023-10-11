@@ -291,7 +291,14 @@ function filterMatchedLocationsList(matchedList) {
       }
     })
 
-    return { ...item, isLocationMatched, groupMatches }
+    const uniqueGroupMatches = Object.values(
+      groupMatches.reduce((acc, cur) => {
+        acc[cur.id] = cur
+        return acc
+      }, {}),
+    )
+
+    return { ...item, isLocationMatched, groupMatches: uniqueGroupMatches }
   })
 }
 

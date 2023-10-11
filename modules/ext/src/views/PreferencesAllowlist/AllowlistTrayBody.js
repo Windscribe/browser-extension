@@ -73,19 +73,19 @@ const ConfigItem = ({
 export default ({ trayTabIndex }) => {
   const { colors } = useTheme(ThemeContext)
   const { t } = useTranslation()
-  const WhitelistContext = useContext(Context)
+  const AllowlistContext = useContext(Context)
   const advancedModeEnabled = useConnect(s => s.advancedModeEnabled)
 
-  const { confirmingDelete, mode, canSave } = WhitelistContext.state.uiState
+  const { confirmingDelete, mode, canSave } = AllowlistContext.state.uiState
 
   const {
     allowDirectConnect,
     allowAds,
     allowCookies,
     includeAllSubdomains,
-  } = WhitelistContext.state.configState
+  } = AllowlistContext.state.configState
 
-  const { configDispatch, uiDispatch } = WhitelistContext.dispatches
+  const { configDispatch, uiDispatch } = AllowlistContext.dispatches
 
   const saveValid = [!allowDirectConnect, !allowAds, !allowCookies]
 
@@ -181,9 +181,9 @@ export default ({ trayTabIndex }) => {
                     </Box>
                     <SimpleButton
                       tabIndex={trayTabIndex}
-                      aria-label="Yes, remove whitelist entry"
+                      aria-label="Yes, remove allowlist entry"
                       onClick={() => {
-                        configDispatch({ type: 'removeWhitelistEntry' })
+                        configDispatch({ type: 'removeAllowlistEntry' })
                         closeMenu()
                       }}
                     >
@@ -192,7 +192,7 @@ export default ({ trayTabIndex }) => {
                       </Text>
                     </SimpleButton>
                     <SimpleButton
-                      aria-label="No, do not remove whitelist entry"
+                      aria-label="No, do not remove allowlist entry"
                       tabIndex={trayTabIndex}
                       onClick={() =>
                         uiDispatch({
@@ -231,7 +231,7 @@ export default ({ trayTabIndex }) => {
                       Then={() => (
                         <DeleteButton
                           tabIndex={trayTabIndex}
-                          aria-label="Delete whitelist entry"
+                          aria-label="Delete allowlist entry"
                           primary
                           lg
                           onClick={() => {
@@ -248,8 +248,8 @@ export default ({ trayTabIndex }) => {
                         <SaveButton
                           aria-label={
                             mode === 'edit'
-                              ? t('Save whitelist entry')
-                              : t('Add new whitelist entry')
+                              ? t('Save allowlist entry')
+                              : t('Add new allowlist entry')
                           }
                           tabIndex={trayTabIndex}
                           primary
@@ -257,9 +257,9 @@ export default ({ trayTabIndex }) => {
                           disabled={saveValid.every(e => e) || !canSave}
                           onClick={() => {
                             if (mode === 'edit') {
-                              configDispatch({ type: 'updateWhitelistEntry' })
+                              configDispatch({ type: 'updateAllowlistEntry' })
                             } else {
-                              configDispatch({ type: 'saveWhitelistEntry' })
+                              configDispatch({ type: 'saveAllowlistEntry' })
                             }
                             closeMenu()
                           }}

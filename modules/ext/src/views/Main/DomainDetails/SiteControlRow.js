@@ -1,8 +1,8 @@
 import React from 'react'
 import formatActiveTabInfo from 'plugins/tabs/format'
 import { DomainRow } from './style'
-import WhitelistButton from './WhitelistButton'
-import WhitelistButtonRow from './WhitelistButtonRow'
+import AllowlistButton from './AllowListButton'
+import AllowlistButtonRow from './AllowListButtonRow'
 import DomainName from './DomainName'
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -27,15 +27,15 @@ export default () => {
     <>
       <DomainRow
         alignItems="center"
-        className="joyride-element-whitelist"
+        className="joyride-element-allowlist"
         css={css`
           min-height: 50px;
         `}
       >
         <DomainName color={domainColor} hostname={hostname} />
-        <WhitelistButton currentDomainInfo={currentDomainInfo} />
+        <AllowlistButton currentDomainInfo={currentDomainInfo} />
       </DomainRow>
-      <WhitelistButtonRow />
+      <AllowlistButtonRow />
     </>
   )
 }

@@ -11,7 +11,7 @@ import { store, actions } from 'state'
 
 export default async () => {
   window.ipAddress = await checkIp()
-  // window.ublockNetWhitelist = µBlock.netWhitelist
+  // window.ublockNetAllowlist = µBlock.netWhitelist
   window.checkIp = checkIp
   window.constants = constants
   window.sleep = sleep
@@ -119,7 +119,7 @@ export default async () => {
   }
 
   window.helpers = {
-    createWhitelistShape: ({ domain, config = {} }) => {
+    createAllowlistShape: ({ domain, config = {} }) => {
       const defaultShape = {
         domain,
         includeAllSubdomains: true,

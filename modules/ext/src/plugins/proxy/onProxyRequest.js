@@ -1,7 +1,7 @@
 import { flatten } from 'lodash'
 import { FILTER } from 'utils/constants'
 import shouldNotProxy, { shExpMatch } from 'plugins/proxy/shouldNotProxy'
-import { firefoxWhitelistTransform } from 'plugins/whitelist/transform'
+import { firefoxAllowlistTransform } from 'plugins/allowlist/transform'
 import listen from 'utils/listen'
 
 let handleOnRequest
@@ -17,7 +17,7 @@ export default actions => ({
       const {
         proxy,
         proxyPort,
-        whitelist,
+        allowlist,
         currentLocation,
         cruiseControlList,
         bestLocation,
@@ -29,7 +29,7 @@ export default actions => ({
         shouldNotProxy(
           d.url,
           new URL(d.url).hostname,
-          flatten(firefoxWhitelistTransform(whitelist)),
+          flatten(firefoxAllowlistTransform(allowlist)),
         )
       ) {
         return { type: 'DIRECT' }

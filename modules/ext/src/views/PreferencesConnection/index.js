@@ -6,6 +6,7 @@ import DropDown from '../Preferences/DropDown'
 import Menu from '../Preferences/Menu'
 import SettingItem from '../Preferences/SettingItem'
 import ToggleSwitch from '../Preferences/ToggleSwitch'
+import AutoConnectIcon from 'assets/settingIcons/autoConnect.svg'
 import SmokewallIcon from 'assets/settingIcons/smokewall.svg'
 import FailoverIcon from 'assets/settingIcons/failover.svg'
 import ProxyPortIcon from 'assets/settingIcons/proxyPort.svg'
@@ -13,6 +14,7 @@ import ProxyPortIcon from 'assets/settingIcons/proxyPort.svg'
 const ACTIVITY = 'preferences_connection'
 
 const settingsSelector = createSelector(
+  s => s.autoConnect,
   s => s.proxyPort,
   s => s.smokewall,
   s => s.failover,
@@ -20,7 +22,9 @@ const settingsSelector = createSelector(
 )
 export default () => {
   const dispatch = useDispatch()
-  const [proxyPort, smokewall, failover] = useConnect(settingsSelector)
+  const [autoConnect, proxyPort, smokewall, failover] = useConnect(
+    settingsSelector,
+  )
 
   const [showReloadAlert, setReloadAlert] = useState(false)
 
@@ -30,6 +34,24 @@ export default () => {
       showReloadAlert={showReloadAlert}
       setReloadAlert={setReloadAlert}
     >
+      <SettingItem
+        title={'Auto-Connect'}
+        subHeading={'Automatically connect on browser start.'}
+        Icon={AutoConnectIcon}
+      >
+        <ToggleSwitch
+          type={'Auto-Connect'}
+          toggleValue={autoConnect}
+          onToggle={() => {
+            dispatch(
+              actions.autoConnect.setandlog({
+                value: !autoConnect,
+                logActivity: ACTIVITY,
+              }),
+            )
+          }}
+        />
+      </SettingItem>
       <SettingItem
         title={'Smokewall'}
         subHeading={'Do not disconnect even on proxy failure.'}

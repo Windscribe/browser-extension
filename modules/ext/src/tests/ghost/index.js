@@ -11,11 +11,11 @@ const domains = {
   checkNav,
 }
 
-export default (whitelist = []) =>
-  whitelist.length
+export default (allowlist = []) =>
+  allowlist.length
     ? flatten(
         Object.entries(domains)
-          .filter(([key]) => whitelist.includes(key))
+          .filter(([key]) => allowlist.includes(key))
           .map(([, v]) => v),
       )
     : flatten(Object.values(domains))

@@ -12,34 +12,34 @@ import Branch from 'ui/Branch'
 import { ActionButton } from './styles'
 import { SimpleButton } from 'ui/Button'
 
-const EntryList = ({ whitelist }) => {
+const EntryList = ({ allowlist }) => {
   const { t } = useTranslation()
   const { colors } = useTheme(ThemeContext)
-  const WhitelistContext = useContext(Context)
+  const AllowlistContext = useContext(Context)
   const {
     confirmingDelete,
     currentlyDeletingDomain,
     menuOpen,
-  } = WhitelistContext.state.uiState
-  const { uiDispatch, configDispatch } = WhitelistContext.dispatches
+  } = AllowlistContext.state.uiState
+  const { uiDispatch, configDispatch } = AllowlistContext.dispatches
   const entryListTabIndex = menuOpen ? -1 : 0
   return (
-    <SettingGroup groupName={t('Whitelisted')} padding={0}>
-      {whitelist.map((itemData, i) => {
+    <SettingGroup groupName={t('Allowlisted')} padding={0}>
+      {allowlist.map((itemData, i) => {
         return (
           <Branch
             key={itemData.domain + i}
             if={confirmingDelete && currentlyDeletingDomain === itemData.domain}
             Then={() => (
               <SettingItem
-                noBorder={i === whitelist.length - 1}
+                noBorder={i === allowlist.length - 1}
                 aria-live="assertive"
                 title={t('Are you sure?')}
                 ControlComponent={() => (
                   <Flex justifyContent="space-around">
                     <SimpleButton
                       aria-label={t(
-                        `Yes, remove whitelist entry for: {{parent}}`,
+                        `Yes, remove allowlist entry for: {{parent}}`,
                         {
                           parent: itemData.domain,
                         },
@@ -47,7 +47,7 @@ const EntryList = ({ whitelist }) => {
                       tabIndex={entryListTabIndex}
                       onClick={() =>
                         configDispatch({
-                          type: 'removeWhitelistEntry',
+                          type: 'removeAllowlistEntry',
                           payload: { entry: itemData },
                         })
                       }
@@ -82,7 +82,7 @@ const EntryList = ({ whitelist }) => {
             Else={() => (
               // TODO: break this apart to seperate component
               <SettingItem
-                noBorder={i === whitelist.length - 1}
+                noBorder={i === allowlist.length - 1}
                 key={i}
                 title={itemData.domain}
                 headingTip={itemData.domain}
@@ -97,7 +97,7 @@ const EntryList = ({ whitelist }) => {
                     <Tooltip placement="bottom" message={t('Edit')}>
                       <ActionButton
                         tabIndex={entryListTabIndex}
-                        aria-label={t(`Edit whitelist item: {{parent}}`, {
+                        aria-label={t(`Edit allowlist item: {{parent}}`, {
                           parent: itemData.domain,
                         })}
                         onClick={() => {
@@ -120,7 +120,7 @@ const EntryList = ({ whitelist }) => {
                     <Tooltip placement="bottom" message={t('Delete')}>
                       <ActionButton
                         tabIndex={entryListTabIndex}
-                        aria-label={t(`Delete whitelist item: {{parent}}`, {
+                        aria-label={t(`Delete allowlist item: {{parent}}`, {
                           parent: itemData.domain,
                         })}
                         onClick={() =>

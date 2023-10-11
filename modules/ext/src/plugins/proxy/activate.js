@@ -2,7 +2,7 @@ import { flatten } from 'lodash'
 import pushToDebugLog from 'utils/debugLogger'
 import checkIp from 'utils/public-ip'
 import { IS_CHROME, AUTH_RESET_MIN_INTERVAL } from 'utils/constants'
-import transformWhitelist from 'plugins/whitelist/transform'
+import transformAllowlist from 'plugins/allowlist/transform'
 import proxyOnIcon from 'assets/proxyIcons/proxy_on.png'
 import setPac from './pac'
 import setIcon from 'utils/setIcon'
@@ -38,7 +38,7 @@ const RECOVERY_STATES = [
   'retry_with_autopilot_and_new_best_location',
 ]
 
-const createWhitelist = whitelist => flatten(transformWhitelist(whitelist))
+const createAllowlist = allowlist => flatten(transformAllowlist(allowlist))
 
 const autoPilot = {
   name: 'cruise_control',
@@ -89,7 +89,7 @@ export default actions => ({
     const {
       currentLocation,
       cruiseControlList,
-      whitelist,
+      allowlist,
       session,
       serverList,
       online,
@@ -287,10 +287,10 @@ export default actions => ({
             isCruiseControl,
             logActivity,
           }),
-          whitelist: createWhitelist(whitelist),
+          allowlist: createAllowlist(allowlist),
         })
         const proxySettingAfter = await new Promise(resolve => {
-          browser.proxy.settings.get({}, function(details) {
+          browser.proxy.settings.get({}, details => {
             resolve(details.levelOfControl)
           })
         })
@@ -442,7 +442,7 @@ export default actions => ({
       if (IS_CHROME) {
         //check if controlled by another extension
         const proxySetting = await new Promise(resolve => {
-          browser.proxy.settings.get({}, function(details) {
+          browser.proxy.settings.get({}, details => {
             resolve(details.levelOfControl)
           })
         })

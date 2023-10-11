@@ -57,28 +57,37 @@ repo: https://github.com/Windscribe/browser-extension
 Note: Keep the Dev Console open in the background and watch for any console errors. Any and all Console errors must be reported as bugs.
 
 ## 1. Update checks
+
 Update from the previous version and verify that:
+
 - [ ] General settings are retained.
 - [ ] Blocker settings are retained.
 - [ ] Privacy settings are retained.
-- [ ] Whitelist is retained.
-​
-​
+- [ ] Allowlist is retained.
+      ​
+      ​
+
 ## 2. Full Browser Shutdown & Restart
+
 - [ ] General settings are retained.
 - [ ] Blocker settings are retained.
 - [ ] Privacy settings are retained.
-- [ ] Whitelist is retained. 
-​
+- [ ] Allowlist is retained.
+      ​
+
 ## 3. Server List Updates
+
 Server List should update when:
+
 - [ ] Account status changes.
 - [ ] loc_hash changes.
 - [ ] Pro status changes.
 - [ ] ALC changes.
 - [ ] If new list does not contain current connect location, move up the location tree and fallback to Auto-Pilot.
-​
+      ​
+
 ## 4. Feature / Functionality Checks
+
 - ### General:
 - [ ] Auto-connect works.
 - [ ] Notifications work.
@@ -105,12 +114,14 @@ Server List should update when:
 - ### Account:
 - [ ] Edit Account works.
 - [ ] E-mail linking to account works.
-- ### Whitelist:
-- [ ] Adding to Whitelist works.
-- [ ] Editing element in Whitelist works.
-- [ ] Removing from Whitelist works.
-​
+- ### Allowlist:
+- [ ] Adding to Allowlist works.
+- [ ] Editing element in Allowlist works.
+- [ ] Removing from Allowlist works.
+      ​
+
 ## 5. UX Tests:
+
 - [ ] "Sign up" redirects to relevant locations on the website.
 - [ ] "Forgot Password" works.
 - [ ] Alphabetical / Geographical Location toggle works.
@@ -128,8 +139,10 @@ Server List should update when:
 - - [ ] Removing locations from favorites works.
 - - [ ] Favorites are saved between restarts.
 - - [ ] Connecting to favorite location works (and IP changes).
-​
+        ​
+
 ## 6. Other Tests:
+
 - [ ] General UI glitches
 - - [ ] View persistence.
 - - [ ] Fonts.

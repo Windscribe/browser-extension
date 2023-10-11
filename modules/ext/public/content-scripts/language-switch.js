@@ -28,7 +28,7 @@ function navigatorLanguages(localeCode) {
 
 const switchLocale = localeCode =>
   injectScript(`
-  if (typeof wsWhitelisted === 'undefined') {
+  if (typeof wsAllowlisted === 'undefined') {
     ${intlLocale.toString()}
     intlLocale('${localeCode.toString()}');
     ${navigatorLanguage.toString()}

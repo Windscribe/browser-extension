@@ -15,11 +15,11 @@ const domains = {
   connection,
 }
 
-module.exports = (whitelist = []) =>
-  whitelist.length
+module.exports = (allowlist = []) =>
+  allowlist.length
     ? flatten(
         Object.entries(domains)
-          .filter(([key]) => whitelist.includes(key))
+          .filter(([key]) => allowlist.includes(key))
           .map(([, v]) => v),
       )
     : flatten(Object.values(domains))

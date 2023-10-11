@@ -3,11 +3,11 @@ import sleep from 'shleep'
 import { isEqual } from 'lodash'
 import { getDomain } from 'utils/parse-suffix-list'
 import pushToDebugLog from 'utils/debugLogger'
-import { WHITELIST_DOMAIN_TABLE } from 'utils/constants'
+import { ALLOWLIST_DOMAIN_TABLE } from 'utils/constants'
 import listen from 'utils/listen'
-import whitelistCheck from 'utils/whitelistCheck'
+import allowlistCheck from 'utils/allowlistCheck'
 
-listen(browser.webNavigation.onCommitted, whitelistCheck)
+listen(browser.webNavigation.onCommitted, allowlistCheck)
 
 const updateArrayElement = (array, filter, updateData) => {
   const arrayIndex = array.findIndex(filter)
@@ -20,13 +20,13 @@ const localActions = {
   setShouldReloadPage: createAction('SET_SHOULD_RELOAD_PAGE'),
 }
 
-const updateUboWhitelist = obj => {
+const updateUboAllowlist = obj => {
   µBlock.netWhitelist = new Map(Object.entries(obj))
   sleep(500).then(() => µBlock.saveWhitelist())
 }
 
 const domainDependents = domain => {
-  const deps = WHITELIST_DOMAIN_TABLE?.[getDomain(domain)]
+  const deps = ALLOWLIST_DOMAIN_TABLE?.[getDomain(domain)]
 
   if (!deps) {
     return []
@@ -36,13 +36,13 @@ const domainDependents = domain => {
 }
 
 export default actions => [
-  /* Add item to whitelist */
+  /* Add item to allowlist */
   {
-    type: actions.whitelist.save,
+    type: actions.allowlist.save,
     latest: true,
     process({ action, getState }, dispatch, done) {
       const { proxy } = getState()
-      const { whitelistObject, logActivity } = action?.payload
+      const { allowlistObject, logActivity } = action?.payload
 
       const {
         domain = null,
@@ -50,24 +50,24 @@ export default actions => [
         allowAds,
         allowDirectConnect,
         allowCookies,
-      } = whitelistObject
+      } = allowlistObject
 
       if (!domain) {
         pushToDebugLog({
           activity: logActivity,
-          message: 'Invalid domain added to whitelist',
+          message: 'Invalid domain added to allowlist',
         })
         return done()
       }
 
-      const saveWhitelistItem = ({ domain, customSave }) => {
+      const saveAllowlistItem = ({ domain, customSave }) => {
         if (allowAds) {
-          const updatedWhitelist = {
+          const updatedAllowlist = {
             ...Object.fromEntries(µBlock.netWhitelist),
             [domain]: [includeAllSubdomains ? `*${domain}/*` : domain],
           }
 
-          updateUboWhitelist(updatedWhitelist)
+          updateUboAllowlist(updatedAllowlist)
         }
 
         if (allowDirectConnect && proxy.status === 'connected') {
@@ -82,32 +82,32 @@ export default actions => [
         if (customSave) {
           customSave(domain)
         } else {
-          dispatch(actions.whitelist.concat({ ...whitelistObject, domain }))
+          dispatch(actions.allowlist.concat({ ...allowlistObject, domain }))
         }
       }
 
       dispatch(
         localActions.setShouldReloadPage({
-          whitelistEntry: whitelistObject,
+          allowlistEntry: allowlistObject,
         }),
       )
 
-      saveWhitelistItem({ domain })
+      saveAllowlistItem({ domain })
       const dependentsArray = domainDependents(domain)
       let hasDependents = false
       if (
         dependentsArray.length > 0 &&
-        // The dependents should not exist in the whitelist
-        !getState().whitelist.find(x => dependentsArray.includes(x.domain))
+        // The dependents should not exist in the allowlist
+        !getState().allowlist.find(x => dependentsArray.includes(x.domain))
       ) {
         hasDependents = true
         dependentsArray.forEach(d =>
-          saveWhitelistItem({
+          saveAllowlistItem({
             domain: d,
             customSave: () =>
               dispatch(
-                actions.whitelist.concat({
-                  ...whitelistObject,
+                actions.allowlist.concat({
+                  ...allowlistObject,
                   domain: d,
                   addedBy: domain,
                 }),
@@ -117,7 +117,7 @@ export default actions => [
       }
       pushToDebugLog({
         activity: logActivity,
-        message: `Added new whitelist entry: 
+        message: `Added new allowlist entry: 
         includeAllSubdomains: ${!!includeAllSubdomains},
         allowAds: ${!!allowAds},
         allowDirectConnect: ${!!allowDirectConnect},
@@ -127,15 +127,15 @@ export default actions => [
       done()
     },
   },
-  /* Delete from whitelist */
+  /* Delete from allowlist */
   {
-    type: actions.whitelist.pop,
+    type: actions.allowlist.pop,
     latest: true,
     process({ getState, action }, dispatch, done) {
       const { domain, logActivity } = action.payload
 
       const pop = domain => {
-        const { whitelist, proxy } = getState()
+        const { allowlist, proxy } = getState()
 
         const updatedList = Object.entries(
           Object.fromEntries(µBlock.netWhitelist),
@@ -147,12 +147,12 @@ export default actions => [
             return prev
           }, {})
 
-        updateUboWhitelist(updatedList)
+        updateUboAllowlist(updatedList)
 
-        const entry = whitelist.find(x => x.domain === domain)
+        const entry = allowlist.find(x => x.domain === domain)
 
         dispatch(
-          actions.whitelist.set(whitelist.filter(x => x.domain !== domain)),
+          actions.allowlist.set(allowlist.filter(x => x.domain !== domain)),
         )
 
         if (entry?.allowDirectConnect && proxy.status === 'connected') {
@@ -175,7 +175,7 @@ export default actions => [
 
       dispatch(
         localActions.setShouldReloadPage({
-          whitelistEntry: {
+          allowlistEntry: {
             domain,
             includeAllSubdomains: true,
             allowAds: false,
@@ -187,18 +187,18 @@ export default actions => [
 
       pushToDebugLog({
         activity: logActivity,
-        message: `Removed domain from whitelist: 
+        message: `Removed domain from allowlist: 
         hasDependents: ${hasDependents}`,
       })
 
       done()
     },
   },
-  /* Update whitelist item */
+  /* Update allowlist item */
   {
-    type: actions.whitelist.update,
+    type: actions.allowlist.update,
     process({ getState, action }, dispatch, done) {
-      const { whitelistObject, logActivity } = action.payload
+      const { allowlistObject, logActivity } = action.payload
 
       const {
         allowAds,
@@ -206,31 +206,31 @@ export default actions => [
         domain,
         includeAllSubdomains,
         allowCookies,
-      } = whitelistObject
+      } = allowlistObject
 
       const handleUpdate = domain => {
-        const { whitelist, proxy } = getState()
-        const [oldWhitelist] = whitelist.filter(d => domain === d.domain)
-        const updatedWhitelist = { ...whitelistObject, domain }
+        const { allowlist, proxy } = getState()
+        const [oldAllowlist] = allowlist.filter(d => domain === d.domain)
+        const updatedAllowlist = { ...allowlistObject, domain }
         const t = updateArrayElement(
-          whitelist,
+          allowlist,
           d => d.domain === domain,
-          updatedWhitelist,
+          updatedAllowlist,
         )
 
-        dispatch(actions.whitelist.set(t))
+        dispatch(actions.allowlist.set(t))
 
-        if (isEqual(updatedWhitelist, oldWhitelist)) {
+        if (isEqual(updatedAllowlist, oldAllowlist)) {
           return done()
         }
 
         if (allowAds) {
-          updateUboWhitelist({
+          updateUboAllowlist({
             ...Object.fromEntries(µBlock.netWhitelist),
             [domain]: [includeAllSubdomains ? `*${domain}/*` : domain],
           })
         } else {
-          updateUboWhitelist(
+          updateUboAllowlist(
             Object.entries(Object.fromEntries(µBlock.netWhitelist))
               .filter(([key]) => key !== domain)
               .reduce((prev, [key, value]) => {
@@ -243,11 +243,11 @@ export default actions => [
 
         const allowDirectConnectChanged =
           allowDirectConnect &&
-          !isEqual(allowDirectConnect, oldWhitelist?.allowDirectConnect)
+          !isEqual(allowDirectConnect, oldAllowlist?.allowDirectConnect)
 
         const includeAllSubdomainsChanged = !isEqual(
           includeAllSubdomains,
-          oldWhitelist?.includeAllSubdomains,
+          oldAllowlist?.includeAllSubdomains,
         )
 
         const shouldReloadProxy =
@@ -265,7 +265,7 @@ export default actions => [
 
       dispatch(
         localActions.setShouldReloadPage({
-          whitelistEntry: whitelistObject,
+          allowlistEntry: allowlistObject,
         }),
       )
 
@@ -279,7 +279,7 @@ export default actions => [
 
       pushToDebugLog({
         activity: logActivity,
-        message: `Updated whitelist entry: 
+        message: `Updated allowlist entry: 
         includeAllSubdomains: ${!!includeAllSubdomains},
         allowAds: ${!!allowAds},
         allowDirectConnect: ${!!allowDirectConnect},
@@ -290,7 +290,7 @@ export default actions => [
       done()
     },
   },
-  /* Entirely dependent on whitelist [probably not the best place to put it however]
+  /* Entirely dependent on allowlist [probably not the best place to put it however]
     This just sets the shouldReloadPage value on tab
     */
   {
@@ -298,21 +298,21 @@ export default actions => [
     latest: true,
     process({ getState, action }, dispatch, done) {
       let shouldIt = true
-      const { whitelistEntry } = action.payload
-      const { activeTabId, tabs, originalWhitelistInfo } = getState()
+      const { allowlistEntry } = action.payload
+      const { activeTabId, tabs, originalAllowlistInfo } = getState()
 
-      if (originalWhitelistInfo) {
-        shouldIt = !isEqual(originalWhitelistInfo, whitelistEntry)
+      if (originalAllowlistInfo) {
+        shouldIt = !isEqual(originalAllowlistInfo, allowlistEntry)
       } else {
-        dispatch(actions.originalWhitelistInfo.set(whitelistEntry))
+        dispatch(actions.originalAllowlistInfo.set(allowlistEntry))
       }
 
       // the entry must match your current tab url
       // this is because you can 'set' _any_ entry via wl prefs page
       // should also be set to false if you've started to add new entries (to avoid it being there persistently)
       if (
-        whitelistEntry &&
-        !tabs[activeTabId]?.url.includes(whitelistEntry.domain)
+        allowlistEntry &&
+        !tabs[activeTabId]?.url.includes(allowlistEntry.domain)
       ) {
         shouldIt = false
       }

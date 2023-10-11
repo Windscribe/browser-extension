@@ -10,7 +10,7 @@ export const posedBoxStyle = css`
   right: 0;
 `
 
-export const WhiteListContainer = styled(Flex)`
+export const AllowListContainer = styled(Flex)`
   ${({ theme, height = '100%' }) => ({
     background: `linear-gradient(
     to top,
@@ -25,7 +25,7 @@ export const WhiteListContainer = styled(Flex)`
   transition: height 0.2s;
 `
 
-export const WhiteListItemStyle = styled(SimpleButton)`
+export const AllowListItemStyle = styled(SimpleButton)`
   div {
     transition: color ease 0.3s;
   }
@@ -53,20 +53,20 @@ export const DomainRow = styled(Flex)`
   })}
 `
 
-export const WhiteListButton = styled(Button)`
+export const AllowListButton = styled(Button)`
 background ease 0.3s,color ease 0.3s;
-  ${({ whiteListOpen = false, disabled, theme }) => {
+  ${({ allowListOpen = false, disabled, theme }) => {
     if (disabled) {
       return {
         color: theme.colors.iconFg,
         borderColor: theme.colors.iconBg,
       }
-    } else if (whiteListOpen) {
+    } else if (allowListOpen) {
       return {
         background: theme.colors.bg,
         color: theme.colors.fg,
         '&:hover': {
-          color: whiteListOpen ? theme.colors.fg : theme.colors.bg,
+          color: allowListOpen ? theme.colors.fg : theme.colors.bg,
         },
       }
     }

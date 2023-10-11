@@ -1,5 +1,5 @@
-export default (whitelist = []) =>
-  whitelist
+export default (allowlist = []) =>
+  allowlist
     .filter(x => x.allowDirectConnect)
     .map(({ includeAllSubdomains, domain }) =>
       includeAllSubdomains
@@ -12,8 +12,8 @@ export default (whitelist = []) =>
         : [`*://${domain}/*`, `*://${domain}(:[0-9]*)?/*`],
     )
 
-export const firefoxWhitelistTransform = (whitelist = []) =>
-  whitelist
+export const firefoxAllowlistTransform = (allowlist = []) =>
+  allowlist
     .filter(x => x.allowDirectConnect)
     .map(({ includeAllSubdomains, domain }) =>
       includeAllSubdomains
