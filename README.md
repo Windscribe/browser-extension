@@ -17,7 +17,7 @@ Source code of the Windscribe Chrome and Firefox browser extensions. This extens
 
 ```
 yarn cache clean && yarn install
-cd modules/ext && cp .env.schema .env
+cd modules/ext && cp .env.schema .env && cd ../..
 yarn workspace ws-api-client build
 yarn workspace ext build
 ```
