@@ -22,7 +22,7 @@ yarn workspace ws-api-client build
 yarn workspace ext build
 ```
 
-Further documentations can be found [here](https://github.com/Windscribe/browser-extension/blob/main/modules/ext/docs/index.md):
+Further documentations can be found [here](https://github.com/Windscribe/browser-extension/blob/main/modules/ext/docs/index.md).
 
 # Attributions
 
