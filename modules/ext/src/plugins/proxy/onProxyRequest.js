@@ -32,7 +32,7 @@ export default actions => ({
           flatten(firefoxAllowlistTransform(allowlist)),
         )
       ) {
-        return { type: 'DIRECT' }
+        return { type: 'direct' }
       }
 
       const mapHosts = host => ({
