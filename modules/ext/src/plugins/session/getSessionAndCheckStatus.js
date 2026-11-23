@@ -179,7 +179,7 @@ export default actions => [
     type: restartProxy,
     latest: true,
     async process({ getState, action }, dispatch, done) {
-      const { proxy, currentLocation, session } = getState()
+      const { currentLocation, session } = getState()
       const {
         locationOverride,
         serverList,
@@ -207,7 +207,10 @@ export default actions => [
         activity: ACTIVITY,
       })
 
-      if (proxy.status === 'disconnected') {
+      // Read the status again: the proxy may have been turned off while the
+      // best location was fetched, e.g. by proxy_init when autoConnect is off.
+      const { status } = getState().proxy
+      if (status === 'disconnected' || status === 'disconnecting') {
         return done()
       }
 
